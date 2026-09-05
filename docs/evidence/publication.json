@@ -6,10 +6,101 @@
   "videoSeconds": 56.5,
   "videoFullDecode": "passed",
   "htmlLocalPlayback": "Observed playing with currentTime advancing to 35.87 seconds",
-  "htmlResponsiveWidths": [390, 1440],
+  "htmlResponsiveWidths": [
+    390,
+    1440
+  ],
   "htmlHorizontalOverflow": false,
   "htmlInteractiveChecks": "All 16 question disclosures opened; changing flight time to 2 seconds updated speed and peak height",
-  "gitIndexPrivacyScan": "219 files scanned; no known secret values, personal home paths, personal email patterns or private source folders found",
-  "humanPublicationInvolvement": ["Requested documentation and publication", "Chose public repository", "Enabled extension file URL access and supplied confirmation"],
-  "remoteVerification": "Pending first push; updated after live checks"
+  "gitIndexPrivacyScan": "222 files, 50,998,553 bytes; no known secret values, personal home paths, personal email patterns or private source folders found",
+  "humanPublicationInvolvement": [
+    "Requested documentation and publication",
+    "Chose public repository",
+    "Enabled extension file URL access and supplied confirmation"
+  ],
+  "remoteVerification": "passed",
+  "publishedSourceCommit": "f4a98af3765a48a10bf00a13f40a1a2571102b8f",
+  "githubPagesBuild": "built",
+  "journeyUrl": "https://az9713.github.io/gpt-6-astra-tennis-game/DEVELOPMENT-JOURNEY.html",
+  "readmeVideoPlayback": {
+    "controls": true,
+    "duration": 56.5,
+    "observedCurrentTime": 38.999461,
+    "paused": false
+  },
+  "liveJourneyInteractiveChecks": "Flight-time slider updated trajectory statistics; all 16 questions expanded",
+  "liveAssets": [
+    {
+      "path": "SourceAssets/Robot/meshy-preview.png",
+      "status": 200
+    },
+    {
+      "path": "SourceAssets/Robot/robot-reference.png",
+      "status": 200
+    },
+    {
+      "path": "docs/evidence/asset-privacy.json",
+      "status": 200
+    },
+    {
+      "path": "docs/evidence/preflight-import.json",
+      "status": 200
+    },
+    {
+      "path": "docs/evidence/preflight-webgl-browser.json",
+      "status": 200
+    },
+    {
+      "path": "docs/evidence/preflight-webgl-build.json",
+      "status": 200
+    },
+    {
+      "path": "docs/evidence/preflight-windows-runtime.json",
+      "status": 200
+    },
+    {
+      "path": "docs/evidence/prototype-input-tests.json",
+      "status": 200
+    },
+    {
+      "path": "docs/evidence/prototype-runtime.json",
+      "status": 200
+    },
+    {
+      "path": "docs/evidence/publication.json",
+      "status": 200
+    },
+    {
+      "path": "docs/evidence/robot-import.json",
+      "status": 200
+    },
+    {
+      "path": "docs/evidence/rules-tests.json",
+      "status": 200
+    },
+    {
+      "path": "docs/evidence/spending.json",
+      "status": 200
+    },
+    {
+      "path": "docs/evidence/windows-build.json",
+      "status": 200
+    },
+    {
+      "path": "docs/media/match.mp4",
+      "status": 200
+    },
+    {
+      "path": "docs/media/prototype-rally.png",
+      "status": 200
+    },
+    {
+      "path": "docs/media/prototype-serve.png",
+      "status": 200
+    }
+  ],
+  "release": "https://github.com/az9713/gpt-6-astra-tennis-game/releases/tag/v0.1.0",
+  "releaseSha256VerifiedAgainstGitHub": "13930053f73809c1539dbcbd9910624e98dcbe0b3b07f69ade162399450e99ea",
+  "extractedReleaseTests": "17 input/UI checks passed; one-minute rally passed with 18 best rally and 2 points; both processes exited 0",
+  "validationLimits": "No clean-machine installation or new full source rebuild in publication pass. FBX non-path properties were compared exactly; Blender files reopened; the distributed player was retested. Git whitespace checks report pre-existing Unity-serialized/template whitespace."
 }
