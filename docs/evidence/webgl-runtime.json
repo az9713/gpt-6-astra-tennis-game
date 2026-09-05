@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "platform": "WebGLPlayer",
+  "graphicsDevice": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 Laptop GPU (0x000025A2) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "status": "PASS: animation resumed",
+  "animatedVertexDelta": 0.30124956369400024,
+  "interactions": 3
+}

@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "platform": "WindowsPlayer",
+  "graphicsDevice": "NVIDIA GeForce RTX 3050 Laptop GPU",
+  "status": "PASS: animated Blender model running",
+  "animatedVertexDelta": 0.301891565322876,
+  "interactions": 0
+}

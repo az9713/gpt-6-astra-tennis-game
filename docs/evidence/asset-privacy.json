@@ -1,0 +1,40 @@
+[
+  {
+    "file": "TennisGame/Assets/Preflight/AnimatedRobot.fbx",
+    "pathStringsCleaned": 1,
+    "allOtherParsedPropertiesIdentical": true
+  },
+  {
+    "file": "TennisGame/Assets/Prototype/Models/RoboPlayer.fbx",
+    "pathStringsCleaned": 10,
+    "allOtherParsedPropertiesIdentical": true
+  },
+  {
+    "file": "SourceAssets/Preflight/AnimatedRobot.blend",
+    "fixedWidthPathFieldsCleaned": 1,
+    "reopenedInBlender": true,
+    "preserved": {
+      "vertices": 56,
+      "bones": 2,
+      "actions": [
+        "TennisSwingCheck"
+      ]
+    }
+  },
+  {
+    "file": "SourceAssets/Robot/RoboPlayer.blend",
+    "fixedWidthPathFieldsCleaned": 1,
+    "reopenedInBlender": true,
+    "preserved": {
+      "vertices": 11813,
+      "bones": 16,
+      "actions": [
+        "Backhand",
+        "Forehand",
+        "Idle",
+        "Run",
+        "Serve"
+      ]
+    }
+  }
+]

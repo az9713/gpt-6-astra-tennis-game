@@ -1,0 +1,19 @@
+{
+  "verifiedAt": "2026-09-05",
+  "url": "http://127.0.0.1:8767/",
+  "browser": "Codex in-app Chromium browser",
+  "method": "Read Unity's actual data-receipt DOM attribute; click canvas controls through browser UI; inspect screenshots and browser console.",
+  "initialStatus": "PASS: animated Blender model running",
+  "initialInteractions": 0,
+  "pauseStatus": "PASS: animation paused",
+  "pauseInteractions": 1,
+  "resumeStatus": "PASS: animation resumed",
+  "resumeInteractions": 2,
+  "rotateInteractions": 3,
+  "renderAndRotationVisuallyVerified": true,
+  "consoleErrors": [],
+  "consoleWarnings": [
+    "Shader 'Hidden/Universal Render Pipeline/Edge Adaptive Spatial Upsampling' is not supported (in 'Blit FSR Upscaling'). PostProcessing render passes will not execute."
+  ],
+  "scope": "Diagnostic geometry, lighting, animation and controls verified. Browser post-processing and production performance are not certified."
+}

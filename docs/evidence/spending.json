@@ -1,0 +1,19 @@
+{
+  "startingCredits": 1267,
+  "endingCredits": 1237,
+  "initialCeiling": 400,
+  "ceilingOrigin": "Proposed by agent before the human authorized the prototype",
+  "tasks": [
+    {
+      "kind": "image-to-3d",
+      "status": "SUCCEEDED",
+      "consumedCredits": 30
+    },
+    {
+      "kind": "rigging",
+      "status": "REJECTED_HTTP_422",
+      "consumedCredits": 0
+    }
+  ],
+  "otherServicesCost": "Not measured"
+}

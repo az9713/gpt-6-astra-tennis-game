@@ -1,0 +1,15 @@
+{
+  "repository": "https://github.com/az9713/gpt-6-astra-tennis-game",
+  "visibility": "public",
+  "videoAttachment": "https://github.com/user-attachments/assets/177254a0-b72f-480b-b75d-bea627ec2576",
+  "videoBytes": 2809244,
+  "videoSeconds": 56.5,
+  "videoFullDecode": "passed",
+  "htmlLocalPlayback": "Observed playing with currentTime advancing to 35.87 seconds",
+  "htmlResponsiveWidths": [390, 1440],
+  "htmlHorizontalOverflow": false,
+  "htmlInteractiveChecks": "All 16 question disclosures opened; changing flight time to 2 seconds updated speed and peak height",
+  "gitIndexPrivacyScan": "219 files scanned; no known secret values, personal home paths, personal email patterns or private source folders found",
+  "humanPublicationInvolvement": ["Requested documentation and publication", "Chose public repository", "Enabled extension file URL access and supplied confirmation"],
+  "remoteVerification": "Pending first push; updated after live checks"
+}

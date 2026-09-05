@@ -1,0 +1,12 @@
+{
+  "file": "RoboOpen-Windows.zip",
+  "bytes": 45803552,
+  "sha256": "13930053f73809c1539dbcbd9910624e98dcbe0b3b07f69ade162399450e99ea",
+  "runtimeFileCount": 193,
+  "archiveCrcVerified": true,
+  "personalHomePathScan": "passed",
+  "debugSymbolsExcluded": true,
+  "source": "Final Windows build; CodeView debug filename sanitized in archive only",
+  "extractedArchiveInputTests": "17 passed, process exit 0",
+  "extractedArchiveRallyTest": "passed, 18 best rally, 2 points, process exit 0"
+}

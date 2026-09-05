@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "unityVersion": "6000.5.7f1",
+  "renderingPipeline": "UniversalRenderPipelineAsset",
+  "vertices": 168,
+  "bones": 2,
+  "clips": 1,
+  "materials": 3,
+  "clipSeconds": 2.0,
+  "heightMetres": 1.999999761581421,
+  "sampledVertexDelta": 0.33467549085617065
+}

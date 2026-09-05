@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "count": 17,
+  "checks": [
+    "First point is 15",
+    "Deuce is 40-all",
+    "Advantage does not award game",
+    "Lost advantage returns to deuce",
+    "Game win clears points and alternates server",
+    "First to two games wins short match",
+    "Finished match ignores extra points",
+    "Boundary line counts in",
+    "Outside line is out",
+    "Near deuce serve crosses diagonally",
+    "Wrong service box is a fault",
+    "Near advantage serve changes box",
+    "Far deuce serve mirrors near serve",
+    "Deep serve is a fault",
+    "Ballistic shot lands at selected target",
+    "Predicted landing time matches trajectory",
+    "Representative rally clears net"
+  ]
+}
