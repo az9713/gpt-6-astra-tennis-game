@@ -1,0 +1,25 @@
+{
+  "originalHtmlSha256": "ee0d9dc99b24ceac57ad6e01fbc5c14b5de34dc393928eab4475620206b3d5c9",
+  "originalHtmlUnchanged": true,
+  "sections": 13,
+  "checkedLocalLinksAndAssets": 49,
+  "missing": [],
+  "browser": {
+    "journeyTabs": "Original and v1 selected successfully",
+    "timingCalculator": {
+      "normalBuffer": 0.48,
+      "halfBuffer": 0.96,
+      "quarterBuffer": 1.92
+    },
+    "motionClips": 4,
+    "allClipDurationsSeconds": 3,
+    "smashPlaybackReachedEnd": true,
+    "uiComparison": "Before and during-play images switched correctly",
+    "documentWidth": 743,
+    "viewportWidth": 743,
+    "screenshotReviewed": true,
+    "legacyOriginalIssue": "Existing numeric-ID querySelector error in scroll highlighting observed; original content readable and file intentionally preserved unchanged."
+  },
+  "privacyScope": "No raw human session logs or personal filesystem paths included",
+  "releaseBoundary": "Narrative v1; latest published game release verified as v0.3.0"
+}

@@ -1,0 +1,333 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="The second Robo Open development journey: robot strokes, skin repair, return planning, local diagnostics, slow-motion practice and a quieter UI. Human decisions, implementation failures and evidence."><title>Robo Open v1 — Gameplay Enhancements</title><style>
+:root{--paper:#f4f0e7;--ink:#173c34;--muted:#5c7168;--line:#cbd5c8;--clay:#bc573a;--light:#e1e8d6}*{box-sizing:border-box}[hidden]{display:none!important}html{scroll-behavior:smooth;scroll-padding-top:24px}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.8 system-ui,Segoe UI,sans-serif}a{color:#246f60;text-underline-offset:4px}a:hover{color:var(--clay)}button{font:inherit;cursor:pointer;border:1px solid #91aa9b;background:transparent;color:inherit;border-radius:5px;padding:9px 14px}button[aria-pressed=true]{background:var(--ink);color:var(--paper);border-color:var(--ink)}:focus-visible{outline:3px solid #d07043;outline-offset:4px}.skip{position:absolute;top:-80px;padding:12px;background:white;z-index:4}.skip:focus{top:5px}.mast{background:var(--ink);color:var(--paper);padding:20px 5vw;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:12px;letter-spacing:.06em}.mast a{color:#d9e7c2}.hero{background:var(--ink);color:var(--paper);padding:56px 5vw 68px}.kicker{text-transform:uppercase;letter-spacing:.12em;font-size:12px;font-weight:700}.hero .kicker{color:#aad3b4}.hero h1{font:clamp(45px,6vw,84px)/1.05 Georgia,serif;letter-spacing:-.035em;max-width:1000px;margin:22px 0 30px}.hero h1 em{color:#e69870}.hero .intro{max-width:830px;font-size:21px;color:#d5e2d0;line-height:1.65}.hero img{display:block;width:100%;margin-top:38px;border-radius:6px}.hero figure{margin:0}.hero figcaption{color:#cbdbca;font-size:12px;margin-top:12px}.versions{display:flex;flex-wrap:wrap;gap:12px 25px;border-bottom:1px solid var(--line);padding:21px 5vw;font-size:14px}.versions span{white-space:nowrap}.versions b{margin-right:6px}.layout{max-width:1440px;margin:auto;display:grid;grid-template-columns:230px minmax(0,950px);gap:45px;padding:60px 4vw}.side{position:sticky;top:24px;align-self:start;max-height:92vh;overflow:auto;font-size:12px}.side nav a{display:block;padding:10px 0 10px 12px;border-left:2px solid var(--line);text-decoration:none;line-height:1.45}.side nav a:hover{border-left-color:var(--clay)}.side button{margin-top:18px;font-size:13px}main{min-width:0}h2{font:38px/1.22 Georgia,serif;letter-spacing:-.02em;padding-top:44px;margin-top:64px;border-top:1px solid var(--line);scroll-margin-top:20px}h3{font:26px/1.4 Georgia,serif;margin-top:34px}p{margin:19px 0}blockquote{margin:26px 0;border-left:3px solid var(--clay);background:#e9eadf;padding:9px 23px}blockquote p{margin:10px 0}li{margin:13px 0}code{font:13px/1.7 Consolas,monospace;background:#e5e9df;padding:2px 4px;overflow-wrap:anywhere}.table-scroll{overflow-x:auto;margin:28px 0}table{border-collapse:collapse;width:100%;font-size:14px;line-height:1.6}td,th{padding:13px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}th{background:#dee6d4}main img{width:100%;height:auto;display:block;border-radius:4px}video{width:100%;aspect-ratio:16/9;background:#172c29;display:block;border-radius:4px}.demo{margin:38px 0;padding:24px;border:1px solid var(--line);border-radius:7px;background:#e8ecdf}.demo h3{margin-top:12px}.switches{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 22px}.switches button{font-size:14px}.caption,figcaption{font-size:13px;color:var(--muted);line-height:1.65}.demo figure{margin:26px 0 0}.demo figure img{max-width:500px;margin:auto}.demo figcaption{margin-top:14px}.dark{background:var(--ink);color:var(--paper);border:0}.dark .kicker{color:#b8d8b8}.dark .caption{color:#cedbca}.dark button[aria-pressed=true]{background:#edc09d;color:var(--ink)}.timing{display:grid;grid-template-columns:1fr 1fr;gap:24px}.timing span,.timing strong,.timing small{display:block}.timing span{font-size:14px;color:#c9d9c5}.timing strong{font:30px Georgia,serif;margin:12px 0}.timing small{font-size:12px;color:#c9d9c5}.meter{height:9px;background:#476658;border-radius:5px;overflow:hidden}.meter span{display:block;height:100%;background:#edc09d;transition:width .3s}footer{padding:35px 5vw;background:var(--ink);color:var(--paper);font-size:13px}footer a{color:#d6e4b9}@media(max-width:1000px){.layout{grid-template-columns:185px minmax(0,1fr);gap:25px}.hero .intro{font-size:19px}}@media(max-width:720px){body{font-size:16px}.layout{display:block;padding:28px 6vw}.side{position:static;max-height:none;margin-bottom:32px}.side nav{display:grid;grid-template-columns:1fr 1fr;gap:4px}.side nav a{font-size:11px}.hero{padding:35px 6vw}.hero h1{font-size:47px}.hero .intro{font-size:18px}.versions{font-size:12px;padding:18px 6vw}.demo{padding:16px}.timing{grid-template-columns:1fr;gap:0}.timing strong{font-size:28px}h2{font-size:32px}td,th{min-width:145px;padding:10px}.mast{font-size:11px}.caption{overflow-wrap:anywhere}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.meter span{transition:none}}@media print{.side,.mast,.switches,video{display:none}.layout{display:block;padding:0}.hero{background:white;color:black;padding:0}.hero .intro{color:black}.hero h1{font-size:40px}.hero h1 em{color:black}.hero img{max-width:600px}.versions{padding:10px 0}body{background:white;color:black;font-size:11pt}h2{font-size:24pt;break-after:avoid}h3{break-after:avoid}.demo,.dark{background:#eee;color:black}.dark .caption,.timing span,.timing small{color:black}.table-scroll{overflow:visible}footer{background:white;color:black}}
+</style></head><body><a class="skip" href="#journey">Skip to the journey</a><header class="mast"><span>ROBO OPEN / SECOND-ROUND FIELD NOTES</span><span><a href="JOURNEYS.html" target="_top">Journey tabs</a> · <a href="DEVELOPMENT-JOURNEY.html" target="_top">Original journey</a> · <a href="DEVELOPMENT-JOURNEY-V1.md">Markdown source</a></span></header><section class="hero"><p class="kicker">v1 / Gameplay enhancements</p><h1>The robots learned to move.<br>The game learned to <em>listen.</em></h1><p class="intro">Four strokes were only the beginning. Human play revealed missing inputs, unforgiving forecasts, hidden evidence and too much interface. This is how those observations became a more learnable tennis prototype.</p><figure><img src="docs/media/v1/court-after.png" alt="Current local Windows tennis build with two slim edge bars and an unobstructed center court"><figcaption>Actual v0.4.1 Windows capture. “v1” names this narrative, not a v1.0 software release.</figcaption></figure></section><div class="versions"><span><b>v0.2</b> Coordinated motion</span><span><b>v0.3</b> Returns + diagnosis</span><span><b>v0.4</b> Slow practice</span><span><b>v0.4.1</b> Two-bar UI</span></div><div class="layout"><aside class="side"><p class="kicker">Read the full account</p><nav aria-label="Journey sections"><a href="#1-the-brief-the-human-noticed-what-the-first-tests-missed">1. The brief — the human noticed what the first tests missed</a><a href="#2-the-starting-point-reuse-the-expensive-asset-change-its-behavior">2. The starting point — reuse the expensive asset, change its behavior</a><a href="#3-four-strokes-bones-skin-contact-and-recovery">3. Four strokes — bones, skin, contact and recovery</a><a href="#4-the-core-problem-a-successful-automated-rally-was-not-a-successful-human-game">4. The core problem — a successful automated rally was not a successful human game</a><a href="#5-a-local-flight-recorder-evidence-before-advice">5. A local flight recorder — evidence before advice</a><a href="#6-a-real-miss-position-intent-and-input-are-different-observations">6. A real miss — position, intent and input are different observations</a><a href="#7-slow-motion-reduce-time-pressure-without-changing-the-shot-rules">7. Slow motion — reduce time pressure without changing the shot rules</a><a href="#8-seven-cards-to-two-bars-make-the-court-the-main-interface">8. Seven cards to two bars — make the court the main interface</a><a href="#9-tools-ownership-and-the-actual-autonomy-boundary">9. Tools, ownership and the actual autonomy boundary</a><a href="#10-failures-near-misses-and-the-repairs-that-worked">10. Failures, near-misses and the repairs that worked</a><a href="#11-verification-stronger-evidence-with-limits-attached">11. Verification — stronger evidence, with limits attached</a><a href="#12-unknown-unknowns-what-this-round-exposed-and-how-to-address-it">12. Unknown unknowns — what this round exposed, and how to address it</a><a href="#13-where-things-stand-and-what-this-document-preserves">13. Where things stand — and what this document preserves</a></nav><button id="print">Print / save as PDF</button></aside><main id="journey">
+<p><strong>The second round: from moving robots to a game a human can learn.</strong></p>
+<p><strong>Development date:</strong> 5 September 2026, local project date. Some machine receipts use the following UTC date.</p>
+<p><strong>Deliverable:</strong> <a href="DEVELOPMENT-JOURNEY-V1.html">Illustrated v1 journey</a> · <a href="JOURNEYS.html">Two-tab journey reader</a> · <a href="DEVELOPMENT-JOURNEY.html">Original journey, preserved</a>.</p>
+<p><strong>Version boundary:</strong> “v1” names this second-round narrative, as requested by the human. The implementation progressed through <strong>v0.2.0, v0.3.0, v0.4.0 and v0.4.1</strong>. It does not mean a v1.0 executable has been released. At the documentation check, GitHub’s latest Windows release remained <strong>v0.3.0</strong>; slow motion and the consolidated UI were working local builds.</p>
+<p><strong>Evidence boundary:</strong> This account combines the conversation, current source, saved motion reports, screenshots, test receipts and Git history. Earlier animation work is reconstructed from those durable records; later practice and UI changes were documented from the active conversation and fresh checks. It is not a verbatim transcript of every command. Original journey sections 9–10 already overlap the animation and diagnostics work; they remain untouched. This companion retells the whole enhancement arc so it can be read independently.</p>
+<h2 id="1-the-brief-the-human-noticed-what-the-first-tests-missed">1. The brief — the human noticed what the first tests missed</h2>
+<p>The original inspiration remains <a href="https://www.youtube.com/watch?v=DQfL_l5lRpk">Chong-U’s YouTube game-building video</a>, especially the <a href="https://www.youtube.com/watch?v=DQfL_l5lRpk&amp;t=720s">12:00–15:00 rigging discussion</a>. The creator’s project was unavailable. The reconstruction therefore retained its own generated robot, authored court and Unity game; it did not acquire the creator’s models or animation files.</p>
+<p>The human’s new observation was that the robot players appeared not to be “rigged.” The supplied screenshot showed four structural demonstrations: <strong>forehand, backhand, smash and serve trophy</strong>. The human asked for more realistic, human-like motion and initially said, “do not run anything yet.” The later authorization settled an important control choice:</p>
+<blockquote>
+<p>smash should happen automatically when i swing at a suitable high ball - no separate key</p>
+</blockquote>
+<p>That instruction separates <strong>selecting a stroke</strong> from <strong>initiating a stroke</strong>. The game chooses an overhead smash when the incoming ball qualifies. The human still presses the ordinary swing control. Confusing those two meanings of “automatic” would later become central to understanding a missed return.</p>
+<p>Inspection corrected the initial technical diagnosis: the robot already had <strong>16 deform bones</strong>. The real shortcomings were weak coordinated movement, fragile skin weights and imperfect synchronization between racket motion and ball contact. Replacing the asset or purchasing another generation would not automatically solve those problems. The agent reused the existing robot and improved the chain that made it move.</p>
+<p>The targeted reference review used the segment transcript and <strong>36 sampled frames at five-second intervals</strong>. This was a structural review, not uninterrupted viewing of every frame. Around 12:45, the creator described giving joints a preferred bend; around 13:47–14:59, he discussed bad skin weights and tearing. His manual changes in his project must not be confused with the script-authored work in this reconstruction. <a href="MOTION-UPGRADE.md">Motion account and source boundary</a>.</p>
+<h2 id="2-the-starting-point-reuse-the-expensive-asset-change-its-behavior">2. The starting point — reuse the expensive asset, change its behavior</h2>
+<p>The working environment already had Unity <strong>6000.5.7f1</strong>, Blender <strong>5.2.1</strong>, Python, FFmpeg, the GitHub CLI and a Windows prototype. The reusable inputs included the saved Meshy robot surface and textures, the Blender rigging script, a 16-bone skeleton, Unity scene-building code, court rules, a scripted Mint opponent and existing automated checks.</p>
+<p>Meshy had generated the original visible surface. Blender supplied a way to turn that surface into an articulated character. Unity supplied the frame-by-frame game loop. Those are distinct responsibilities: a plausible mesh does not contain an executable tennis policy, and a skeleton does not contain convincing tennis technique.</p>
+<p>The original ledger recorded <strong>30 Meshy credits consumed</strong> for the successful generation and zero for a rejected rigging request. This second round reused those outputs and made <strong>no additional Meshy generation or rigging calls</strong>. The earlier remaining balance is a historical ledger value, not a freshly queried account balance. Agent subscription usage and local electricity costs were not measured. <a href="docs/evidence/spending.json">Spending receipt</a>.</p>
+<p>The agent worked inline; no subagents were spawned in this enhancement round. Python scripts, Blender’s background mode, Unity batch builds and synthetic input checks performed repeatable work. The human supplied direction and experiential evaluation rather than hand-editing models or code.</p>
+<h2 id="3-four-strokes-bones-skin-contact-and-recovery">3. Four strokes — bones, skin, contact and recovery</h2>
+<h3 id="a-bent-elbow-is-a-constraint-not-decoration">A bent elbow is a constraint, not decoration</h3>
+<p>For a two-segment arm, a wrist target alone leaves an ambiguity: the elbow can bend in many directions around the shoulder-to-wrist line. A preferred bend plane resolves that ambiguity. The same issue applies to knees. Starting perfectly straight can make the bend direction unstable or visually wrong.</p>
+<p><code>setup/tennis_motion.py</code> describes wrists, ankles and elbow/knee bend references, then uses analytical two-bone inverse kinematics to calculate poses. “Inverse” means starting with the desired hand or foot location and solving backward for joint orientations. The authoring pass adds knee flexion, torso and shoulder rotation, planted support feet, off-hand positioning and recovery. Blender bakes those poses into animation curves that Unity can import.</p>
+<p>The rig retained 16 deform bones and gained eight reference guides: two wrists, two ankles, two elbow poles and two knee poles. <strong>These guides are saved authoring references, not a finished interactive animator’s control rig with live draggable IK constraints.</strong> The editable motion specification is primarily the Python script. That distinction matters if a future artist expects to open the file and manipulate a production-ready control rig.</p>
+<h3 id="the-four-visible-strokes-plus-locomotion">The four visible strokes, plus locomotion</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable evidence table"><table>
+<thead>
+<tr>
+<th>Stroke</th>
+<th>Why it was needed</th>
+<th>Authored movement</th>
+<th>Contact marker at 30 fps</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Forehand</td>
+<td>The racket should prepare and travel through a plausible contact pose.</td>
+<td>Shoulder/hip rotation, knee flexion, off-hand balance, contact, follow-through and recovery.</td>
+<td>Frame 14 of 34</td>
+</tr>
+<tr>
+<td>Backhand</td>
+<td>The opposite-side ball should not reuse an obviously wrong forehand pose.</td>
+<td>Distinct across-body preparation, torso rotation, wrist target and recovery.</td>
+<td>Frame 15 of 36</td>
+</tr>
+<tr>
+<td>Smash</td>
+<td>High balls need an overhead action rather than a waist-height swing.</td>
+<td>Overhead preparation, arm extension, a small jump and recovery.</td>
+<td>Frame 25 of 46</td>
+</tr>
+<tr>
+<td>Serve / trophy</td>
+<td>A serve should visibly develop before the ball launches.</td>
+<td>Toss, bent-knee trophy preparation, overhead contact and follow-through.</td>
+<td>Frame 42 of 66</td>
+</tr>
+</tbody>
+</table></div>
+<p>Idle and run complete the <strong>six imported clips</strong>, with 60 and 24 authored frames respectively. The trophy is a preparation pose inside the serve sequence, not a fifth tennis stroke. The actual serve now takes <strong>1.4 game seconds</strong> from initiation to contact, matching frame 42 at 30 fps. <a href="docs/evidence/motion/blender-motion.json">Authored frame receipt</a>.</p>
+<div class="demo" id="motion-demo"><p class="kicker">Actual captured animation / select a stroke</p><div class="switches" role="group" aria-label="Stroke selection"><button type="button" data-stroke="forehand" aria-pressed="true">Forehand</button><button type="button" data-stroke="backhand" aria-pressed="false">Backhand</button><button type="button" data-stroke="smash" aria-pressed="false">Smash</button><button type="button" data-stroke="serve" aria-pressed="false">Trophy serve</button></div><video id="stroke-forehand" aria-label="Forehand captured motion" controls playsinline preload="metadata" poster="docs/media/motion-forehand.png" ><source src="docs/media/motion-forehand.mp4" type="video/mp4">Your browser cannot play this video. <a href="docs/media/motion-forehand.mp4">Open the clip</a>.</video><video id="stroke-backhand" aria-label="Backhand captured motion" controls playsinline preload="metadata" poster="docs/media/motion-backhand.png" hidden><source src="docs/media/motion-backhand.mp4" type="video/mp4">Your browser cannot play this video. <a href="docs/media/motion-backhand.mp4">Open the clip</a>.</video><video id="stroke-smash" aria-label="Smash captured motion" controls playsinline preload="metadata" poster="docs/media/motion-smash.png" hidden><source src="docs/media/motion-smash.mp4" type="video/mp4">Your browser cannot play this video. <a href="docs/media/motion-smash.mp4">Open the clip</a>.</video><video id="stroke-serve" aria-label="Trophy serve captured motion" controls playsinline preload="metadata" poster="docs/media/motion-serve.png" hidden><source src="docs/media/motion-serve.mp4" type="video/mp4">Your browser cannot play this video. <a href="docs/media/motion-serve.mp4">Open the clip</a>.</video><p class="caption">Three-second excerpts from the fixed-step Unity motion viewer. These show the authored stroke; gameplay blends anticipation and shorter contact scheduling.</p><figure><img loading="lazy" src="docs/media/motion-serve-trophy.png" alt="Robot in the authored serve trophy preparation pose"><figcaption>The trophy is a preparation pose within the serve sequence.</figcaption></figure></div>
+
+<h3 id="why-stronger-poses-broke-a-seemingly-acceptable-mesh">Why stronger poses broke a seemingly acceptable mesh</h3>
+<p>The first expanded strokes exposed long spikes. Some low hand vertices had been classified as leg vertices by an earlier height-based rule. An extreme backhand edge stretched roughly <strong>45 times</strong> its rest length. Simply widening a height threshold moved the classification failure instead of solving it.</p>
+<p>The repaired assignment uses nearest anatomical bone segments, with head/foot safeguards, normalized joint smoothing and checks for hand-to-leg influence. The rigging script imports the saved surface, assigns weights, creates actions and exports the Unity asset. No human weight-painting session was required during this pass.</p>
+<p>Another defect appeared at texture seams. A surface can contain duplicate vertices at the same position because each side needs different texture coordinates. Smoothing their bone weights independently caused the duplicates to separate when posed. Synchronizing weights for coincident positions closed those cracks at the tested contact poses.</p>
+<p>A third failure came from coordinates: a root-bone local Z displacement was treated as world vertical. Transforming the intended world-up offset through the bone’s rest orientation corrected the crouch and jump direction. Overhead wrist targets also needed more clearance from the unusually large head; the targets moved outward while the racket shaft angled inward.</p>
+<p><strong>Lesson: a model can look sound at rest and fail only when the motion asks something difficult of it.</strong></p>
+<h3 id="make-the-racket-and-ball-agree">Make the racket and ball agree</h3>
+<p>Unity’s <code>RobotActor.cs</code> samples the imported movement and fits the racket arm toward a contact target. A short planting adjustment helps the body reach the planned pose. The outgoing ball starts at the racket head, subject to a bounded mismatch tolerance; it no longer simply reverses direction independently of the visible swing.</p>
+<p>The v0.2 controller used approximately 0.10 seconds of final strike time for ordinary returns and 0.14 for overheads. It anticipated the ball before the input rather than forcing a late key press to wait through the entire authored backswing. The subsequent return-planner upgrade replaced that fixed forecast with a short search described below. The full animation viewer and the responsive gameplay controller therefore do not play every stroke with identical timing.</p>
+<p>Automatic smash selection requires a reachable high ball, at least <strong>1.92 game units</strong> high and descending or near its apex. It uses the existing swing button. A serve still has to bounce before it may be returned. Mint uses the same stroke machinery and periodically produces lobs, creating opportunities for overheads.</p>
+<h3 id="seeing-the-bones-is-a-diagnostic-tool">Seeing the bones is a diagnostic tool</h3>
+<p>A separate motion viewer shows the four strokes close up. <strong>B</strong> toggles joint guides; Escape closes it. A fixed-step capture path renders <strong>360 frames at 30 fps</strong>, producing a 12-second sequence. FFmpeg encoded the full film and four individual clips for review. These are images from the game/animation pipeline, not fresh image-generation illustrations.</p>
+<p>The viewer exposed a facing error: it showed the character’s back. A texture diagnostic located the cyan eye and checked which side of the actor’s forward axis it occupied. The right shoulder was also on the wrong side. Removing an obsolete 180-degree model rotation corrected both. Export was narrowed to the six deform-skeleton actions after helper guide actions appeared as unwanted extra clips. <a href="docs/evidence/motion/orientation.json">Facing measurement</a> · <a href="MOTION-UPGRADE.html">Motion gallery</a>.</p>
+<h2 id="4-the-core-problem-a-successful-automated-rally-was-not-a-successful-human-game">4. The core problem — a successful automated rally was not a successful human game</h2>
+<p>After trying the animated build, the human reported being unable to return Mint’s ball and explicitly requested a report without a fix. The agent inspected the existing behavior first. The old point logs could establish losses and rally lengths, but could not explain whether the failure was positioning, timing, input delivery, forecasting or racket geometry.</p>
+<p>The old return path had several gates: a fresh swing press, a roughly <strong>0.27-second early buffer</strong>, own-side and height checks, a broad reach test, then a delayed racket-contact check. The visible readiness cue did not enforce every condition that the actual strike later enforced. An encouraging message could therefore be followed by a rejected strike.</p>
+<p>The forecast also ignored an imminent bounce. For a ball at height 0.60, moving downward at 4 units/second, a straight ballistic forecast 0.10 seconds later gives approximately 0.151. That falls below the permitted 0.38 contact height. The real trajectory reaches the ground shortly afterward and rises again. Treating that one low forecast as a reason to consume the input could lose the later rising-ball return.</p>
+<p>The agent’s earlier test player had an advantage the human did not: it could consult exact game state and swing as soon as the internal eligibility condition became true. Stationary ball fixtures also skipped much of the real approach problem. A long autonomous rally proved that a path through the implementation existed. It did not prove that the interface exposed that path clearly to a person.</p>
+<p>The human then authorized better recording <strong>alongside the next return-system improvement</strong>, with a broader goal: explain underperformance of either player and support recommendations. This changed the work from simply making hits easier to making misses inspectable.</p>
+<h3 id="one-planner-for-the-cue-the-player-and-mint">One planner for the cue, the player and Mint</h3>
+<p><code>ReturnPlanner.cs</code> now drives the readiness message, human scheduling and Mint’s decision. It forecasts in <strong>1/120-second steps</strong>, follows legal bounces, respects net/court rules and searches contact candidates approximately <strong>0.08–0.28 seconds</strong> ahead. It previews the racket pose and bounded planting adjustment before advertising a strike.</p>
+<p>The early buffer increased to <strong>0.48 game seconds</strong>. A tap remains available until it schedules a strike, expires or is cleared by a point/match transition. Contact is checked through a small interval around the scheduled moment, roughly 0.0167 seconds before to 0.06 seconds after, rather than at one isolated sample.</p>
+<p>The improvement retained boundaries: You have a broad 1.85-unit horizontal reach, Mint 1.58, ball height must be 0.38–2.75, and final racket assistance stays within 0.60. Preview acceptance reserves a further 0.08 margin. Own-side, first-serve-bounce and second-bounce rules still apply. These are arcade tuning values, not measurements of human biomechanics.</p>
+<p>A cream ring suggests where to stand, yellow marks the first bounce, and teal indicates shot aim. After the bounce, tracking must continue because the ball keeps moving. “Tap Space for each shot” became explicit. This was an attempt to make the required action legible; later human feedback showed it was still insufficient.</p>
+<h2 id="5-a-local-flight-recorder-evidence-before-advice">5. A local flight recorder — evidence before advice</h2>
+<p>The new recorder is implemented in <code>PlayDiagnostics.cs</code>; <code>PlayReport.cs</code> turns its output into a standalone HTML report. F8 pauses active play and opens that report. A launcher can reopen the latest saved report after the game closes.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable evidence table"><table>
+<thead>
+<tr>
+<th>File</th>
+<th>What it preserves</th>
+<th>Why it matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>session.json</code></td>
+<td>Anonymous session identity, build, policy, launch mode and configuration.</td>
+<td>Identifies which rules produced the evidence.</td>
+</tr>
+<tr>
+<td><code>events.jsonl</code></td>
+<td>Input presses/releases, movement changes, eligibility, buffer creation/expiry/consumption, scheduled and accepted/rejected contact, bounces, points, focus and pause events.</td>
+<td>Reconstructs the sequence leading to an outcome.</td>
+</tr>
+<tr>
+<td><code>windows.jsonl</code></td>
+<td>Completed sampled windows around misses.</td>
+<td>Preserves context instead of only the final failure.</td>
+</tr>
+<tr>
+<td><code>summary.json</code></td>
+<td>Both players’ totals, cause counts, latest 200 exchanges and eight recent replays.</td>
+<td>Makes trends readable without parsing every event.</td>
+</tr>
+<tr>
+<td><code>report.html</code></td>
+<td>Recommendations, evidence table and interactive top-down trace.</td>
+<td>Gives the human an accessible way to inspect the recording.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Events carry game time and elapsed real time, ball position/velocity, both player/racket positions, movement and aim, stroke phase, predicted contact, buffer state, bounce/score state, focus and the actual HUD message. Context is sampled at about <strong>10 Hz</strong>, retaining roughly three real seconds before a miss and up to one after it. A sampled court trace is neither a video nor a deterministic re-simulation of every frame.</p>
+<p>Recommendations are transparent rules, not an external language model call. A tap that expires before the first available window suggests early timing. A held key without a new effective press suggests releasing between shots. A scheduled strike that fails contact points toward the game’s geometry, planting or forecast. Broad reach without any feasible racket pose is also a game-side investigation. No reachable window remains ambiguous between positioning and a difficult ball.</p>
+<p>Mint is recorded too. A missed available window can reveal a CPU scheduling problem. Deliberately scripted random overhits are marked explicitly, so the report does not invent a learned skill deficit for a policy that was instructed to miss. Return completion, outgoing shot errors and points won/lost are separate measures. Interrupted exchanges and incoming balls ending as the opponent’s outgoing error are excluded from the return-completion denominator.</p>
+<p>The public <a href="docs/examples/play-report.html">example play report</a> contains <strong>synthetic validation data</strong>, not a raw human session. It demonstrates the interface without publishing personal play history.</p>
+<h3 id="recording-must-not-become-the-reason-the-game-fails">Recording must not become the reason the game fails</h3>
+<p>Streams flush events as they are written. Summaries save at important boundaries, on report requests, periodically and on exit. A crash can still lose the unsaved rolling context or latest summary. A deliberately unusable output location verifies that recording failure produces a warning while gameplay continues.</p>
+<p>Retention recognizes only recorder-owned session folders and files; it avoids directory links and unrelated data. It checks a <strong>20-session / approximately 100 MiB</strong> budget at launch, with approximately <strong>8 MiB</strong> caps on each event/window stream. The active session can temporarily grow beyond the launch-time aggregate budget. An incomplete recording is disclosed rather than silently treated as complete.</p>
+<p>The code records gameplay actions, not raw typed text, account identity or an upload stream. Raw human session files stay local. A public documentation pass still needs a staged-file scan because logs, exports and binaries can contain information absent from the report itself. <a href="PLAY-DIAGNOSTICS.md">Detailed recorder contract</a>.</p>
+<h2 id="6-a-real-miss-position-intent-and-input-are-different-observations">6. A real miss — position, intent and input are different observations</h2>
+<p>The next human question was direct: “i moved to the yellow circle but still could not block mint’s return. why”. The agent read the latest completed exchanges and the actual input-event stream without changing gameplay.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable evidence table"><table>
+<thead>
+<tr>
+<th>Exchange</th>
+<th>Recorded facts</th>
+<th>Supported interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>First incoming return</td>
+<td>Movement was forward without the needed sideways correction. Closest horizontal distance was about <strong>2.70</strong>, outside the 1.85 broad reach limit. No swing attempt was recorded.</td>
+<td>There was no feasible hitting window from the recorded position.</td>
+</tr>
+<tr>
+<td>Second incoming return</td>
+<td>The planner offered about <strong>0.60 game seconds</strong> of valid opportunity. Sampled HUD text read “SWING NOW · TAP SPACE.” No swing press or accepted click was recorded during the return.</td>
+<td>Positioning was sufficient, but the game did not receive an instruction to swing.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Both serve presses had been recognized. The game retained focus through the two misses; the recorded focus loss occurred afterward. Across the session, <strong>76 events</strong> supplied a much better explanation than the old final-score log.</p>
+<p>One apparent logging problem was a misleading directory listing: open JSONL files were reported with zero length. Reading the live stream with concurrent-writer sharing returned the events. Directory metadata was not enough to conclude that recording had failed.</p>
+<p>The correct conclusion was narrow: <strong>the game recorded no return swing</strong>. It could not observe the human’s intention, tell whether they expected automatic blocking, or detect every possible OS-level input problem. The word “block,” the prominent yellow marker and the earlier automatic-smash language suggested a plausible mismatch in expectations. That interpretation was explained as a UI problem, not treated as proof of human error.</p>
+<p>The agent clarified the controls: yellow is the bounce location, cream is the standing suggestion, and every return needs a fresh swing. It also acknowledged that “MOVE BEHIND THE YELLOW MARKER” could be confusing. No additional reach or timing change was made during that diagnosis.</p>
+<p><strong>Lesson: distinguish “no intent,” “no recorded input,” “rejected input” and “failed contact.” They are different failures requiring different interventions.</strong></p>
+<h2 id="7-slow-motion-reduce-time-pressure-without-changing-the-shot-rules">7. Slow motion — reduce time pressure without changing the shot rules</h2>
+<p>The human then asked for a slow-motion practice mode. The agent implemented <strong>P</strong>, plus a visible speed button, to cycle <strong>normal → half → quarter → normal</strong>. This changes Unity’s shared game time scale while keyboard/UI processing remains responsive. Ball flight, player movement, Mint, stroke playback, serve preparation and the early-swing buffer slow together.</p>
+<p>The alternative of slowing only the ball would change the relationship between movement, anticipation and contact. Changing the shared clock instead preserves their intended relationship in game time. Numerical sampling can still differ with frame rate; this is a practical simulation design, not a proof of bit-identical trajectories at every speed.</p>
+<p>Pause sets the simulation rate to zero. Resume restores the selected practice rate instead of blindly returning to normal. Restarting a match preserves the selection. The menu stays responsive; a fresh process starts at normal speed. Half and quarter speed do not automatically swing, change the reach limit or legalize a serve volley.</p>
+<div class="demo dark" id="speed-demo"><p class="kicker">Explore game time versus real time</p><h3>Same rules. More time to react.</h3><div class="switches" role="group" aria-label="Illustrative practice speed"><button data-speed="1" aria-pressed="false">Normal</button><button data-speed="0.5" aria-pressed="false">Half</button><button data-speed="0.25" aria-pressed="true">Quarter</button></div><div class="timing" aria-live="polite"><p><span>Early swing buffer</span><strong id="buffer-time">1.92 real seconds</strong><small>0.48 game seconds</small></p><p><span>Example hitting window</span><strong id="window-time">2.40 real seconds</strong><small>0.60 game seconds, if otherwise unchanged</small></p></div><div class="meter"><span id="time-meter" style="width:100%"></span></div><p id="speed-explanation">Quarter speed gives four times the real time for the same game-time interval.</p><p class="caption">An explanatory calculator, not the game itself. It does not guarantee a particular window for every shot or change the real game speed.</p></div>
+
+<p>At half speed, a 0.48-game-second early buffer lasts about <strong>0.96 real seconds</strong>. At quarter speed it lasts about <strong>1.92 real seconds</strong>. Similarly, an otherwise identical 0.60-game-second opportunity would last about 1.20 or 2.40 real seconds. These conversions explain the benefit; they do not promise every future shot will offer that window.</p>
+<p>Diagnostics gained <code>practiceSpeed</code> on frames, speed-change events, <code>startSpeed</code> and <code>speedChanged</code> on exchanges, and <code>practiceUsed</code>/<code>currentSpeed</code> in summaries. The report flags sessions that contain slower play and shows eligible-window durations in both game and real seconds. It does not yet split all aggregate performance statistics into separate speed cohorts; mixed totals must not be compared directly with normal-speed ability.</p>
+<p>The replay buffer remains three <strong>real</strong> seconds. At quarter speed it therefore covers only about 0.75 game seconds before a miss. This is a newly visible tradeoff: slower play can make the existing replay horizon too short to show the whole approach. Full-flight capture or speed-aware history would be a separate recorder improvement.</p>
+<p>The human’s response was evidence unavailable to the automated tests:</p>
+<blockquote>
+<p>excellent. the slow down (at quad speed) helped a lot.</p>
+</blockquote>
+<p>Here “quad speed” referred to the <strong>quarter-speed setting</strong>, giving roughly four times the reaction time. This is positive feedback from one human session, not a controlled before/after performance study. The older practice verification receipt says human assessment was pending because it was written before this feedback; this narrative adds the later observation without rewriting that historical receipt.</p>
+<h2 id="8-seven-cards-to-two-bars-make-the-court-the-main-interface">8. Seven cards to two bars — make the court the main interface</h2>
+<p>Slower play made the next problem easier to see. The human asked to move “TAKE A BREATHER” away from the center because it obscured the court. During that work, the brief expanded: there had been seven cards, and they were too distracting.</p>
+<p>The first response moved pause, welcome and results into a compact left-side panel. That addressed central occlusion but did not by itself simplify the overall HUD. The human’s second correction led to a broader layout change rather than merely moving all seven cards elsewhere.</p>
+<p><code>TennisHud.cs</code> now constructs <strong>two persistent edge bars</strong> during play. The top bar combines score, game totals, rally count, shot guidance and practice speed. The bottom bar combines movement/swing/aim controls, secondary shortcuts, marker explanation and pause. Separate brand, rally, legend and shot-callout cards were removed as independent surfaces.</p>
+<p>Welcome, pause and match-result panels appear only when needed in the left margin. Point announcements reuse the top guidance area; they do not open a center panel. The pause view keeps the scene visible and frozen. This is a layout redesign, not a camera crop or a change to shot physics. The existing 1600×900 reference layout scales as a group with the window; the verified captures use that reference size, not every possible display aspect ratio.</p>
+<figure class="demo" id="ui-demo"><p class="kicker">Actual Windows captures / inspect the change</p><div class="switches" role="group" aria-label="UI comparison"><button data-ui="pause-before" aria-pressed="false">Before: center modal</button><button data-ui="pause-after" aria-pressed="true">After: side panel</button><button data-ui="court-after" aria-pressed="false">During play</button><button data-ui="result-after" aria-pressed="false">Match result</button></div><img id="ui-image" loading="lazy" src="docs/media/v1/pause-after.png" alt="Redesigned pause screen with controls at the left and center court visible"><figcaption id="ui-caption">v0.4.1: two edge bars and a contextual left panel. Captures show different synthetic-test moments; this is a layout comparison, not the same rally replayed.</figcaption></figure>
+
+<p>The redesign also shortened the speed label, avoiding a long practice label competing with the shot cue. It retained familiar controls instead of introducing a new interaction scheme while the human was learning to return the ball.</p>
+<p><strong>Lesson: moving clutter away from the center is not the same as removing clutter. Consolidation required a second human design correction.</strong></p>
+<h2 id="9-tools-ownership-and-the-actual-autonomy-boundary">9. Tools, ownership and the actual autonomy boundary</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable evidence table"><table>
+<thead>
+<tr>
+<th>Participant or tool</th>
+<th>Actual responsibility in this round</th>
+<th>What it did not establish</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Human</td>
+<td>Identified weak motion, chose automatic smash, authorized execution, requested read-only diagnosis, set the logging goal, reported misses, requested slow motion, confirmed it helped, rejected center overlays and excessive cards, requested this preserved-history companion.</td>
+<td>Did not manually code, model or paint weights during the documented pass.</td>
+</tr>
+<tr>
+<td>Codex / GPT-6 Astra</td>
+<td>Inspected evidence, wrote authoring/runtime/report/UI changes, launched builds, diagnosed failures, checked artifacts and documented uncertainty.</td>
+<td>Did not independently certify fun or infer hidden human intentions.</td>
+</tr>
+<tr>
+<td>Blender + Python</td>
+<td>Repaired skinning, solved joint targets, baked six clips, exported assets, measured deformation and orientation.</td>
+<td>Did not provide motion capture or a finished artist control rig.</td>
+</tr>
+<tr>
+<td>Unity + C#</td>
+<td>Imported animation, integrated contact and ball flight, implemented planning, scoring, input, local diagnostics, speed and UI, built Windows players.</td>
+<td>Did not turn scripted Mint into a learning agent.</td>
+</tr>
+<tr>
+<td>Meshy</td>
+<td>Supplied the previously saved surface and textures that were reused.</td>
+<td>No new generation or credits were consumed in this round.</td>
+</tr>
+<tr>
+<td>FFmpeg</td>
+<td>Encoded actual captured motion into reviewable clips.</td>
+<td>Did not synthesize the robot’s technique.</td>
+</tr>
+<tr>
+<td>Python / PowerShell</td>
+<td>Ran batch tools, parsed evidence, managed local builds and captured structured receipts.</td>
+<td>A successful shell command alone was never sufficient proof of a successful build.</td>
+</tr>
+<tr>
+<td>Browser tooling</td>
+<td>Checked motion media and HTML reports, replay controls and published pages.</td>
+<td>A loaded page alone did not prove its media or controls worked.</td>
+</tr>
+<tr>
+<td>Git / <code>gh</code></td>
+<td>Preserved implementation/publication history and verified remote releases and Pages.</td>
+<td>A local executable did not automatically become a downloadable release.</td>
+</tr>
+</tbody>
+</table></div>
+<p>The human’s repeated “start the game” requests also mattered: they connected build completion to an actual opportunity to test. New local versions used separate build folders, and the launcher preferred the latest available version. This avoided overwriting a running executable and made version selection explicit.</p>
+<p>No modeling approval was needed for each elbow adjustment after implementation was authorized. Conversely, the initial “do not run anything yet” and later “report, do not fix” instructions were real boundaries. Autonomy covered execution within the chosen task; it did not erase those boundaries.</p>
+<h2 id="10-failures-near-misses-and-the-repairs-that-worked">10. Failures, near-misses and the repairs that worked</h2>
+<ol>
+<li><strong>Wrong weights became visible only under a stronger pose.</strong> Hand-to-leg influence generated spikes. Anatomical segment assignment replaced the brittle height partition. Contact-pose checks then measured zero remaining hand vertices with leg influence.</li>
+<li><strong>Texture seams became skinning seams.</strong> Coincident vertices had unequal weights. Synchronizing their weights produced zero measured separation at the four checked contact poses.</li>
+<li><strong>Local and world coordinates were confused.</strong> The jump/crouch offset used the wrong axis interpretation. Rest-orientation conversion repaired vertical motion.</li>
+<li><strong>The robot faced backward.</strong> The close-up viewer and cyan-eye measurement revealed the stale 180-degree rotation. Removing it corrected both eye and shoulder-side measurements.</li>
+<li><strong>Authoring guides leaked into the animation export.</strong> Export was restricted to six deform-skeleton actions instead of every helper action.</li>
+<li><strong>A generated C# file contained a non-UTF-8 middle dot.</strong> The source was normalized to UTF-8 before successful compilation. The durable account preserves the symptom; it does not invent an unavailable exact compiler message.</li>
+<li><strong>A readiness cue promised more than the strike path could deliver.</strong> The shared bounce-aware planner replaced the separate, weaker cue and the bounce-blind forecast.</li>
+<li><strong>A live log reader conflicted with its writer on Windows.</strong> The validation reader switched to a <code>FileStream</code> allowing <code>FileShare.ReadWrite</code>. The writer remained active; the test no longer treated concurrent logging as corruption.</li>
+<li><strong>Recording needed a failure path.</strong> The intentional warning <code>ROBO_DIAGNOSTICS_UNAVAILABLE: gameplay continues; local recording could not be written.</code> was exercised with an unusable output directory. That expected warning is different from an unhandled game exception.</li>
+<li><strong>A background UI test did not receive keyboard events.</strong> The first court-view run showed a misleading “pause” capture without the pause panel, then <code>NullReferenceException: Object reference not set to an instance of an object</code> in <code>PrototypeInputChecks+&lt;Click&gt;d__7.MoveNext</code>. The trace contained a match start but no synthetic keyboard actions. The test later tried to click an inactive Resume control. The harness now sets <code>InputSettings.BackgroundBehavior.IgnoreFocus</code> and enables keyboard/mouse devices only inside the explicit synthetic-test path. The normal human game’s focus behavior was not changed. The next run passed. This repairs test delivery; it does not prove hardware input reaches an unfocused game.</li>
+<li><strong>File metadata and missing screenshots could be premature evidence.</strong> An image read happened before the capture file existed; a live log’s listed size was misleading. Waiting for the artifact and reading the stream directly resolved those cases. Observe the artifact, not an assumption about when it should exist.</li>
+<li><strong>Local timing evidence could become a misleading public claim.</strong> Practice and UI builds worked locally, while the latest downloadable release remained v0.3.0. Documentation explicitly distinguishes those states. Publication is a separate step, not an implied consequence of a successful build.</li>
+</ol>
+<p>Routine command corrections also occurred: PowerShell does not expand Bash-style brace lists, and wildcard-looking paths passed directly to a tool may be treated literally. Explicit file paths and file discovery resolved those lookup errors. They affected inspection, not the game’s physics.</p>
+<h2 id="11-verification-stronger-evidence-with-limits-attached">11. Verification — stronger evidence, with limits attached</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable evidence table"><table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Checked evidence</th>
+<th>What it supports</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Animation / v0.2</td>
+<td>17 rules checks; 26 standalone input/UI checks; six-clip import, facing and skin reports; captured motion.</td>
+<td>Stroke selection, visible serve preparation, legal serve behavior, imported rig and exercised contact poses.</td>
+</tr>
+<tr>
+<td>Return diagnostics / v0.3</td>
+<td>30 rules/diagnostic checks; 39 standalone checks; timed moving-ball and bounce fixtures.</td>
+<td>Shared planner, buffer behavior, recording, cause classification, retention and failure handling in the exercised scenarios.</td>
+</tr>
+<tr>
+<td>Practice / v0.4</td>
+<td>30 rules checks; 52 standalone checks; six recorded speed changes; successful returns at 0.5× and 0.25×.</td>
+<td>Clock scaling, responsive controls, pause/restart retention, real-time window conversion and practice labeling.</td>
+</tr>
+<tr>
+<td>Consolidated UI / v0.4.1</td>
+<td>30 rules checks; 52 standalone checks; menu, serve, pause and result captures.</td>
+<td>Existing gameplay controls still work and the inspected layouts keep center court clear.</td>
+</tr>
+</tbody>
+</table></div>
+<p>The v0.3 one-minute autonomous run produced <strong>14 You returns, 16 Mint returns, an 18-shot best rally and two points</strong>. The recorder attributed Mint’s losses to explicitly scripted overhits. That run recorded <strong>zero smashes</strong>. Automatic smash behavior was exercised in a suitable high-ball fixture; the ordinary rally run did not establish its natural frequency.</p>
+<p>Skin checks measured a maximum weight-sum error of approximately <strong>4.28×10⁻⁸</strong>, zero hand-to-leg influence and zero coincident-seam separation at the four checked poses. But 99th-percentile edge stretch remained roughly <strong>1.90–2.05×</strong>, with isolated maxima approximately <strong>6.80–9.34×</strong>. Passing the targeted checks did not make the skin artist-finished or certify all frames and IK targets. <a href="docs/evidence/motion/skin-quality.json">Skin measurements</a>.</p>
+<p>The later builds succeeded with zero build errors and one warning. The known optional render-pipeline warning remained; it was not hidden behind a “perfect build” claim. Standalone receipts, screenshots and actual output files supplemented process completion.</p>
+<p>The most important qualitative evidence is the human report that quarter speed helped. It closes one earlier uncertainty—whether slower play could make this prototype more usable for this player—but leaves comfort, normal-speed transfer, long-session balance and other players unmeasured.</p>
+<p>Evidence folders: <a href="https://github.com/az9713/gpt-6-astra-tennis-game/tree/main/docs/evidence/motion/">motion</a> · <a href="https://github.com/az9713/gpt-6-astra-tennis-game/tree/main/docs/evidence/diagnostics/">diagnostics</a> · <a href="https://github.com/az9713/gpt-6-astra-tennis-game/tree/main/docs/evidence/practice/">practice</a> · <a href="https://github.com/az9713/gpt-6-astra-tennis-game/tree/main/docs/evidence/court-view/">court view</a>. The latter two are local-build receipts, not release-download receipts.</p>
+<h2 id="12-unknown-unknowns-what-this-round-exposed-and-how-to-address-it">12. Unknown unknowns — what this round exposed, and how to address it</h2>
+<h3 id="rigged-can-describe-several-different-levels-of-readiness">“Rigged” can describe several different levels of readiness</h3>
+<p>A skeleton, skin weights, animation clips, animator controls and runtime contact alignment are separate deliverables. This pass improved the first three and the game-time alignment, while retaining script-based authoring. For a future artist handoff, specify live IK controls and editable action organization explicitly instead of assuming that bone guides already provide them.</p>
+<h3 id="better-motion-can-make-latent-asset-damage-worse">Better motion can make latent asset damage worse</h3>
+<p>Gentle idle motion hides bad weighting. Extreme contact poses stress hands, seams and oversized heads. The response was to add geometric checks and visual review. A future polish pass should inspect transitions and full swings, especially the remaining high-stretch regions, rather than declaring success from four snapshots.</p>
+<h3 id="assistance-is-part-of-the-simulations-contract">Assistance is part of the simulation’s contract</h3>
+<p>The game fits the racket and permits bounded mismatch; it does not compute a fully physical racket-string collision with spin and impact response. That is an intentional arcade compromise. Diagnostics expose accepted contact error so future tuning can assess whether assistance feels fair. Greater realism would require a separate design and validation effort, not simply shrinking the tolerance.</p>
+<h3 id="observability-can-make-incorrect-blame-more-persuasive">Observability can make incorrect blame more persuasive</h3>
+<p>A polished report can sound authoritative even when its causal model is weak. Recording a missing press does not prove missing intent. Recording distance does not prove that a ball was reasonably reachable from the previous recovery position. The report uses cautious categories, labels game failures and retains event context. Counterfactual questions—“could a feasible recovery have reached this ball?”—remain future work.</p>
+<h3 id="symmetric-logging-does-not-imply-symmetric-players">Symmetric logging does not imply symmetric players</h3>
+<p>You and Mint use related contact checks but different reach and movement values. Mint also has scripted decisions and deliberate error injection. Their metrics therefore describe different policies. Difficulty changes should be versioned and evaluated separately from the human’s learning curve.</p>
+<h3 id="slower-play-changes-both-performance-and-the-meaning-of-the-data">Slower play changes both performance and the meaning of the data</h3>
+<p>Speed-aware timestamps and warnings were added immediately. Full per-speed cohort reports, normal-speed transfer assessment and speed-aware replay horizons were not. A useful next evaluation would hold shot difficulty approximately constant and compare short sessions at each speed, without claiming that practice accuracy directly measures normal-speed skill.</p>
+<h3 id="ui-occlusion-is-a-gameplay-defect-not-merely-styling">UI occlusion is a gameplay defect, not merely styling</h3>
+<p>Pause is often when a person wants to inspect ball position, court geometry or a missed opportunity. A centered menu removed that evidence. Moving controls left and consolidating seven cards into two bars protects that task. The current captures establish the result at 1600×900; smaller windows and other aspect ratios still deserve deliberate review.</p>
+<h3 id="a-test-harness-has-its-own-failure-modes">A test harness has its own failure modes</h3>
+<p>Input injection, focus, window lifecycle and concurrent file access can fail independently of the game logic. The repair scoped background input behavior to validation only, and screenshots were checked against events rather than trusted by filename. Future input investigations should continue separating device delivery, engine acceptance and game-side scheduling.</p>
+<h3 id="local-committed-published-and-released-are-different-states">“Local,” “committed,” “published” and “released” are different states</h3>
+<p>Earlier v0.2 and v0.3 archives were packaged, privacy-scanned, extracted, tested and checked against remote release digests. The v0.4/v0.4.1 gameplay work was built and tested locally. Publishing this narrative does not silently create a Windows release containing those changes. The next release needs its own packaging, metadata scrub and extracted-archive verification.</p>
+<h3 id="autonomy-still-needs-a-human-definition-of-success">Autonomy still needs a human definition of success</h3>
+<p>The human did not supply the joint mathematics, contact planner or log schema. They supplied the information the automated system could not derive from passing tests: the motion looked wrong, returning was difficult, quarter speed helped, the pause panel blocked the court, and seven cards were too many. The agent translated each observation into an implementation and a narrower testable claim. That loop is the actual autonomous-development story.</p>
+<h2 id="13-where-things-stand-and-what-this-document-preserves">13. Where things stand — and what this document preserves</h2>
+<p>The latest local executable is <strong>v0.4.1</strong>, combining six coordinated clips, automatic smash selection, visible trophy serve, bounce-aware returns, local diagnostic reports, normal/half/quarter-speed practice and a two-bar HUD with side menus. The launcher chooses the newest available local build. The human has positively evaluated quarter-speed practice; longer human evaluation remains open.</p>
+<p>The published Windows release verified while writing this account is <a href="https://github.com/az9713/gpt-6-astra-tennis-game/releases/tag/v0.3.0">v0.3.0</a>. The <a href="MOTION-UPGRADE.html">motion gallery</a> and <a href="docs/examples/play-report.html">synthetic play-report example</a> remain useful demonstrations. No additional Meshy credits were spent for these enhancements. No memory registry was modified.</p>
+<p>This companion adds a new HTML document, its Markdown source, a two-tab reader, current UI captures and verification references. The original <code>DEVELOPMENT-JOURNEY.html</code> remains byte-for-byte unchanged. Its pre-edit SHA-256 was <code>ee0d9dc99b24ceac57ad6e01fbc5c14b5de34dc393928eab4475620206b3d5c9</code>; the documentation check verifies that same value afterward.</p>
+<p>The next choices are concrete: tune practice from further human sessions, improve replay coverage at slow speeds, separate performance statistics by speed, inspect remaining skin deformation, or package a new Windows release. None is represented here as already completed.</p>
+<h3 id="reader-verification-note">Reader verification note</h3>
+<p>Testing the Original tab exposed an existing scroll-highlighting error in the preserved page: its script passes a heading ID beginning with a digit directly to <code>querySelector</code>, producing <code>SyntaxError: Failed to execute 'querySelector' on 'Document'</code>. The original content and native anchor links remain readable, but the scripted progress/highlight behavior is not certified. The original file was deliberately left unchanged under the human's preservation instruction. A future correction would use <code>getElementById</code> or an escaped selector; it is outside this documentation-only preservation pass. The new companion uses native section anchors and does not reuse that selector logic.</p></main></div><footer>Independent reconstruction inspired by <a href="https://www.youtube.com/watch?v=DQfL_l5lRpk">Chong-U’s video</a>. Original journey preserved. Raw human session logs remain local. <a href="https://github.com/az9713/gpt-6-astra-tennis-game">Repository</a>.</footer><script>
+document.querySelector('#print').onclick=()=>window.print();
+document.querySelectorAll('[data-stroke]').forEach(button=>button.onclick=()=>{document.querySelectorAll('[data-stroke]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));document.querySelectorAll('#motion-demo video').forEach(v=>{v.pause();v.hidden=v.id!=='stroke-'+button.dataset.stroke})});
+document.querySelectorAll('[data-speed]').forEach(button=>button.onclick=()=>{let speed=Number(button.dataset.speed);document.querySelectorAll('[data-speed]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));document.querySelector('#buffer-time').textContent=(.48/speed).toFixed(2)+' real seconds';document.querySelector('#window-time').textContent=(.60/speed).toFixed(2)+' real seconds';document.querySelector('#time-meter').style.width=(25/speed)+'%';document.querySelector('#speed-explanation').textContent=speed===1?'Normal speed: game time and real time advance together.':speed===.5?'Half speed gives twice the real time for the same game-time interval.':'Quarter speed gives four times the real time for the same game-time interval.'});
+const captions={'pause-before':'v0.4: the center pause modal hides the court amid separate HUD cards.','pause-after':'v0.4.1: two edge bars and a left pause panel leave center court visible.','court-after':'v0.4.1 during play: only two persistent edge bars.','result-after':'v0.4.1: the match result stays in the left margin.'};document.querySelectorAll('[data-ui]').forEach(button=>button.onclick=()=>{document.querySelectorAll('[data-ui]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));let key=button.dataset.ui;document.querySelector('#ui-image').src='docs/media/v1/'+key+'.png';document.querySelector('#ui-image').alt=captions[key];document.querySelector('#ui-caption').textContent=captions[key]+' Captures show different synthetic-test moments; this compares layouts, not identical rally frames.'});
+</script></body></html>

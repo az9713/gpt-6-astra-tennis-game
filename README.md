@@ -4,7 +4,21 @@ A playable Windows tennis prototype built with Unity, Blender, Meshy and a large
 
 Inspired by [Chong-U’s original YouTube game-building video](https://www.youtube.com/watch?v=DQfL_l5lRpk). The creator’s project was unavailable, so this is a new reconstruction using newly generated and authored assets. It reproduces the broad visual direction; it does not contain the creator’s original assets.
 
-**[Read the illustrated development journey](https://az9713.github.io/gpt-6-astra-tennis-game/DEVELOPMENT-JOURNEY.html)** · [Markdown version](DEVELOPMENT-JOURNEY.md) · [Download the Windows prototype](https://github.com/az9713/gpt-6-astra-tennis-game/releases/latest)
+**[Read the development journeys — Original + v1 tabs](https://az9713.github.io/gpt-6-astra-tennis-game/JOURNEYS.html)** · [v1: Gameplay enhancements](DEVELOPMENT-JOURNEY-V1.html) · [Original journey](DEVELOPMENT-JOURNEY.html) · [Download the Windows prototype](https://github.com/az9713/gpt-6-astra-tennis-game/releases/latest)
+
+The new **v1 journey** covers the four tennis strokes, rig and skin repairs, fairer returns, local diagnostic reports, real human playtest findings, slow-motion practice and the two-bar UI. It includes playable motion clips, a timing explainer and before/after screenshots. “v1” is the narrative chapter name; it does not imply a new v1.0 game release. The original journey HTML is preserved unchanged.
+
+## Local v0.4.1: unobstructed court view
+
+Seven separate HUD cards have been consolidated into two slim edge bars: scores, rally count, shot guidance and practice speed at the top, controls and marker guidance at the bottom. Pause, welcome and match results use a compact left-side panel only when needed; point announcements stay in the top bar. The center of the court stays visible. Launch with `PLAY_ROBO_OPEN.cmd` (prefers the local v0.4.1 build).
+
+## Local v0.4: slow-motion practice
+
+Press **P** or click the **speed button** to cycle **normal → half → quarter → normal**. Choose a speed before starting or change it during a rally or pause. The ball, both robots, stroke animations and swing buffer slow together. Pause/resume and match restart retain your choice; a fresh launch starts at normal speed.
+
+Move with WASD toward the cream standing ring and **tap Space for each return**. Yellow marks the bounce, not an automatic block. At half speed you have twice the real time to react; at quarter speed, four times. F8 reports flag sessions that used practice speed, record the speed of each exchange, and distinguish game-time from real-time hitting windows.
+
+This update is available in the local `Builds/RoboOpen-Windows-v0.4` build through `PLAY_ROBO_OPEN.cmd`. The GitHub release link below remains the previously published version until a new release is published.
 
 ## New in v0.3: fairer returns and local play reports
 

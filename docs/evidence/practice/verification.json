@@ -1,0 +1,15 @@
+{
+  "build": "0.4.0",
+  "scope": "Local Windows build; not published as a GitHub release",
+  "rulesChecks": 30,
+  "standaloneChecks": 52,
+  "practiceSpeedEvents": 6,
+  "returnedAtSpeeds": [
+    0.25,
+    0.5
+  ],
+  "realWindowScalingVerified": true,
+  "recordingHealthy": true,
+  "visualCheck": "Menu screenshot confirms visible speed button without overlap",
+  "humanPracticeAssessment": "Pending real play"
+}

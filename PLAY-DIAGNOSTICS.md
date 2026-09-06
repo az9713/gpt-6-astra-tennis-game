@@ -67,3 +67,14 @@ powershell -ExecutionPolicy Bypass -File setup/verify_prototype.ps1 -BuildDirect
 ```
 
 The older v0.2 build can remain open while this separate build is prepared. No new Blender assets, Meshy requests or Meshy credits are needed for this upgrade. The original [YouTube video](https://www.youtube.com/watch?v=DQfL_l5lRpk) remains the visual inspiration; this playability and diagnostic design responds to the human's experience with the reconstruction.
+
+
+## Slow-motion practice (local v0.4)
+
+P or the visible speed button cycles normal, half, quarter, and normal speed. This changes the shared game clock, preserving ball trajectories, movement and rig animation timing in game seconds. A 0.48-game-second early swing buffer lasts about 0.96 real seconds at half speed and 1.92 real seconds at quarter speed. You still tap Space for every shot. The speed choice survives pauses and match restarts, but resets on a fresh launch.
+
+Each recorded frame includes `practiceSpeed`; `practice_speed` events capture changes. Each exchange records `startSpeed` and `speedChanged`. Summaries include `practiceUsed` and `currentSpeed`. The report flags combined session totals whenever practice was used, rather than presenting them as normal-speed ability. Its evidence table shows both simulated and real-time eligible-window durations. A mid-exchange speed change is explicitly marked; use the event trace for the full sequence.
+
+Replay sampling remains 10 Hz in real time with roughly three real seconds before a miss. Quarter-speed replay context therefore covers less of the ball's flight in game time. The sampled replay is still not a complete match recording.
+
+Build locally with Unity's `PrototypeSetup.BuildPracticeWindows`, then launch `PLAY_ROBO_OPEN.cmd`. No additional Blender or Meshy work is needed for this timing change.

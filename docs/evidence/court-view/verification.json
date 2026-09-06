@@ -1,0 +1,16 @@
+{
+  "build": "0.4.1",
+  "scope": "Local Windows build; not a published release",
+  "activePlayPanels": 2,
+  "contextMenus": "Left margin; welcome, pause and match result only",
+  "pointAnnouncements": "Reuse top bar",
+  "rulesChecks": 30,
+  "standaloneChecks": 52,
+  "visualReview": [
+    "menu",
+    "active play",
+    "pause",
+    "match result"
+  ],
+  "validationHarness": "Synthetic keyboard and mouse enabled in hidden validation process independently of window focus; normal human input behavior unchanged"
+}

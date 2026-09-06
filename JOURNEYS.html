@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Robo Open — Development Journeys</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f4f0e7;color:#173c34;font:15px system-ui,Segoe UI,sans-serif}header{height:92px;padding:13px 4vw;border-bottom:1px solid #cbd5c8;display:flex;align-items:center;justify-content:space-between;gap:20px}strong{display:block;font:22px Georgia,serif}small{font-size:11px;color:#5c7168}nav{display:flex;gap:8px}button{font:inherit;cursor:pointer;padding:13px 20px;border:1px solid #8fa795;border-radius:5px;background:transparent;color:#173c34}button[aria-selected=true]{background:#173c34;color:#f4f0e7}a{color:#246f60}iframe{display:block;width:100%;height:calc(100dvh - 92px);border:0}button:focus-visible,a:focus-visible{outline:3px solid #c8754c;outline-offset:3px}@media(max-width:650px){header{height:122px;display:block;padding:11px 4vw}strong{font-size:19px}small{display:none}nav{margin-top:12px}button{padding:9px 12px;font-size:13px}iframe{height:calc(100dvh - 122px)}}
+</style>
+</head>
+<body>
+<header><div><strong>Robo Open / Development journeys</strong><small>Original history preserved · a new chapter for gameplay enhancements</small></div><nav role="tablist" aria-label="Development journey version"><button id="tab-original" role="tab" aria-selected="false" aria-controls="reader" tabindex="-1" data-page="original">Original journey</button><button id="tab-v1" role="tab" aria-selected="true" aria-controls="reader" data-page="v1">v1 · Enhancements</button></nav></header>
+<iframe id="reader" role="tabpanel" aria-labelledby="tab-v1" title="v1 gameplay enhancements development journey" src="DEVELOPMENT-JOURNEY-V1.html"></iframe>
+<noscript><p><a href="DEVELOPMENT-JOURNEY.html">Original journey</a> · <a href="DEVELOPMENT-JOURNEY-V1.html">v1 enhancements</a></p></noscript>
+<script>
+const pages={original:'DEVELOPMENT-JOURNEY.html',v1:'DEVELOPMENT-JOURNEY-V1.html'},tabs=[...document.querySelectorAll('[data-page]')],reader=document.querySelector('#reader');
+function select(key,focus=false){if(!pages[key])key='v1';tabs.forEach(t=>{const active=t.dataset.page===key;t.setAttribute('aria-selected',String(active));t.tabIndex=active?0:-1;if(active&&focus)t.focus()});reader.src=pages[key];reader.title=key==='v1'?'v1 gameplay enhancements development journey':'Original development journey, preserved';reader.setAttribute('aria-labelledby','tab-'+key);history.replaceState(null,'','#'+key)}
+tabs.forEach((t,i)=>{t.onclick=()=>select(t.dataset.page);t.onkeydown=e=>{if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();select(tabs[e.key==='Home'?0:e.key==='End'?1:1-i].dataset.page,true)}}});
+select(location.hash.slice(1)||'v1');window.addEventListener('hashchange',()=>select(location.hash.slice(1)));
+</script>
+</body></html>
