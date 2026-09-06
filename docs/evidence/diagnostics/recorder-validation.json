@@ -1,0 +1,40 @@
+{
+  "build": "0.3.0",
+  "mode": "autoplay_validation",
+  "players": [
+    {
+      "player": "You",
+      "incoming": 16,
+      "returned": 14,
+      "missedReturns": 0,
+      "shotErrors": 0,
+      "attempts": 14,
+      "pointsWon": 2,
+      "pointsLost": 0,
+      "firstServeFaults": 0,
+      "causes": []
+    },
+    {
+      "player": "Mint",
+      "incoming": 16,
+      "returned": 16,
+      "missedReturns": 0,
+      "shotErrors": 2,
+      "attempts": 16,
+      "pointsWon": 0,
+      "pointsLost": 2,
+      "firstServeFaults": 0,
+      "causes": [
+        {
+          "code": "scripted_cpu_error",
+          "count": 2
+        }
+      ]
+    }
+  ],
+  "recordingHealthy": true,
+  "eventCount": 445,
+  "frames": 3578,
+  "slowFrames": 3,
+  "scope": "Automated validation, not human play. Raw sessions remain local."
+}

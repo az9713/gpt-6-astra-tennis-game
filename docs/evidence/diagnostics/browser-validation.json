@@ -1,0 +1,14 @@
+{
+  "exampleMode": "synthetic input validation",
+  "localReport": "docs/examples/play-report.html",
+  "checks": {
+    "bothPlayersVisible": true,
+    "gameFailureAdviceVisible": true,
+    "validationDisclaimerVisible": true,
+    "replayAdvanced": "slider moved from frame 3 to frame 25 during playback",
+    "caseSelection": "selected both recorded cases",
+    "scrubToEnd": "displayed final recorded frame",
+    "phoneViewport": {"width":390,"documentWidth":375},
+    "temporaryViewportRestored": true
+  }
+}

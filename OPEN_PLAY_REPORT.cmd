@@ -1,0 +1,2 @@
+@echo off
+powershell -NoProfile -Command "$reportsRoot=Join-Path ([Environment]::GetFolderPath('UserProfile')) 'AppData\LocalLow\Local Tennis Project\Robo Open\Diagnostics'; $latestReport=Get-ChildItem -LiteralPath $reportsRoot -Filter report.html -Recurse -File -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending | Select-Object -First 1; if($latestReport){Start-Process -FilePath $latestReport.FullName}else{Write-Host 'Play a match first, then press F8 in the game to open your report.'; Read-Host 'Press Enter to close'}"

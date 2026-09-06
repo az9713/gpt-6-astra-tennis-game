@@ -182,9 +182,13 @@ public static class PrototypeSetup
     static TextMesh WallText(string value,Vector3 p,float size,Color color)
     {var t=new GameObject(value).AddComponent<TextMesh>();t.transform.position=p;t.text=value;t.font=font;t.fontSize=64;t.characterSize=size/6;t.color=color;t.anchor=TextAnchor.MiddleCenter;t.alignment=TextAlignment.Center;t.fontStyle=FontStyle.Bold;t.GetComponent<MeshRenderer>().sharedMaterial=font.material;t.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;return t;}
     public static void BuildWindows()
+        =>BuildWindowsAt("RoboOpen-Windows");
+    public static void BuildDiagnosticsWindows()
+    {PrototypeChecks.Run();BuildWindowsAt("RoboOpen-Windows-v0.3");}
+    static void BuildWindowsAt(string folder)
     {
         Directory.CreateDirectory(Evidence);
-        string path=Path.Combine(Root,"Builds/RoboOpen-Windows/RoboOpen.exe");Directory.CreateDirectory(Path.GetDirectoryName(path));
+        string path=Path.Combine(Root,"Builds",folder,"RoboOpen.exe");Directory.CreateDirectory(Path.GetDirectoryName(path));
         var report=BuildPipeline.BuildPlayer(new BuildPlayerOptions{scenes=new[]{ScenePath},locationPathName=path,target=BuildTarget.StandaloneWindows64,options=BuildOptions.None});
         File.WriteAllText(Path.Combine(Evidence,"windows-build.json"),JsonUtility.ToJson(new BuildReceipt{result=report.summary.result.ToString(),errors=report.summary.totalErrors,warnings=report.summary.totalWarnings,seconds=report.summary.totalTime.TotalSeconds},true));
         if(report.summary.result!=BuildResult.Succeeded)throw new Exception("Prototype build failed");

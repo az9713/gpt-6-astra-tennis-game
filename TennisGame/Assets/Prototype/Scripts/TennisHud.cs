@@ -45,7 +45,7 @@ namespace RoboOpen
             controls=Panel("Controls",32,790,1090,78,cream).gameObject;
             var c=(RectTransform)controls.transform;
             Label("W A S D",18,11,136,27,20,ink,c,true);Label("MOVE",18,42,136,20,12,teal,c);
-            Label("SPACE",180,11,145,27,20,ink,c,true);Label("SERVE / SWING / AUTO SMASH",180,42,145,20,12,teal,c);
+            Label("TAP SPACE",180,11,145,27,20,ink,c,true);Label("EACH SHOT / AUTO SMASH",180,42,160,20,11,teal,c);
             Label("ARROW KEYS",350,11,180,27,20,ink,c,true);Label("AIM LEFT / RIGHT / DEPTH",350,42,218,20,12,teal,c);
             Label("SHIFT + SPACE",595,11,205,27,20,ink,c,true);Label("POWER SHOT",595,42,180,20,12,teal,c);
             Label("Z + SPACE",830,11,145,27,20,ink,c,true);Label("LOB",830,42,120,20,12,teal,c);
@@ -54,7 +54,7 @@ namespace RoboOpen
             rally=Label("RALLY  0",14,8,250,38,27,coral,rp,true,TextAnchor.MiddleCenter);
             Label("KEEP IT IN PLAY",14,48,250,22,12,teal,rp,false,TextAnchor.MiddleCenter);
             // The landing marker and aim marker use distinct colors, also named in the HUD.
-            legend=Label("YELLOW = BALL LANDING     TEAL = YOUR AIM",1170,733,397,30,12,cream,root,true,TextAnchor.MiddleRight).gameObject;
+            legend=Label("CREAM = STAND / YELLOW = BOUNCE / F8 = REPORT",1120,733,447,30,12,cream,root,true,TextAnchor.MiddleRight).gameObject;
 
             pointPanel=Panel("Point announcement",505,309,590,205,cream).gameObject;
             reason=Label("",22,32,546,72,37,ink,(RectTransform)pointPanel.transform,true,TextAnchor.MiddleCenter);
@@ -68,21 +68,23 @@ namespace RoboOpen
             Panel("Accent",32,266,94,5,coral,m);
             Label("One court. Two robots. Your first serve.",32,291,490,62,23,ink,m);
             Button("PLAY MATCH   >",32,371,500, height:70, bg:coral,fg:cream,parent:m,action:()=>game.BeginMatch());
-            Label("WASD to move. SPACE to swing; high balls auto-smash.",32,450,498,23,13,teal,m);
+            Label("WASD moves. Tap SPACE each shot. F8 opens your play report.",32,450,498,23,12,teal,m);
 
-            pausePanel=Panel("Pause",505,285,590,325,cream).gameObject;
+            pausePanel=Panel("Pause",505,245,590,405,cream).gameObject;
             var p=(RectTransform)pausePanel.transform;
             Label("TAKE A BREATHER",25,32,540,49,34,ink,p,true,TextAnchor.MiddleCenter);
             Button("RESUME",44,112,502,61,coral,cream,p,()=>game.Pause());
             Button("RESTART MATCH",44,189,244,58,ink,cream,p,()=>game.BeginMatch());
             Button("MAIN MENU",305,189,242,58,teal,cream,p,()=>game.ReturnToMenu());
-            Label("ESC to resume  /  R to restart",25,270,540,22,14,teal,p,false,TextAnchor.MiddleCenter);
+            Button("PLAY REPORT  /  F8",44,267,502,53,teal,cream,p,()=>game.OpenPlayReport());
+            Label("ESC to resume  /  R to restart",25,352,540,22,14,teal,p,false,TextAnchor.MiddleCenter);
 
-            finishPanel=Panel("Match result",505,276,590,338,cream).gameObject;
+            finishPanel=Panel("Match result",505,246,590,408,cream).gameObject;
             var f=(RectTransform)finishPanel.transform;
             Label("MATCH COMPLETE",25,28,540,23,14,teal,f,true,TextAnchor.MiddleCenter);
             matchTitle=Label("YOU WIN",25,76,540,110,42,ink,f,true,TextAnchor.MiddleCenter);
             Button("PLAY AGAIN",44,214,502,69,coral,cream,f,()=>game.BeginMatch());
+            Button("PLAY REPORT  /  F8",44,307,502,55,teal,cream,f,()=>game.OpenPlayReport());
             Refresh();
         }
         public void Refresh()
@@ -92,7 +94,7 @@ namespace RoboOpen
             menu.SetActive(!playing);scorePanel.SetActive(playing);statusPanel.SetActive(playing);controls.SetActive(playing);brand.SetActive(playing);rallyPanel.SetActive(playing);legend.SetActive(playing);
             pointPanel.SetActive(game.phase==TennisGame.Phase.Point&&!game.paused);pausePanel.SetActive(game.paused);finishPanel.SetActive(game.phase==TennisGame.Phase.Finished);
             playerPoint.text=game.score.PointLabel(0);cpuPoint.text=game.score.PointLabel(1);playerGames.text=game.score.games[0].ToString();cpuGames.text=game.score.games[1].ToString();
-            status.text=game.message;serveLabel.text=game.CanPlayerHit?"THE BALL IS IN REACH":"ESC  PAUSE   /   R  RESTART";
+            status.text=game.message;serveLabel.text=game.ReturnCue;
             rally.text="RALLY  "+game.rally;reason.text=game.message+"\n<size=18>"+game.pointReason+"</size>";
             matchTitle.text=game.message+"\n<size=22>"+game.score.games[0]+"  –  "+game.score.games[1]+"   /   Best rally "+game.bestRally+"</size>";
         }

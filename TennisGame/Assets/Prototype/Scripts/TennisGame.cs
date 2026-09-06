@@ -42,11 +42,23 @@ namespace RoboOpen
         public int smashHits,forehandHits,backhandHits;
         public string lastStroke="";
         public float maxContactError;
+        public PlayDiagnostics diagnostics;
+        public ReturnPlan PlayerPlan {get;private set;}
+        public ReturnPlan CpuPlan {get;private set;}
+        public float PlayClock=>clock;
+        public float SwingBuffer=>swingBuffer;
+        public float ReturnCooldown=>cooldown;
+        public int ServiceParity=>serviceParity;
+        public Vector2 MovementInput {get;private set;}
+        float feedbackUntil;
+        bool bufferLob,bufferPower,swingHeld;
+        Transform standingMarker;
+        public string ReturnCue=>swingBuffer>0?"EARLY SWING SAVED":CanPlayerHit?"TAP SPACE TO RETURN":"TAP EACH SHOT  /  F8 PLAY REPORT";
         public bool StrikePending => pendingHitter>=0;
-        public bool CanSmash => CanPlayerHit && ball.position.y>=1.92f && velocity.y<=1.5f;
+        public bool CanSmash => PlayerPlan.available && PlayerPlan.stroke==RobotActor.Stroke.Smash;
 
         public int Receiver => 1-lastHitter;
-        public bool CanPlayerHit => phase==Phase.Rally && Receiver==0 && CanHit(player);
+        public bool CanPlayerHit => PlayerPlan.available;
         void Start()
         {
             Application.runInBackground=true;Application.targetFrameRate=60;
@@ -59,6 +71,13 @@ namespace RoboOpen
             int index=Array.IndexOf(args,"--prototype-output");if(index>=0 && index+1<args.Length)evidencePath=args[index+1];
             automatedTest=Array.IndexOf(args,"--prototype-test")>=0;
             if(Array.IndexOf(args,"--motion-showcase")>=0){gameObject.AddComponent<MotionShowcase>().game=this;return;}
+            diagnostics=gameObject.AddComponent<PlayDiagnostics>();
+            diagnostics.Initialize(this,string.IsNullOrEmpty(evidencePath)?Path.Combine(Application.persistentDataPath,"Diagnostics"):Path.Combine(evidencePath,"PlaySessions"),
+                automatedTest?"autoplay_validation":Array.IndexOf(args,"--prototype-input-test")>=0?"input_validation":"human");
+            standingMarker=Instantiate(landingMarker);standingMarker.name="Suggested standing position";
+            var standingLine=standingMarker.GetComponent<LineRenderer>();
+            if(standingLine!=null){standingLine.sharedMaterial=new Material(standingLine.sharedMaterial);standingLine.sharedMaterial.SetColor("_BaseColor",new Color(1,.96f,.82f));standingLine.widthMultiplier=.055f;}
+            standingMarker.localScale=Vector3.one*.62f;standingMarker.gameObject.SetActive(false);
             if(automatedTest){autoplay=true;BeginMatch();StartCoroutine(AutomatedRun());}
             if(Array.IndexOf(args,"--prototype-input-test")>=0)
             {
@@ -68,6 +87,7 @@ namespace RoboOpen
         }
         public void BeginMatch()
         {
+            diagnostics?.Interrupt("match_start_or_restart");
             pendingHitter=-1;smashHits=forehandHits=backhandHits=0;maxContactError=0;lastStroke="";player.ResetMotion();cpu.ResetMotion();score=new TennisScore();paused=false;Time.timeScale=1;phase=Phase.Ready;
             rally=bestRally=playerHits=cpuHits=pointsPlayed=netPoints=outPoints=doubleBouncePoints=faults=0;
             serveFaults=0;random=new System.Random(1729);PreparePoint();
@@ -75,10 +95,11 @@ namespace RoboOpen
         public void Pause()
         {
             if(phase==Phase.Menu || phase==Phase.Finished)return;
-            paused=!paused;Time.timeScale=paused?0:1;hud.Refresh();
+            paused=!paused;Time.timeScale=paused?0:1;diagnostics?.Record("pause",-1,paused?"paused":"resumed");hud.Refresh();
         }
+        public void OpenPlayReport(){if(phase!=Phase.Menu&&phase!=Phase.Finished&&!paused)Pause();diagnostics?.OpenReport();}
         public void ReturnToMenu()
-        { pendingHitter=-1;player.ResetMotion();cpu.ResetMotion();paused=false;Time.timeScale=1;phase=Phase.Menu;autoplay=false;ball.gameObject.SetActive(false);landingMarker.gameObject.SetActive(false);aimMarker.gameObject.SetActive(false);ballShadow.gameObject.SetActive(false);trail.Clear();hud.Refresh(); }
+        { diagnostics?.Interrupt("return_to_menu");pendingHitter=-1;swingBuffer=0;player.ResetMotion();cpu.ResetMotion();paused=false;Time.timeScale=1;phase=Phase.Menu;autoplay=false;ball.gameObject.SetActive(false);landingMarker.gameObject.SetActive(false);aimMarker.gameObject.SetActive(false);ballShadow.gameObject.SetActive(false);trail.Clear();hud.Refresh(); }
         void PreparePoint()
         {
             pendingHitter=-1;player.ResetMotion();cpu.ResetMotion();phase=Phase.Ready;phaseClock=0;rally=0;bounces=0;cooldown=0;swingBuffer=0;
@@ -93,20 +114,28 @@ namespace RoboOpen
             ball.gameObject.SetActive(true);ballShadow.gameObject.SetActive(true);trail.Clear();trail.emitting=false;
             landingMarker.gameObject.SetActive(false);aimMarker.gameObject.SetActive(score.server==0);
             message=score.server==0?(serveFaults==1?"SECOND SERVE  ·  SPACE":"YOUR SERVE  ·  SPACE"):"MINT IS SERVING";
+            RefreshReturnPlans();
         }
         void Update()
         {
             var key=Keyboard.current;
+            bool swing=key!=null&&(key.spaceKey.wasPressedThisFrame||key.enterKey.wasPressedThisFrame);
+            bool released=key!=null&&(key.spaceKey.wasReleasedThisFrame||key.enterKey.wasReleasedThisFrame);
+            swingHeld=key!=null&&(key.spaceKey.isPressed||key.enterKey.isPressed);
+            bool mouseAllowed=!(EventSystem.current!=null&&EventSystem.current.IsPointerOverGameObject());
+            if(Mouse.current!=null&&mouseAllowed){swing|=Mouse.current.leftButton.wasPressedThisFrame;released|=Mouse.current.leftButton.wasReleasedThisFrame;swingHeld|=Mouse.current.leftButton.isPressed;}
+            diagnostics?.Input(swing,swingHeld,released,Mouse.current!=null&&Mouse.current.leftButton.wasPressedThisFrame?"mouse":"keyboard_swing");
+            if(key!=null&&key.f8Key.wasPressedThisFrame)OpenPlayReport();
             if(key!=null && key.escapeKey.wasPressedThisFrame)Pause();
             if(key!=null && key.rKey.wasPressedThisFrame && phase!=Phase.Menu)BeginMatch();
-            if(paused){hud.Refresh();return;}
-            float dt=Mathf.Min(Time.deltaTime,.05f);clock+=dt;phaseClock+=dt;cooldown-=dt;swingBuffer-=dt;
+            if(paused){if(swing)diagnostics?.Record("input_ignored",0,"paused");hud.Refresh();return;}
+            float dt=Mathf.Min(Time.deltaTime,.05f);clock+=dt;phaseClock+=dt;cooldown-=dt;
+            if(swingBuffer>0){swingBuffer=Mathf.Max(0,swingBuffer-dt);if(swingBuffer==0){diagnostics?.Record("buffer_expired",0,PlayerPlan.reason);Feedback(swingHeld?"RELEASE, THEN TAP SPACE":"EARLY SWING EXPIRED  ·  TAP AGAIN");}}
+            if(swing&&(phase==Phase.Menu||phase==Phase.Point||phase==Phase.Finished))diagnostics?.Record("input_ignored",0,"phase_"+phase.ToString());
             if(phase==Phase.Menu){hud.Refresh();return;}
             if(phase==Phase.Finished){hud.Refresh();return;}
             if(phase==Phase.Point)
             { if(phaseClock>2.15f)PreparePoint();hud.Refresh();return; }
-            bool swing=key!=null&&(key.spaceKey.wasPressedThisFrame||key.enterKey.wasPressedThisFrame);
-            if(Mouse.current!=null && Mouse.current.leftButton.wasPressedThisFrame && !(EventSystem.current!=null&&EventSystem.current.IsPointerOverGameObject()))swing=true;
             Vector2 move=Vector2.zero;
             if(key!=null)
             {
@@ -115,6 +144,7 @@ namespace RoboOpen
                 aimX=Mathf.Clamp(aimX+((key.rightArrowKey.isPressed?1:0)-(key.leftArrowKey.isPressed?1:0))*dt*4,-3.3f,3.3f);
                 aimDepth=Mathf.Clamp(aimDepth+((key.upArrowKey.isPressed?1:0)-(key.downArrowKey.isPressed?1:0))*dt*3,5.5f,10.7f);
             }
+            if(move!=MovementInput){MovementInput=move;diagnostics?.Record("movement_input",0,"direction_changed");}
             if(autoplay)
             {
                 if((phase==Phase.Rally||score.server!=0)&&pendingHitter!=0)MoveReceiver(player,dt,7.5f);
@@ -131,38 +161,36 @@ namespace RoboOpen
                 if((score.server==0&&swing)||(score.server==1&&phaseClock>1.1f))Serve();
             }
             else if(phase==Phase.Serving)
-            { UpdateServe(); }
+            { if(swing)diagnostics?.Record("input_ignored",0,"serve_preparation");UpdateServe(); }
             else if(phase==Phase.Rally)
             {
                 if(pendingHitter!=1)MoveReceiver(cpu,dt,5.0f);
-                if(swing&&pendingHitter<0){swingBuffer=.27f; if(!CanPlayerHit)message="GET CLOSER  ·  SWING NEAR THE BALL";}
-                if(swingBuffer>0 && CanPlayerHit && cooldown<=0 && pendingHitter<0)
+                RefreshReturnPlans();
+                diagnostics?.ObserveOpportunities(dt);
+                if(swing)
                 {
-                    bool lob=key!=null&&key.zKey.isPressed;
-                    bool power=key!=null&&(key.leftShiftKey.isPressed||key.rightShiftKey.isPressed);
-                    QueueReturn(0,lob,power);swingBuffer=0;
-                }
-                else if(Receiver==1 && CanHit(cpu) && cooldown<=0 && pendingHitter<0 && (bounces>0||CourtRules.InCourt(landing)))QueueReturn(1,false,false);
-                if(phase==Phase.Rally)
-                    for(float t=0;t<dt && phase==Phase.Rally;t+=1f/120f)StepBall(Mathf.Min(1f/120f,dt-t));
-                if(pendingHitter>=0 && phase==Phase.Rally)
-                {
-                    var actor=pendingHitter==0?player:cpu;actor.AdvancePlant(dt);pendingLeft-=dt;
-                    if(pendingLeft<=0)
+                    diagnostics?.Attempt(0,PlayerPlan.reason);
+                    if(pendingHitter<0&&Receiver==0)
                     {
-                        int hitter=pendingHitter;pendingHitter=-1;
-                        if(Receiver==hitter && CanHit(actor))
-                        {
-                            Vector3 contact=actor.Contact(ball.position);
-                            if(actor.LastContactError<=.60f){ball.position=contact;maxContactError=Mathf.Max(maxContactError,actor.LastContactError);ReturnShot(hitter,pendingLob,pendingPower);}
-                            else{message="JUST OUT OF REACH";cooldown=.18f;}
-                        }
+                        swingBuffer=ReturnPlanner.BufferSeconds;bufferLob=key!=null&&key.zKey.isPressed;bufferPower=key!=null&&(key.leftShiftKey.isPressed||key.rightShiftKey.isPressed);
+                        diagnostics?.Record("buffer_armed",0,PlayerPlan.reason,swingBuffer);
+                        if(!PlayerPlan.available)Feedback(ReasonText(PlayerPlan.reason)+"  ·  SWING SAVED");
                     }
+                    else diagnostics?.Record("input_ignored",0,pendingHitter>=0?"strike_pending":"not_receiving");
                 }
+                if(swingBuffer>0&&PlayerPlan.available)
+                {
+                    QueueReturn(0,bufferLob,bufferPower,PlayerPlan);swingBuffer=0;diagnostics?.Record("buffer_consumed",0,"strike_scheduled");
+                }
+                else if(CpuPlan.available&&(bounces>0||CourtRules.InCourt(landing)))
+                {diagnostics?.Attempt(1,CpuPlan.reason);QueueReturn(1,false,false,CpuPlan);}
+                for(float t=0;t<dt&&phase==Phase.Rally;t+=1f/120f)
+                {float step=Mathf.Min(1f/120f,dt-t);StepBall(step);if(phase==Phase.Rally)AdvanceReturn(step);}
             }
+            RefreshReturnPlans();
             player.Anticipate(ball.position,phase==Phase.Rally&&Receiver==0);cpu.Anticipate(ball.position,phase==Phase.Rally&&Receiver==1);
-            if(phase==Phase.Rally && pendingHitter<0 && clock-lastHitTime>.55f && swingBuffer<=0)
-                message=Receiver==0?(CanPlayerHit?(CanSmash?"SMASH NOW  ·  SPACE":"SWING NOW  ·  SPACE"):"CHASE THE LANDING MARKER"):"RECOVER TO THE CENTRE";
+            if(phase==Phase.Rally && pendingHitter<0 && clock-lastHitTime>.35f && swingBuffer<=0&&clock>=feedbackUntil)
+                message=Receiver==0?(CanPlayerHit?(CanSmash?"SMASH NOW  ·  TAP SPACE":"SWING NOW  ·  TAP SPACE"):ReasonText(PlayerPlan.reason)):"RECOVER TO THE CENTRE";
             aimMarker.gameObject.SetActive(phase==Phase.Ready?score.server==0:phase==Phase.Rally&&Receiver==0);
             aimMarker.position=new Vector3(aimX,.055f,aimDepth);
             ballShadow.position=new Vector3(ball.position.x,.035f,ball.position.z);
@@ -186,16 +214,27 @@ namespace RoboOpen
             actor.transform.position=Vector3.MoveTowards(actor.transform.position,target,speed*dt);
         }
         public bool CanHit(RobotActor actor)
+            =>ReturnPlanner.ReachReason(actor,ball.position,bounces,servingShot)=="ready";
+        public void RefreshReturnPlans(){PlayerPlan=ReturnPlanner.Find(this,player);CpuPlan=ReturnPlanner.Find(this,cpu);}
+        void Feedback(string text){message=text;feedbackUntil=clock+.65f;}
+        static string ReasonText(string reason)
         {
-            if(servingShot&&bounces==0)return false;
-            if(ball.position.y<.38f || ball.position.y>2.75f)return false;
-            if(actor.isCpu ? ball.position.z<.7f : ball.position.z>-.7f)return false;
-            Vector3 d=ball.position-actor.transform.position;d.y=0;
-            return d.magnitude < (actor.isCpu?1.58f:1.85f);
+            switch(reason){case "serve_must_bounce":return "LET THE SERVE BOUNCE";case "too_low":return "LET IT RISE  ·  PREPARE YOUR SWING";case "too_high":return "HIGH BALL  ·  GET UNDER IT";case "too_far":return "MOVE BEHIND THE YELLOW MARKER";case "racket_unreachable":return "ADJUST YOUR POSITION";default:return "TRACK THE BALL  ·  PREPARE YOUR SWING";}
+        }
+        void LateUpdate()
+        {
+            if(standingMarker!=null)
+            {
+                standingMarker.gameObject.SetActive(phase==Phase.Rally&&Receiver==0&&!paused);
+                standingMarker.position=new Vector3(Mathf.Clamp(bounces>0?ball.position.x:landing.x,-5.7f,5.7f),.07f,
+                    -Mathf.Clamp(bounces>0?Mathf.Abs(ball.position.z)+.55f:Mathf.Abs(landing.z)+1.05f,1.3f,12.8f));
+            }
+            diagnostics?.Observe(paused?0:Mathf.Min(Time.deltaTime,.05f));
         }
         public void Serve()
         {
             if(phase!=Phase.Ready)return;
+            diagnostics?.Record("serve_started",score.server,score.server==0?"swing_input":"cpu_decision");
             phase=Phase.Serving;phaseClock=0;
             var actor=score.server==0?player:cpu;float sign=score.server==0?1:-1;
             tossStart=actor.transform.position+new Vector3(-.20f*sign,1.12f,.22f*sign);
@@ -218,15 +257,32 @@ namespace RoboOpen
             Launch(new Vector3(x,CourtRules.BallRadius,sign*5.8f),1.35f);
             phase=Phase.Rally;phaseClock=0;rally=1;cooldown=.3f;lastHitTime=clock;message=lastHitter==0?"NICE SERVE":"RETURN THE SERVE";
         }
-        void QueueReturn(int hitter,bool lob,bool power)
+        void QueueReturn(int hitter,bool lob,bool power,ReturnPlan plan)
         {
             var actor=hitter==0?player:cpu;
-            bool smash=ball.position.y>=1.92f && velocity.y<=1.5f;
-            float lead=smash?.14f:.10f;var target=CourtRules.Position(ball.position,velocity,lead);
-            if(target.y<.36f || target.y>2.7f)return;
-            var kind=smash?RobotActor.Stroke.Smash:actor.transform.InverseTransformPoint(target).x<-.12f?RobotActor.Stroke.Backhand:RobotActor.Stroke.Forehand;
-            pendingHitter=hitter;pendingLeft=lead;pendingLob=lob&&!smash;pendingPower=power||smash;
-            actor.BeginStroke(kind,target,lead);message=smash?"OVERHEAD SMASH":kind==RobotActor.Stroke.Backhand?"BACKHAND":"FOREHAND";
+            bool smash=plan.stroke==RobotActor.Stroke.Smash;
+            pendingHitter=hitter;pendingLeft=plan.delay;pendingLob=lob&&!smash;pendingPower=power||smash;
+            actor.BeginStroke(plan.stroke,plan.target,plan.delay);diagnostics?.Scheduled(hitter,plan);
+            message=smash?"OVERHEAD SMASH":plan.stroke==RobotActor.Stroke.Backhand?"BACKHAND":"FOREHAND";
+        }
+        void AdvanceReturn(float dt)
+        {
+            if(pendingHitter<0)return;
+            int hitter=pendingHitter;var actor=hitter==0?player:cpu;actor.AdvancePlant(dt);pendingLeft-=dt;
+            if(pendingLeft>.0167f)return;
+            string reason=ReturnPlanner.ReachReason(actor,ball.position,bounces,servingShot);float error=-1;
+            if(Receiver==hitter&&reason=="ready")
+            {
+                error=actor.PreviewContact(actor.activeStroke,ball.position,false);
+                if(error<=ReturnPlanner.ContactTolerance)
+                {
+                    ball.position=actor.Contact(ball.position);maxContactError=Mathf.Max(maxContactError,actor.LastContactError);
+                    diagnostics?.Returned(hitter,actor.activeStroke.ToString(),actor.LastContactError);pendingHitter=-1;ReturnShot(hitter,pendingLob,pendingPower);return;
+                }
+                reason="racket_unreachable";
+            }
+            if(pendingLeft<-.06f)
+            {pendingHitter=-1;cooldown=.12f;diagnostics?.ContactFailed(hitter,reason,error);Feedback("CONTACT MISSED  ·  F8 PLAY REPORT");}
         }
         void ReturnShot(int hitter,bool lob,bool power)
         {
@@ -239,7 +295,8 @@ namespace RoboOpen
             float x=hitter==0?aimX:(float)(random.NextDouble()*6.1-3.05);
             float z=hitter==0?aimDepth:-(7.4f+(float)random.NextDouble()*2.1f);
             // CPU occasionally overhits during a long rally; the normal boundary rule decides the point.
-            if(hitter==1 && rally>6 && random.NextDouble()<.12)x=Mathf.Sign(x)*5.4f;
+            bool scriptedError=hitter==1&&rally>6&&random.NextDouble()<.12;
+            if(scriptedError)x=Mathf.Sign(x)*5.4f;
             float duration=smash?1.05f:lob?2.0f:power?1.18f:1.55f;
             Vector3 target=new Vector3(x,CourtRules.BallRadius,z);
             // Ensure ordinary returns clear the net while preserving a ballistic path.
@@ -247,12 +304,13 @@ namespace RoboOpen
             float netT=-ball.position.z/v.z;
             while(netT>0 && netT<duration && CourtRules.Position(ball.position,v,netT).y<1.27f && duration<2.2f)
             { duration+=.08f;v=CourtRules.LaunchVelocity(ball.position,target,duration);netT=-ball.position.z/v.z; }
-            Launch(target,duration);cooldown=.3f;lastHitTime=clock;shake=1;
+            Launch(target,duration,scriptedError);cooldown=.3f;lastHitTime=clock;shake=1;
             message=hitter==0?(smash?"OVERHEAD SMASH":lob?"LOFTED RETURN":power?"POWER SHOT":"CLEAN RETURN"):(lob?"MINT LOBS  ·  WATCH THE HIGH BALL":"MINT RETURNS");
         }
-        void Launch(Vector3 target,float duration)
+        void Launch(Vector3 target,float duration,bool scriptedError=false)
         {
             landing=target;velocity=CourtRules.LaunchVelocity(ball.position,target,duration);
+            diagnostics?.BeginIncoming(Receiver,scriptedError);
             landingMarker.position=new Vector3(target.x,.05f,target.z);landingMarker.gameObject.SetActive(true);
             trail.Clear();trail.emitting=true;audioSource.PlayOneShot(hitSound);
         }
@@ -275,6 +333,7 @@ namespace RoboOpen
                     if(!inside){outPoints++;FaultOrPoint(servingShot?"SERVICE FAULT":"OUT",Receiver);return;}
                 }
                 bounces++;
+                diagnostics?.Record("bounce",Receiver,servingShot?"serve":"rally",bounces);
                 if(bounces>=2){doubleBouncePoints++;AwardPoint(lastHitter,"DOUBLE BOUNCE");return;}
                 velocity=new Vector3(velocity.x*.84f,Mathf.Abs(velocity.y)*.72f,velocity.z*.84f);
                 audioSource.PlayOneShot(bounceSound);landingMarker.gameObject.SetActive(false);
@@ -285,6 +344,8 @@ namespace RoboOpen
         {
             if(servingShot && serveFaults==0)
             {
+                if(diagnostics!=null)diagnostics.Data.players[lastHitter].firstServeFaults++;
+                diagnostics?.Record("serve_fault",lastHitter,reason);diagnostics?.Interrupt("first_serve_fault");
                 serveFaults++;faults++;phase=Phase.Point;phaseClock=.55f;message="FAULT  ·  SECOND SERVE";pointReason="FIRST SERVE FAULT";trail.emitting=false;return;
             }
             AwardPoint(winner,servingShot?"DOUBLE FAULT":reason);
@@ -292,6 +353,9 @@ namespace RoboOpen
         public void AwardPoint(int winner,string reason)
         {
             if(phase!=Phase.Rally)return;
+            diagnostics?.PointEnded(winner,reason);
+            if(swingBuffer>0)diagnostics?.Record("buffer_cancelled",0,"point_ended",swingBuffer);
+            swingBuffer=0;
             pendingHitter=-1;pointsPlayed++;pointReason=reason;bool gameWon=score.Award(winner);serveFaults=0;
             phase=score.winner>=0?Phase.Finished:Phase.Point;phaseClock=0;trail.emitting=false;landingMarker.gameObject.SetActive(false);aimMarker.gameObject.SetActive(false);
             message=score.winner>=0?(winner==0?"YOU WIN THE MATCH":"MINT WINS THE MATCH"):(gameWon?(winner==0?"GAME, YOU":"GAME, MINT"):(winner==0?"YOUR POINT":"MINT'S POINT"));
@@ -321,6 +385,7 @@ namespace RoboOpen
             if(!string.IsNullOrEmpty(evidencePath)){Directory.CreateDirectory(evidencePath);Capture(Path.Combine(evidencePath,"prototype-rally.png"));}
             yield return new WaitForSeconds(52);
             var receipt=Receipt();Debug.Log("ROBO_RUNTIME "+JsonUtility.ToJson(receipt));
+            diagnostics?.Save();
             if(!string.IsNullOrEmpty(evidencePath)){File.WriteAllText(Path.Combine(evidencePath,"prototype-runtime.json"),JsonUtility.ToJson(receipt,true));Capture(Path.Combine(evidencePath,"prototype-final.png"));}
             if(!Application.isEditor)Application.Quit(receipt.passed?0:1);
         }

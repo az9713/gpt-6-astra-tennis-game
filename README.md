@@ -6,7 +6,13 @@ Inspired by [Chong-U’s original YouTube game-building video](https://www.youtu
 
 **[Read the illustrated development journey](https://az9713.github.io/gpt-6-astra-tennis-game/DEVELOPMENT-JOURNEY.html)** · [Markdown version](DEVELOPMENT-JOURNEY.md) · [Download the Windows prototype](https://github.com/az9713/gpt-6-astra-tennis-game/releases/latest)
 
-## New in v0.2: structural tennis motion
+## New in v0.3: fairer returns and local play reports
+
+Early swings now remain buffered for 0.48 seconds, contact prediction follows legal bounces, and the readiness cue uses the same planner as actual returns. A cream ring suggests where to stand. **Tap Space for each shot; release between shots.**
+
+Press **F8** or choose **PLAY REPORT** in the pause/result menu for recommendations about both You and Mint, backed by recorded swing decisions and short court replays. Active play pauses before the report opens. Recordings stay local, with bounded retention and no automatic uploads. [How diagnosis works](PLAY-DIAGNOSTICS.md) · [Example report from synthetic tests](https://az9713.github.io/gpt-6-astra-tennis-game/docs/examples/play-report.html) · [Verification](docs/evidence/diagnostics/).
+
+## Added in v0.2: structural tennis motion
 
 **[Watch the four new strokes](https://az9713.github.io/gpt-6-astra-tennis-game/MOTION-UPGRADE.html)** — forehand, backhand, automatic smash and serve/trophy preparation. The robot keeps its 16-bone rig, with six coordinated clips, repaired skin weights and synchronized racket contact. No additional Meshy credits were spent.
 
@@ -39,9 +45,10 @@ The build is an unsigned prototype. Unity and Blender are not required to play t
 | Z + Space | Lob |
 | Escape | Pause / resume |
 | R | Restart |
+| F8 | Pause active play and open the local play report |
 | Alt + F4 | Exit |
 
-Follow the yellow landing marker; swing near the ball when **SWING NOW** appears. Return a serve after its first bounce. The inner sidelines define the singles court. Scoring includes deuce and advantage; **first to two games wins** this short exhibition.
+Use the cream standing-position ring and yellow bounce marker; tap when **SWING NOW** appears, or slightly early. Return a serve after its first bounce. The inner sidelines define the singles court. Scoring includes deuce and advantage; **first to two games wins** this short exhibition. `OPEN_PLAY_REPORT.cmd` opens your latest saved report after playing.
 
 ## What is included
 
@@ -49,6 +56,7 @@ Follow the yellow landing marker; swing near the ball when **SWING NOW** appears
 - Serving, volleys, normal/power/lob returns, net/out/double-bounce rules, scoring, menu, pause, result and replay.
 - Unity source, editable Blender sources, saved Meshy outputs, asset-generation scripts and public verification receipts.
 - An evidence-based development journey: original prompts, human decisions, tool use, failed assumptions, fixes, costs and remaining gaps.
+- Local session recording, cause-based advice for both players, and sampled missed-return replays.
 
 Racket contact uses a forgiving reach zone. Animation and CPU strategy are prototype quality. Multiplayer, progression, tournaments and a browser build of the tennis game are not included. The earlier WebGL diagnostic fixture is a separate preflight test.
 
@@ -61,20 +69,22 @@ Use **Unity 6000.5.7f1** with Windows build support. The project pins its packag
 3. To build from a terminal with that project closed in the Editor, run:
 
 ```powershell
-& '<path-to-Unity.exe>' -batchmode -quit -projectPath "$PWD/TennisGame" -executeMethod PrototypeSetup.BuildWindows -logFile build.log
+& '<path-to-Unity.exe>' -batchmode -quit -projectPath "$PWD/TennisGame" -executeMethod PrototypeSetup.BuildDiagnosticsWindows -logFile build.log
 ```
 
-The output is `Builds/RoboOpen-Windows/RoboOpen.exe`. `PLAY_ROBO_OPEN.cmd` launches that location. The **Robo Open → Build prototype scene** Editor menu regenerates the scene and runs import/rules checks; it overwrites manual edits to that generated scene.
+The v0.3 output is `Builds/RoboOpen-Windows-v0.3/RoboOpen.exe`. `PLAY_ROBO_OPEN.cmd` launches that location. The **Robo Open → Build prototype scene** Editor menu regenerates the scene and runs import/rules checks; it overwrites manual edits to that generated scene.
 
 Blender **5.2.1 LTS** was used for `SourceAssets/Robot/RoboPlayer.blend` and `setup/rig_robot_blender.py`. Blender and Meshy are unnecessary for rebuilding the saved Unity assets. Regenerating a Meshy model is optional, requires your own `MESHY_API_KEY` in a private `.env`, and can spend credits. This run consumed **30 Meshy credits**; other service costs were not measured.
 
 After building, run the standalone input and rally checks:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File setup/verify_prototype.ps1
+powershell -ExecutionPolicy Bypass -File setup/verify_prototype.ps1 -BuildDirectory Builds/RoboOpen-Windows-v0.3
 ```
 
 The original run passed 17 rules checks and 17 input/UI checks; v0.2 passes 17 rules checks and 26 input/UI checks. The v0.1 run recorded 15 player returns, 18 CPU returns, a best rally of 18 and two points; the v0.2 motion pass adds a separate [current validation record](docs/evidence/motion/). These are functional checks; human enjoyment, fairness and broad hardware compatibility remain unvalidated. [Results and limits](PROTOTYPE_RESULTS.md) · [Public receipts](docs/evidence/).
+
+The v0.3 pass adds **30 rules/diagnostic checks and 39 standalone input/UI checks**, including moving-ball timing and durable recording. [Current results](docs/evidence/diagnostics/).
 
 ## Explore the build
 

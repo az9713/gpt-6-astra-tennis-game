@@ -1,0 +1,13 @@
+{
+  "archive": "RoboOpen-Windows-v0.3.0.zip",
+  "bytes": 45917788,
+  "sha256": "cccf6f66de8641b363eb91cd3060226aad70ff68ded5b89a1d7dbcd5dd0527f4",
+  "runtimeFiles": 193,
+  "archiveCrcVerified": true,
+  "privateHomePathScan": "passed",
+  "codeViewPdbPath": "filename only",
+  "debugSymbolsExcluded": true,
+  "extractedInputTests": "passed, 39 checks, exit 0",
+  "extractedRallyTest": "passed, 60 seconds, exit 0",
+  "extractedRecorderChecks": "both sessions healthy and closed; JSONL parses and event sequence is contiguous"
+}

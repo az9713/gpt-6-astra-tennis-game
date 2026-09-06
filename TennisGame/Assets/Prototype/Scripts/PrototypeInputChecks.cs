@@ -25,6 +25,7 @@ namespace RoboOpen
         {
             game.BeginMatch();game.phase=TennisGame.Phase.Rally;game.lastHitter=1;game.servingShot=false;game.bounces=1;
             game.player.transform.position=new Vector3(0,0,-8);game.ball.position=new Vector3(.5f,1.3f,-7.4f);game.velocity=Vector3.zero;
+            game.landing=new Vector3(0,CourtRules.BallRadius,-8);game.RefreshReturnPlans();game.diagnostics.BeginIncoming(0,false);
         }
         IEnumerator Click(string name)
         {
@@ -61,6 +62,7 @@ namespace RoboOpen
             yield return KeyPress(Key.Space,.05f);yield return new WaitForSecondsRealtime(.18f);
             Check(game.playerHits==1&&game.lastStroke=="Backhand","Ball on opposite side selects backhand");
             ReturnFixture();game.ball.position=new Vector3(.3f,2.32f,-7.7f);game.velocity=new Vector3(0,-.3f,0);game.bounces=0;
+            game.RefreshReturnPlans();
             Check(game.CanSmash,"Reachable descending high ball signals smash");
             yield return KeyPress(Key.Space,.05f);yield return new WaitForSecondsRealtime(.22f);
             Check(game.playerHits==1&&game.smashHits==1&&game.lastStroke=="Smash","Space automatically smashes suitable high ball without modifier");
@@ -72,6 +74,23 @@ namespace RoboOpen
             ReturnFixture();game.ball.position=new Vector3(5.5f,2.2f,-6);
             yield return KeyPress(Key.Space,.05f);yield return new WaitForSecondsRealtime(.15f);
             Check(game.playerHits==0,"An unreachable high ball is not granted a smash");
+            // Moving returns: timed presses, not an oracle pressing every eligible frame.
+            foreach(float pressTime in new[]{1.05f,1.20f,1.35f,1.48f})
+            {
+                ReturnFixture();game.player.transform.position=new Vector3(0,0,-9.1f);game.ball.position=new Vector3(0,1.3f,7.6f);game.bounces=0;
+                game.landing=new Vector3(0,CourtRules.BallRadius,-8);game.velocity=CourtRules.LaunchVelocity(game.ball.position,game.landing,1.55f);
+                yield return new WaitForSecondsRealtime(pressTime);yield return KeyPress(Key.Space,.05f);yield return new WaitForSecondsRealtime(.65f);
+                Check(game.playerHits==1,"Moving Mint return accepts press at "+pressTime.ToString("0.00")+" seconds");
+            }
+            ReturnFixture();game.player.transform.position=new Vector3(0,0,-6.1f);game.ball.position=new Vector3(.5f,.60f,-5.4f);game.landing=new Vector3(.5f,CourtRules.BallRadius,-5.4f);game.velocity=new Vector3(0,-4,0);game.bounces=0;game.servingShot=true;
+            yield return KeyPress(Key.Space,.01f);Check(game.playerHits==0,"Buffered serve return does not volley before bounce");
+            yield return new WaitForSecondsRealtime(.35f);Check(game.playerHits==1,"Early swing survives bounce and returns rising ball");
+            ReturnFixture();
+            int contactFailures=game.diagnostics.Data.players[0].causes.Find(c=>c.code=="game_contact_failure")?.count??0;
+            InputSystem.QueueStateEvent(Keyboard.current,new KeyboardState(Key.Space));yield return new WaitForSecondsRealtime(.03f);
+            InputSystem.QueueStateEvent(Keyboard.current,new KeyboardState());game.ball.position=new Vector3(4,1,-7);game.velocity=Vector3.zero;
+            yield return new WaitForSecondsRealtime(.40f);if(game.phase==TennisGame.Phase.Rally)game.AwardPoint(1,"DOUBLE BOUNCE");
+            Check((game.diagnostics.Data.players[0].causes.Find(c=>c.code=="game_contact_failure")?.count??0)>contactFailures,"Scheduled contact failure is attributed to game contact, not player timing");
             // A match-point fixture exercises the actual double-bounce, result and replay paths.
             game.BeginMatch();game.score.games[0]=1;game.score.points[0]=3;game.phase=TennisGame.Phase.Rally;
             game.lastHitter=0;game.servingShot=false;game.bounces=1;game.ball.position=new Vector3(3, .13f,4);game.velocity=Vector3.down;
@@ -79,6 +98,19 @@ namespace RoboOpen
             Check(game.phase==TennisGame.Phase.Finished&&game.score.winner==0,"Double bounce at match point reaches result screen");
             game.Capture(Path.Combine(output,"prototype-result.png"));
             yield return Click("PLAY AGAIN");Check(game.phase==TennisGame.Phase.Ready&&game.score.winner<0,"Play Again resets finished match");
+            game.diagnostics.Save();
+            string[] eventLines;
+            using(var stream=new FileStream(Path.Combine(game.diagnostics.SessionDirectory,"events.jsonl"),FileMode.Open,FileAccess.Read,FileShare.ReadWrite))
+            using(var reader=new StreamReader(stream))eventLines=reader.ReadToEnd().Split('\n');
+            Check(Array.Exists(eventLines,l=>l.Contains("buffer_armed"))&&Array.Exists(eventLines,l=>l.Contains("buffer_consumed")),"Durable trace records buffer creation and successful consumption");
+            Check(Array.Exists(eventLines,l=>l.Contains("contact_rejected"))&&Array.Exists(eventLines,l=>l.Contains("contact_accepted")),"Durable trace distinguishes accepted and rejected contact");
+            Check(File.Exists(game.diagnostics.ReportPath)&&File.ReadAllText(game.diagnostics.ReportPath).Contains("Mint"),"Local HTML report covers both players");
+            Check(game.diagnostics.Data.replays.Count>0&&game.diagnostics.Data.replays[0].frames.Count>0,"Missed returns preserve sampled replay context");
+            Check(game.diagnostics.Data.recordingHealthy,"Diagnostic recording remains healthy through restart and pause");
+            string blocked=Path.Combine(output,"diagnostic-blocked-path");File.WriteAllText(blocked,"This test file deliberately cannot be used as a directory.");
+            var probe=new GameObject("Diagnostic failure probe").AddComponent<PlayDiagnostics>();
+            probe.Initialize(game,Path.Combine(blocked,"child"),"io_failure_validation");
+            Check(!probe.Data.recordingHealthy&&game.phase==TennisGame.Phase.Ready,"An unwritable diagnostic location does not stop gameplay");Destroy(probe.gameObject);
             report.passed=report.failures.Count==0;
             File.WriteAllText(Path.Combine(output,"prototype-input-tests.json"),JsonUtility.ToJson(report,true));
             Debug.Log("ROBO_INPUT_TESTS "+JsonUtility.ToJson(report));

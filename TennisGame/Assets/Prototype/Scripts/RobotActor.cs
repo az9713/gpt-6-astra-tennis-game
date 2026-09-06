@@ -21,13 +21,17 @@ namespace RoboOpen
         bool contactLocked;
         Vector3 modelPosition,modelScale;
         Quaternion modelRotation;
+        Transform[] poseTransforms;
+        Vector3[] savedPositions, savedScales;
+        Quaternion[] savedRotations;
         public static float ContactFrameSeconds(Stroke stroke)=>(stroke==Stroke.Serve?42:stroke==Stroke.Smash?25:stroke==Stroke.Backhand?15:14)/30f;
         public void Initialize()
         {
             previous=transform.position;modelPosition=model.localPosition;modelRotation=model.localRotation;modelScale=model.localScale;animationPlayer=model.GetComponentInChildren<Animation>();
             if(animationPlayer!=null){foreach(AnimationState state in animationPlayer)clips[state.name]=state.clip;animationPlayer.Stop();animationPlayer.enabled=false;}
             foreach(var skin in model.GetComponentsInChildren<SkinnedMeshRenderer>())skin.updateWhenOffscreen=true;
-            var bones=model.GetComponentsInChildren<Transform>();upper=bones.First(t=>t.name=="UpperArm.R");forearm=bones.First(t=>t.name=="Forearm.R");hand=bones.First(t=>t.name=="Hand.R");ResetMotion();
+            var bones=model.GetComponentsInChildren<Transform>();upper=bones.First(t=>t.name=="UpperArm.R");forearm=bones.First(t=>t.name=="Forearm.R");hand=bones.First(t=>t.name=="Hand.R");
+            poseTransforms=bones;savedPositions=new Vector3[bones.Length];savedScales=new Vector3[bones.Length];savedRotations=new Quaternion[bones.Length];ResetMotion();
         }
         AnimationClip Clip(string name)=>clips.FirstOrDefault(k=>k.Key.ToLowerInvariant().Contains(name.ToLowerInvariant())).Value;
         public void ResetMotion(){IsStriking=false;contactLocked=false;prepared=0;strokeTime=0;previous=transform.position;Play("idle",true);}
@@ -55,10 +59,32 @@ namespace RoboOpen
         {
             activeStroke=kind;IsStriking=true;contactLocked=false;contactTarget=contact;
             contactTime=ContactFrameSeconds(kind);lead=Mathf.Max(.001f,secondsUntilContact);strokeTime=Mathf.Max(0,contactTime-lead);stepClock=0;startPosition=transform.position;
+            stepTarget=PlannedPosition(kind,contact);
+        }
+        Vector3 PlannedPosition(Stroke kind,Vector3 contact)
+        {
+            if(kind==Stroke.Serve)return transform.position;
             var local=kind==Stroke.Smash?new Vector3(.18f,0,.20f):new Vector3(kind==Stroke.Backhand?-.58f:.88f,0,.35f);
-            Vector3 desired=contact-transform.TransformDirection(local);desired.y=0;stepTarget=startPosition+Vector3.ClampMagnitude(desired-startPosition,.85f);
-            if(kind==Stroke.Serve)stepTarget=startPosition;
-            stepTarget.x=Mathf.Clamp(stepTarget.x,-5.9f,5.9f);stepTarget.z=Mathf.Clamp(Mathf.Abs(stepTarget.z),1.2f,13f)*(isCpu?1:-1);
+            Vector3 desired=contact-transform.TransformDirection(local);desired.y=0;
+            var target=transform.position+Vector3.ClampMagnitude(desired-transform.position,.85f);
+            target.x=Mathf.Clamp(target.x,-5.9f,5.9f);target.z=Mathf.Clamp(Mathf.Abs(target.z),1.2f,13f)*(isCpu?1:-1);return target;
+        }
+        public float PreviewContact(Stroke kind,Vector3 target,bool includePlant)
+        {
+            var position=transform.position;var oldStroke=activeStroke;var rp=racket.position;var rr=racket.rotation;
+            for(int i=0;i<poseTransforms.Length;i++){savedPositions[i]=poseTransforms[i].localPosition;savedRotations[i]=poseTransforms[i].localRotation;savedScales[i]=poseTransforms[i].localScale;}
+            try
+            {
+                if(includePlant)transform.position=PlannedPosition(kind,target);
+                activeStroke=kind;Sample(kind.ToString(),ContactFrameSeconds(kind));FitContact(target,1);
+                return Vector3.Distance(racketHead.position,target);
+            }
+            finally
+            {
+                transform.position=position;activeStroke=oldStroke;
+                for(int i=0;i<poseTransforms.Length;i++){poseTransforms[i].localPosition=savedPositions[i];poseTransforms[i].localRotation=savedRotations[i];poseTransforms[i].localScale=savedScales[i];}
+                racket.position=rp;racket.rotation=rr;
+            }
         }
         public void AdvancePlant(float dt)
         {

@@ -1,7 +1,7 @@
-param([ValidateSet('input','rally','both')][string]$Mode='both')
+param([ValidateSet('input','rally','both')][string]$Mode='both',[string]$BuildDirectory='Builds/RoboOpen-Windows')
 $ErrorActionPreference='Stop'
 $taskRoot=Split-Path -Parent $PSScriptRoot
-$exePath=Join-Path $taskRoot 'Builds\RoboOpen-Windows\RoboOpen.exe'
+$exePath=Join-Path (Join-Path $taskRoot $BuildDirectory) 'RoboOpen.exe'
 $evidencePath=Join-Path $taskRoot 'Evidence\Prototype'
 if (-not (Test-Path -LiteralPath $exePath)) { throw 'Build the Windows prototype first.' }
 New-Item -ItemType Directory -Path $evidencePath -Force | Out-Null
