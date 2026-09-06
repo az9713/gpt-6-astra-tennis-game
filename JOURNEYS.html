@@ -9,13 +9,13 @@
 </style>
 </head>
 <body>
-<header><div><strong>Robo Open / Development journeys</strong><small>Original history preserved · a new chapter for gameplay enhancements</small></div><nav role="tablist" aria-label="Development journey version"><button id="tab-original" role="tab" aria-selected="false" aria-controls="reader" tabindex="-1" data-page="original">Original journey</button><button id="tab-v1" role="tab" aria-selected="true" aria-controls="reader" data-page="v1">v1 · Enhancements</button></nav></header>
-<iframe id="reader" role="tabpanel" aria-labelledby="tab-v1" title="v1 gameplay enhancements development journey" src="DEVELOPMENT-JOURNEY-V1.html"></iframe>
-<noscript><p><a href="DEVELOPMENT-JOURNEY.html">Original journey</a> · <a href="DEVELOPMENT-JOURNEY-V1.html">v1 enhancements</a></p></noscript>
+<header><div><strong>Robo Open / Development journeys</strong><small>Original and v1 preserved · practice memory and learning in v2</small></div><nav role="tablist" aria-label="Development journey version"><button id="tab-original" role="tab" aria-selected="false" aria-controls="reader" tabindex="-1" data-page="original">Original</button><button id="tab-v1" role="tab" aria-selected="false" aria-controls="reader" tabindex="-1" data-page="v1">v1 · Enhancements</button><button id="tab-v2" role="tab" aria-selected="true" aria-controls="reader" data-page="v2">v2 · Learning</button></nav></header>
+<iframe id="reader" role="tabpanel" aria-labelledby="tab-v2" title="v2 practice memory and learning development journey" src="DEVELOPMENT-JOURNEY-V2.html"></iframe>
+<noscript><p><a href="DEVELOPMENT-JOURNEY.html">Original journey</a> · <a href="DEVELOPMENT-JOURNEY-V1.html">v1 enhancements</a> · <a href="DEVELOPMENT-JOURNEY-V2.html">v2 learning</a></p></noscript>
 <script>
-const pages={original:'DEVELOPMENT-JOURNEY.html',v1:'DEVELOPMENT-JOURNEY-V1.html'},tabs=[...document.querySelectorAll('[data-page]')],reader=document.querySelector('#reader');
-function select(key,focus=false){if(!pages[key])key='v1';tabs.forEach(t=>{const active=t.dataset.page===key;t.setAttribute('aria-selected',String(active));t.tabIndex=active?0:-1;if(active&&focus)t.focus()});reader.src=pages[key];reader.title=key==='v1'?'v1 gameplay enhancements development journey':'Original development journey, preserved';reader.setAttribute('aria-labelledby','tab-'+key);history.replaceState(null,'','#'+key)}
-tabs.forEach((t,i)=>{t.onclick=()=>select(t.dataset.page);t.onkeydown=e=>{if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();select(tabs[e.key==='Home'?0:e.key==='End'?1:1-i].dataset.page,true)}}});
-select(location.hash.slice(1)||'v1');window.addEventListener('hashchange',()=>select(location.hash.slice(1)));
+const pages={original:'DEVELOPMENT-JOURNEY.html',v1:'DEVELOPMENT-JOURNEY-V1.html',v2:'DEVELOPMENT-JOURNEY-V2.html'},titles={original:'Original development journey, preserved',v1:'v1 gameplay enhancements development journey',v2:'v2 practice memory and learning development journey'},tabs=[...document.querySelectorAll('[data-page]')],reader=document.querySelector('#reader');
+function select(key,focus=false){if(!pages[key])key='v2';tabs.forEach(t=>{const active=t.dataset.page===key;t.setAttribute('aria-selected',String(active));t.tabIndex=active?0:-1;if(active&&focus)t.focus()});if(reader.getAttribute('src')!==pages[key])reader.src=pages[key];reader.title=titles[key];reader.setAttribute('aria-labelledby','tab-'+key);history.replaceState(null,'','#'+key)}
+tabs.forEach((t,i)=>{t.onclick=()=>select(t.dataset.page);t.onkeydown=e=>{if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();const n=e.key==='Home'?0:e.key==='End'?tabs.length-1:(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;select(tabs[n].dataset.page,true)}}});
+select(location.hash.slice(1)||'v2');window.addEventListener('hashchange',()=>select(location.hash.slice(1)));
 </script>
 </body></html>

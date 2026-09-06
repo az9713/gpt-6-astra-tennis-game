@@ -1,0 +1,18 @@
+{
+    "passed": true,
+    "playerHits": 14,
+    "cpuHits": 16,
+    "bestRally": 18,
+    "pointsPlayed": 2,
+    "phase": "Serving",
+    "graphicsDevice": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "games": [
+        0,
+        0
+    ],
+    "elapsed": 59.745052337646487,
+    "smashHits": 0,
+    "forehandHits": 25,
+    "backhandHits": 5,
+    "maxContactError": 0.5990273356437683
+}

@@ -1,0 +1,19 @@
+{
+    "passed": true,
+    "checks": [
+        "Report uses IPv4 loopback and a random 128-bit route",
+        "Browser HTTP response contains the complete UTF-8 report",
+        "Content length counts UTF-8 bytes correctly",
+        "Response suppresses caching, referrers and framing",
+        "Report does not grant cross-origin read access",
+        "Root path does not list files or reveal the report",
+        "Traversal cannot read an arbitrary file",
+        "Non-loopback Host header is rejected",
+        "Report endpoint cannot mutate data",
+        "HEAD is supported without an HTML body",
+        "A later report refresh updates the existing browser URL",
+        "A rejected request does not stop later report requests",
+        "Closing the game stops the report listener",
+        "Browser launcher refuses a non-local report URL"
+    ]
+}

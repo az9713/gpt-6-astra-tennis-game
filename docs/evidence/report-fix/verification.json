@@ -1,0 +1,54 @@
+{
+  "version": "0.5.1",
+  "scope": "Full HTML report transport repair; gameplay and learning rules unchanged",
+  "build": {
+    "result": "Succeeded",
+    "errors": 0,
+    "warnings": 2,
+    "seconds": 20.7045554
+  },
+  "httpChecks": 14,
+  "standaloneInputChecks": 70,
+  "browser": {
+    "engine": "Chrome",
+    "fixture": "synthetic_report_validation; no private report read by browser tools",
+    "gameInitiatedBrowserLaunch": true,
+    "documentTitle": "Robo Open - Play report",
+    "verifiedSections": [
+      "Your practice memory",
+      "You",
+      "Mint",
+      "Missed-return replays"
+    ],
+    "replayAdvancedFromGameSeconds": 0,
+    "replayAdvancedToGameSeconds": 0.6,
+    "result": "passed"
+  },
+  "savedReportHelper": {
+    "powershellViewerHttpStatus": 200,
+    "syntheticReportBodyVerified": true,
+    "usesSameReportServerSource": true
+  },
+  "privacy": {
+    "loopbackOnly": true,
+    "singleSnapshotOnly": true,
+    "noDirectoryServing": true,
+    "publicTextScanFindings": []
+  },
+  "originalFileUrlFailure": "Nonempty file existed; exact underlying browser cause not established. Full reports now use local HTTP.",
+  "limitations": [
+    "Game-served URL stops accepting requests after game exit.",
+    "Saved-report helper expires after 30 minutes; restart it to reload later.",
+    "No GitHub release published in this pass."
+  ],
+  "runtimeAssemblySha256": "d6f68c5eed309eccb4b434add93b6ff059d0dd46b66efd82402a22ce83607b19",
+  "sourceSha256": {
+    "TennisGame/Assets/Prototype/Scripts/ReportServer.cs": "91d7ff1b873e1603b933dd765763aa0dadc4bc1bbf40ae88e501b698b35d212b",
+    "TennisGame/Assets/Prototype/Scripts/LocalReport.cs": "2b97a0cdf33756d7ed455363f2baac0194a169ae2bec9e7546450fa40ed79761",
+    "TennisGame/Assets/Prototype/Scripts/PlayDiagnostics.cs": "bc7f2e240685f3972fd0c01d06f79e8333b70299a2150ebe390a65735ebc6d1e",
+    "TennisGame/Assets/Prototype/Scripts/ReportPreview.cs": "8b41cf6a6e4318cfdfc8ff00e2c3146471c65b8eb5120984d452fe3e04bec20e",
+    "TennisGame/Assets/Prototype/Scripts/PrototypeInputChecks.cs": "2da4eec52ac9aaa3ed1176e0acedf65d62a73b8292202ab211cda017016d7a7f",
+    "TennisGame/Assets/Prototype/Editor/ReportChecks.cs": "de4e995fb5581aeccab70dc133e19ed3c64319e9ac39ce5a8833109569d6650c"
+  },
+  "originalJourneySha256": "ee0d9dc99b24ceac57ad6e01fbc5c14b5de34dc393928eab4475620206b3d5c9"
+}

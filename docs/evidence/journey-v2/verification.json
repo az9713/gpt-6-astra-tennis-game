@@ -1,0 +1,58 @@
+{
+  "chapter": "v2",
+  "coversLocalBuilds": [
+    "0.5.0",
+    "0.5.1"
+  ],
+  "publicationScope": "Documentation, public synthetic HTML example and screenshots; no new Windows release or runtime-source commit.",
+  "sections": 16,
+  "freshStandaloneInputChecks": 70,
+  "freshStandalonePassed": true,
+  "olderChaptersUnchanged": true,
+  "preservedSha256": {
+    "DEVELOPMENT-JOURNEY.md": "f9ce722507e1362ecc0555ce55e33016567a8e0882dd3ea277e53610fe955523",
+    "DEVELOPMENT-JOURNEY.html": "ee0d9dc99b24ceac57ad6e01fbc5c14b5de34dc393928eab4475620206b3d5c9",
+    "DEVELOPMENT-JOURNEY-V1.md": "e3f1494532e1ccedcbf354f5d9fdd1751d10fd17ab51f433a5c45e86b3818f40",
+    "DEVELOPMENT-JOURNEY-V1.html": "02b79ef55ef868de9c288f246092eeb22c46ead5cd55f61265b2909523b9e576"
+  },
+  "localLinksChecked": 36,
+  "missingLocalLinks": [],
+  "publicTextFilesScanned": 18,
+  "privacyFindings": [],
+  "screenshots": {
+    "mainMenu": "Fresh v0.5.1 Unity standalone capture; Practice & Learning visible; isolated synthetic input run.",
+    "practiceMenu": "Same isolated run.",
+    "reportPreview": "Chrome page-content screenshot of the synthetic example; no browser chrome."
+  },
+  "report": {
+    "synthetic": true,
+    "baseRenderer": "0.5.1",
+    "baseFixtureSha256": "ab5d40c4694a546a335169b1206346d266569be16c15f7e755522a8d79545ee0",
+    "publicChanges": "Prominent synthetic-example banner only; renderer content and replay data preserved.",
+    "replayObservedGameSeconds": [
+      0,
+      0.3,
+      0.6
+    ],
+    "embeddedReportLoaded": true
+  },
+  "browserChecks": {
+    "threeTabs": true,
+    "keyboardPreviousHomeAndWraparound": true,
+    "coachIllustrationShows60Percent": true,
+    "v2EmbeddedPracticeMemoryVisible": true
+  },
+  "knownUnchangedIssues": [
+    "The preserved original chapter has an existing numeric-heading querySelector error in scroll highlighting; its file was not modified.",
+    "A browser extension emitted an unrelated duplicate-custom-element warning."
+  ],
+  "publication": "Local verification complete; live deployment verified separately after push.",
+  "artifactSha256": {
+    "DEVELOPMENT-JOURNEY-V2.html": "658f39cbcd65ca9647a725135a80003cb15b96c0f1b1f4f00f42e42ff6f25077",
+    "JOURNEYS.html": "665291c5a938eac11a6b6aa4a784a1dfcc0ce3e3b0ff5330b0d7a2f63b9edd81",
+    "docs/examples/play-report-v2.html": "740c4e0b66cad1f9d6c25e2cdc048df2f051ba756469b8b5a2c4fdb2133d46bc",
+    "docs/media/v2/main-menu.png": "caece2aaec47172feec434c83679e5e7d198510274363ed15c00f0a15fe8652b",
+    "docs/media/v2/practice-menu.png": "bee87431305944dec053aa4d11431460b6b3f2effc0e0e44ba3138c4442a3b5d",
+    "docs/media/v2/play-report.png": "0de121e962f9f43f1ddd3131cfe4f53cb326dd67e469502a25f6d48c9ec5b29f"
+  }
+}

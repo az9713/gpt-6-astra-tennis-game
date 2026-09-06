@@ -1,0 +1,46 @@
+{
+  "version": "0.5.0",
+  "delivery": "local Windows build; no GitHub release published in this pass",
+  "rulesChecks": 30,
+  "learningChecks": 58,
+  "standaloneInputChecks": 68,
+  "totalChecks": 156,
+  "standaloneRallyPassed": true,
+  "bestRally": 18,
+  "build": {
+    "result": "Succeeded",
+    "errors": 0,
+    "warnings": 2,
+    "seconds": 24.5272594
+  },
+  "sqliteReadAfterPlayerExit": true,
+  "f8AndControlF8": "passed real Unity input events; in-game report visible and HTML export present",
+  "visualInspection": "1600x900 welcome, training, report and result captures; side panels keep the court center clear",
+  "externalBrowserOpening": "not verified; the original private file URL was blocked by browser-tool policy; in-game report needs no browser",
+  "learningValidation": "synthetic evidence proves gates, calibration and rollback; no claim of measured human improvement or trained live policy",
+  "warnings": [
+    "runtime-only LearningDirector field is intentionally not serialized by Unity",
+    "optional Unity pipeline runtime component warning"
+  ],
+  "privacyScan": {
+    "textFiles": 18,
+    "findings": []
+  },
+  "originalJourneySha256": "ee0d9dc99b24ceac57ad6e01fbc5c14b5de34dc393928eab4475620206b3d5c9",
+  "v1JourneyUnchanged": true,
+  "runtimeAssemblySha256": "161c9cc480b737cc9d5252100ab0934c89c09d6a125b6ccf7fb310cc2443e8ef",
+  "sourceSha256": {
+    "TennisGame/Assets/Prototype/Editor/LearningChecks.cs": "be399cfaf71b356532d7a0443dc23d0dfde80901f236e9c20935a3fafdc4b92f",
+    "TennisGame/Assets/Prototype/Editor/PrototypeSetup.cs": "dd92800bd6dcf5d44505598da251a6e87ea4e5d421c19f4ac8b4d1d787c1fec9",
+    "TennisGame/Assets/Prototype/Scripts/LearningDirector.cs": "4111a21a13accca8288db9f90ab7edf389214c2235c9fad64c4b06b9960d5db5",
+    "TennisGame/Assets/Prototype/Scripts/LearningModel.cs": "7713ad835530adeb5c8fdbcb455de5b711c622c71d2f488a9149a343616653e1",
+    "TennisGame/Assets/Prototype/Scripts/LearningReport.cs": "d7f370ac2c5ddfd7876b18dccfcf95d25f6077231cd13c29d23e368c9cc97e0a",
+    "TennisGame/Assets/Prototype/Scripts/LearningStore.cs": "f8df67998d0df2e67e3d01b9cca861572cb2c3bc242178f915453f7fe16bb665",
+    "TennisGame/Assets/Prototype/Scripts/LocalReport.cs": "c746ccafc3b8a15b6ba211a74788cdc72cef795d896ea6c55f9ecf23fab5d5d8",
+    "TennisGame/Assets/Prototype/Scripts/PlayDiagnostics.cs": "10ccb6c4ef1ce3c9eb8ac16e6b5fd2cd342d513b0ece77c883f05821cccf1220",
+    "TennisGame/Assets/Prototype/Scripts/PlayReport.cs": "d40bd14a764a045986cc6d2ff612f5269545e0655659a9abbd25834a30561a87",
+    "TennisGame/Assets/Prototype/Scripts/PrototypeInputChecks.cs": "5ca2c5f0c772df3e75128d9a4a10c0933a6848a71893e0946d30b7a9a3f73a2a",
+    "TennisGame/Assets/Prototype/Scripts/TennisGame.cs": "02dc23ddd067fb28895d79728417e3fb7ec8a63b455003de2bd888643053c158",
+    "TennisGame/Assets/Prototype/Scripts/TennisHud.cs": "2aca70e9c3be0638ea6882c719be322fe1997c7134086fbba2746374b7e3e5f3"
+  }
+}

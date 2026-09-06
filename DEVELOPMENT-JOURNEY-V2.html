@@ -1,0 +1,323 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="How Robo Open gained persistent practice memory, drills, bounded Mint adaptation and a repaired HTML report viewer. Human decisions, failures, evidence and limits."><title>Robo Open v2 — Practice Memory and Learning</title><style>
+:root{--paper:#f4f0e7;--ink:#173c34;--muted:#5c7168;--line:#cbd5c8;--clay:#bc573a;--light:#e1e8d6}*{box-sizing:border-box}[hidden]{display:none!important}html{scroll-behavior:smooth;scroll-padding-top:24px}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.8 system-ui,Segoe UI,sans-serif}a{color:#246f60;text-underline-offset:4px}a:hover{color:var(--clay)}button{font:inherit;cursor:pointer;border:1px solid #91aa9b;background:transparent;color:inherit;border-radius:5px;padding:9px 14px}button[aria-pressed=true]{background:var(--ink);color:var(--paper);border-color:var(--ink)}:focus-visible{outline:3px solid #d07043;outline-offset:4px}.skip{position:absolute;top:-80px;padding:12px;background:white;z-index:4}.skip:focus{top:5px}.mast{background:var(--ink);color:var(--paper);padding:20px 5vw;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:12px;letter-spacing:.06em}.mast a{color:#d9e7c2}.hero{background:var(--ink);color:var(--paper);padding:56px 5vw 68px}.kicker{text-transform:uppercase;letter-spacing:.12em;font-size:12px;font-weight:700}.hero .kicker{color:#aad3b4}.hero h1{font:clamp(45px,6vw,84px)/1.05 Georgia,serif;letter-spacing:-.035em;max-width:1000px;margin:22px 0 30px}.hero h1 em{color:#e69870}.hero .intro{max-width:830px;font-size:21px;color:#d5e2d0;line-height:1.65}.hero img{display:block;width:100%;margin-top:38px;border-radius:6px}.hero figure{margin:0}.hero figcaption{color:#cbdbca;font-size:12px;margin-top:12px}.versions{display:flex;flex-wrap:wrap;gap:12px 25px;border-bottom:1px solid var(--line);padding:21px 5vw;font-size:14px}.versions span{white-space:nowrap}.versions b{margin-right:6px}.layout{max-width:1440px;margin:auto;display:grid;grid-template-columns:230px minmax(0,950px);gap:45px;padding:60px 4vw}.side{position:sticky;top:24px;align-self:start;max-height:92vh;overflow:auto;font-size:12px}.side nav a{display:block;padding:10px 0 10px 12px;border-left:2px solid var(--line);text-decoration:none;line-height:1.45}.side nav a:hover{border-left-color:var(--clay)}.side button{margin-top:18px;font-size:13px}main{min-width:0}h2{font:38px/1.22 Georgia,serif;letter-spacing:-.02em;padding-top:44px;margin-top:64px;border-top:1px solid var(--line);scroll-margin-top:20px}h3{font:26px/1.4 Georgia,serif;margin-top:34px}p{margin:19px 0}blockquote{margin:26px 0;border-left:3px solid var(--clay);background:#e9eadf;padding:9px 23px}blockquote p{margin:10px 0}li{margin:13px 0}code{font:13px/1.7 Consolas,monospace;background:#e5e9df;padding:2px 4px;overflow-wrap:anywhere}.table-scroll{overflow-x:auto;margin:28px 0}table{border-collapse:collapse;width:100%;font-size:14px;line-height:1.6}td,th{padding:13px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}th{background:#dee6d4}main img{width:100%;height:auto;display:block;border-radius:4px}video{width:100%;aspect-ratio:16/9;background:#172c29;display:block;border-radius:4px}.demo{margin:38px 0;padding:24px;border:1px solid var(--line);border-radius:7px;background:#e8ecdf}.demo h3{margin-top:12px}.switches{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 22px}.switches button{font-size:14px}.caption,figcaption{font-size:13px;color:var(--muted);line-height:1.65}.demo figure{margin:26px 0 0}.demo figure img{max-width:500px;margin:auto}.demo figcaption{margin-top:14px}.dark{background:var(--ink);color:var(--paper);border:0}.dark .kicker{color:#b8d8b8}.dark .caption{color:#cedbca}.dark button[aria-pressed=true]{background:#edc09d;color:var(--ink)}.timing{display:grid;grid-template-columns:1fr 1fr;gap:24px}.timing span,.timing strong,.timing small{display:block}.timing span{font-size:14px;color:#c9d9c5}.timing strong{font:30px Georgia,serif;margin:12px 0}.timing small{font-size:12px;color:#c9d9c5}.meter{height:9px;background:#476658;border-radius:5px;overflow:hidden}.meter span{display:block;height:100%;background:#edc09d;transition:width .3s}footer{padding:35px 5vw;background:var(--ink);color:var(--paper);font-size:13px}footer a{color:#d6e4b9}@media(max-width:1000px){.layout{grid-template-columns:185px minmax(0,1fr);gap:25px}.hero .intro{font-size:19px}}@media(max-width:720px){body{font-size:16px}.layout{display:block;padding:28px 6vw}.side{position:static;max-height:none;margin-bottom:32px}.side nav{display:grid;grid-template-columns:1fr 1fr;gap:4px}.side nav a{font-size:11px}.hero{padding:35px 6vw}.hero h1{font-size:47px}.hero .intro{font-size:18px}.versions{font-size:12px;padding:18px 6vw}.demo{padding:16px}.timing{grid-template-columns:1fr;gap:0}.timing strong{font-size:28px}h2{font-size:32px}td,th{min-width:145px;padding:10px}.mast{font-size:11px}.caption{overflow-wrap:anywhere}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.meter span{transition:none}}@media print{.side,.mast,.switches,video{display:none}.layout{display:block;padding:0}.hero{background:white;color:black;padding:0}.hero .intro{color:black}.hero h1{font-size:40px}.hero h1 em{color:black}.hero img{max-width:600px}.versions{padding:10px 0}body{background:white;color:black;font-size:11pt}h2{font-size:24pt;break-after:avoid}h3{break-after:avoid}.demo,.dark{background:#eee;color:black}.dark .caption,.timing span,.timing small{color:black}.table-scroll{overflow:visible}footer{background:white;color:black}}
+
+.report-frame{width:100%;height:780px;border:1px solid var(--line);background:white;border-radius:6px}.policy-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.policy-grid p{margin:8px 0}.policy-grid strong{display:block;font:30px Georgia,serif}.policy-grid small{display:block}.policy-track{height:10px;background:#476658;border-radius:5px}.policy-track span{display:block;height:100%;background:#edc09d;transition:width .2s}.mode-note{min-height:65px}@media(max-width:720px){.report-frame{height:640px}.policy-grid{gap:8px}.policy-grid strong{font-size:24px}}@media print{.report-frame{display:none}.policy-track{border:1px solid #777}}
+</style></head><body><a class="skip" href="#journey">Skip to the journey</a><header class="mast"><span>ROBO OPEN / THIRD-ROUND FIELD NOTES</span><span><a href="JOURNEYS.html#v2" target="_top">Journey tabs</a> · <a href="DEVELOPMENT-JOURNEY-V2.md">Markdown source</a></span></header><section class="hero"><p class="kicker">v2 / Practice memory and learning</p><h1>A useful coach must<br>remember—and <em>show its evidence.</em></h1><p class="intro">From one missed return to a practice history. How human feedback led to repeatable drills, a cautiously adaptive opponent, and a report that finally opened.</p><figure><img src="docs/media/v2/main-menu.png" alt="Actual Robo Open Windows main menu showing the new Practice and Learning entry"><figcaption>Fresh v0.5.1 capture from an isolated validation run. Earlier journey chapters are preserved.</figcaption></figure></section><div class="versions"><span><b>v0.5.0</b> Memory + drills + adaptation</span><span><b>v0.5.1</b> Full HTML viewer repair</span><span><b>0</b> New Meshy credits used</span></div><div class="layout"><aside class="side"><p class="kicker">Read the full account</p><nav aria-label="Journey sections"><a href="#1-the-brief-close-the-learning-loop">1. The brief: close the learning loop</a><a href="#2-what-was-already-thereand-what-was-missing">2. What was already there—and what was missing</a><a href="#3-the-human-contribution-was-direction-observation-and-acceptance">3. The human contribution was direction, observation and acceptance</a><a href="#4-memory-preserve-meaning-not-just-more-files">4. Memory: preserve meaning, not just more files</a><a href="#5-better-logging-begins-with-the-clock">5. Better logging begins with the clock</a><a href="#6-comparable-feedback-with-uncertainty-visible">6. Comparable feedback, with uncertainty visible</a><a href="#7-drills-turn-a-recommendation-into-an-action">7. Drills turn a recommendation into an action</a><a href="#8-mint-adapts-its-choices-within-fixed-abilities">8. Mint adapts its choices within fixed abilities</a><a href="#9-adaptation-needs-fresh-evidence-and-an-exit">9. Adaptation needs fresh evidence and an exit</a><a href="#10-feedback-belongs-beside-the-court">10. Feedback belongs beside the court</a><a href="#11-the-report-existed-but-the-browser-still-failed">11. The report existed, but the browser still failed</a><a href="#12-a-public-report-you-can-inspect">12. A public report you can inspect</a><a href="#13-which-tools-did-what">13. Which tools did what</a><a href="#14-verification-failures-and-what-the-numbers-mean">14. Verification, failures and what the numbers mean</a><a href="#15-unknown-unknowns-made-explicit">15. Unknown unknowns made explicit</a><a href="#16-what-is-delivered-and-what-should-come-next">16. What is delivered, and what should come next</a></nav><button id="print">Print / save as PDF</button></aside><main id="journey">
+<p>This third chapter covers the local Windows <strong>v0.5.0 learning build</strong> and <strong>v0.5.1 report-viewer repair</strong>. “v2” names the development journey; it is not a v2.0 software release. The original and v1 journey files are preserved unchanged.</p>
+<p>The project remains an independent reconstruction inspired by <a href="https://www.youtube.com/watch?v=DQfL_l5lRpk">Chong-U’s YouTube video</a>. The creator’s project was unavailable. Earlier rounds built the assets, authored tennis motion, improved returns and introduced diagnostics, slow motion and a quieter interface. This round reused that work.</p>
+<p><strong>Evidence boundary.</strong> Human quotations below come from the conversation. Implementation details were checked against the current local source, build receipts and captured game screens. Some intermediate engineering steps are reconstructed from those artifacts and the preceding session record, rather than a complete public command transcript. Private logs, account details and machine paths are excluded. The public example is synthetic. No evidence presented here establishes that a real player has improved or that a live Mint policy has already earned promotion.</p>
+<h2 id="1-the-brief-close-the-learning-loop">1. The brief: close the learning loop</h2>
+<p>The human proposed the next direction:</p>
+<blockquote>
+<p>“The logging can surface how the human and the robot players both can improve over time.”</p>
+<p>“comprehensive logging, analysis, surfacing feedback to both players, repeat over time. need persistent memory.”</p>
+</blockquote>
+<p>That first request explicitly said <strong>“do not implement. just suggest.”</strong> The agent therefore inspected the existing design and proposed a delivery order before changing the game. Existing logging explained individual misses and generated fixed recommendations. It did not yet remember interventions across launches or evaluate a changing opponent.</p>
+<p>The agreed sequence was persistent profiles and better records; targeted drills with remembered recommendations and measured outcomes; Mint’s bounded adaptation with independent evaluation and rollback; and more advanced machine learning only if it demonstrably helped. The human then authorized that sequence as the next version. The fourth stage stayed an evaluation gate, not an obligation to add a neural network.</p>
+<p>One product choice needed clarification: should Mint support Coach and Competitive modes, starting in Coach? The human answered:</p>
+<blockquote>
+<p>“Both; start in Coach mode”</p>
+</blockquote>
+<p>This matters because the players have different objectives. The human needs useful practice and understandable feedback. Competitive Mint needs difficult placements. Coach Mint should seek a productive challenge. A system that always makes the next ball harder could defeat the purpose of practice.</p>
+<h2 id="2-what-was-already-thereand-what-was-missing">2. What was already there—and what was missing</h2>
+<p>The starting point was local v0.4.1: two animated robots, four principal tennis strokes, forgiving return planning, a standing-position cue, missed-return reports, normal/half/quarter speed, and a two-bar HUD. These were working foundations, not newly invented features of this round.</p>
+<p>The missing connection was between sessions. A report could describe a miss today, but could not reliably answer whether the same issue recurred tomorrow, whether the player followed the suggested drill, or whether results were being compared under equivalent conditions. Raw recording retention also meant that old evidence would eventually expire.</p>
+<p>The engineering challenge was therefore more specific than “add AI.” It was to define which observations counted, preserve comparable summaries, connect feedback to a repeatable activity, and constrain changes to Mint so that they could be understood and reversed.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable evidence table"><table>
+<thead>
+<tr>
+<th>Starting capability</th>
+<th>Addition in this round</th>
+<th>Why it matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Session-local diagnostics</td>
+<td>A persistent local profile and transactional summaries</td>
+<td>Useful history survives quitting and raw-log pruning.</td>
+</tr>
+<tr>
+<td>Sampled misses</td>
+<td>Incoming-flight traces for successes and misses</td>
+<td>A learner needs evidence about what works as well as what fails.</td>
+</tr>
+<tr>
+<td>Free-form match practice</td>
+<td>Twelve-ball timing, positioning and benchmark drills</td>
+<td>Repeated conditions make comparisons less misleading.</td>
+</tr>
+<tr>
+<td>Fixed Mint shot preferences</td>
+<td>Coach/Competitive objectives with a screened policy change</td>
+<td>The opponent can adapt without changing its physical abilities.</td>
+</tr>
+<tr>
+<td>Browser report opening</td>
+<td>An in-game report, then a local web viewer</td>
+<td>Feedback remains accessible when file-URL opening fails.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="3-the-human-contribution-was-direction-observation-and-acceptance">3. The human contribution was direction, observation and acceptance</h2>
+<p>The agent did most implementation work, but the development was not independent of the human. The interventions changed both scope and verification standards.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable evidence table"><table>
+<thead>
+<tr>
+<th>Human intervention, in order</th>
+<th>Consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Proposed logging → analysis → feedback → repetition, with persistent memory; initially requested a plan only</td>
+<td>Kept planning separate from implementation and established a measurable loop.</td>
+</tr>
+<tr>
+<td>Accepted the proposed delivery order as the next version</td>
+<td>Authorized the persistence, drills and bounded-adaptation work.</td>
+</tr>
+<tr>
+<td>Reported that Ctrl+F8 did not display the report, with a browser error screenshot</td>
+<td>Made report accessibility part of the feature, rather than an optional polish item.</td>
+</tr>
+<tr>
+<td>Chose both modes, initially Coach</td>
+<td>Defined the default experience and two distinct objectives.</td>
+</tr>
+<tr>
+<td>Asked to start the game</td>
+<td>Moved the work from automated checks into actual human use.</td>
+</tr>
+<tr>
+<td>Reported “Open Full HTML resulted in this,” with another <code>ERR_FILE_NOT_FOUND</code> screenshot</td>
+<td>Disproved the adequacy of the first external-viewer repair and triggered v0.5.1.</td>
+</tr>
+<tr>
+<td>Requested this journey, a public Play Report and the main-menu screenshot</td>
+<td>Required an inspectable, privacy-safe explanation and showcase.</td>
+</tr>
+</tbody>
+</table></div>
+<p>The agent chose the storage binding, data structures, evidence exclusions, drill parameters, policy thresholds, report transport and test fixtures. These were implementation judgments within the authorized scope, not additional user requirements. No human manually authored new animation frames or meshes in this round.</p>
+<p>The earlier human finding that quarter speed helped remained central. It motivated retaining practice speed everywhere and treating speed as part of the evidence context. It did <strong>not</strong> justify claiming normal-speed improvement from slow-motion success.</p>
+<h2 id="4-memory-preserve-meaning-not-just-more-files">4. Memory: preserve meaning, not just more files</h2>
+<p><code>LearningStore.cs</code> uses Windows’ system SQLite library, <code>winsqlite3</code>, through a native C# binding. This avoids a new package download or cloud account. The tradeoff is explicit: this persistence layer is Windows-specific. A future macOS, Linux or browser build would need another binding.</p>
+<p>The database lives in the game’s local application-data <strong>Learning</strong> folder. The first profile receives a random local identifier. It stores settings, session summaries, comparable aggregates, action observations, drill attempts, policy records and calibration state. The implementation uses a small keyed JSON-record table inside SQLite; it is not a large relational analytics warehouse.</p>
+<p>The important unit of durability is a transaction. A session’s processed-shot checkpoint and the corresponding aggregates are committed together. Opening the report repeatedly or retrying a save must not count the same return twice. Storage has a schema version, and an unknown schema is not silently overwritten. Full synchronization is requested for durable commits; SQL strings are escaped, and the native boundary supports Unicode paths.</p>
+<p>Temporary database contention receives bounded retry handling. A pending observation queue is capped at 1,024 items. If that queue overflows or storage becomes unavailable, gameplay continues and the report marks the memory as incomplete. Missing data must not masquerade as improvement. This is a deliberate separation between being able to play and being able to trust an analysis.</p>
+<p>Persistent summaries sit outside raw-session retention. Raw traces keep the existing limit of twenty sessions, approximately 100 MiB overall, and 8 MiB per stream. The report displays the latest sixty session summaries and forty drill records, while older database records and lifetime aggregates remain stored. The policy learner uses a shorter, recent evidence window of its own.</p>
+<p>Old v0.4 logs are preserved but not silently imported into the new learner. They lack the new mode, task and policy context needed for honest comparisons. That is a migration decision: preserving a file does not make it valid training data.</p>
+<h2 id="5-better-logging-begins-with-the-clock">5. Better logging begins with the clock</h2>
+<p>An earlier missed-shot ring held three <strong>real</strong> seconds. At quarter speed, that contains only 0.75 game seconds. The very practice setting that helped the human could therefore remove much of the approach from the diagnostic record.</p>
+<p>The revised recorder follows an incoming flight from approach to outcome, including successful returns. It samples every <strong>0.1 game seconds</strong>, capped at 240 samples plus the outcome, with an explicit truncation indicator. This preserves comparable game motion across speed settings. It remains a sampled trace, not a deterministic replay of every physics update.</p>
+<p>Records now include mode, task, practice speed, policy, chosen action, that action’s probability, the full three-action probability distribution and the match seed. Existing evidence includes inputs, reach checks, trajectories and animation state. Human matches use a recorded random seed; automated scenarios keep a fixed seed, and drills use deterministic feeds.</p>
+<p>Recording the action probability is more than bookkeeping. Once an opponent changes its choices, the stream of encountered balls changes too. A return rate can improve because the player improves, because the opponent feeds easier balls, or because the mix of balls shifts. Keeping the policy context exposes that confounder. This implementation does not yet perform a general off-policy causal analysis.</p>
+<p>The recorder excludes mixed-speed exchanges, focus interruptions, engine/contact failures, scripted errors and unfinished exchanges from skill-rate estimates. A CPU decision failure should not become evidence that the human needs a timing drill. Conversely, a miss with no observed contact window remains ambiguous: positioning and ball difficulty may both explain it. No logged key press is not proof of a deliberate decision not to swing.</p>
+<p>The learning aggregates track both players. Mint’s adaptation objective, however, specifically uses eligible human outcomes after Mint’s bounded action choices. “Both players have feedback” and “both players share one learning algorithm” are different claims; only the first describes this design.</p>
+<h2 id="6-comparable-feedback-with-uncertainty-visible">6. Comparable feedback, with uncertainty visible</h2>
+<p><code>LearningModel.cs</code> and <code>LearningReport.cs</code> group observations by rules version, mode, speed, task, Mint policy and player. The rules identifier is <code>learning-rules-1</code>. Quarter-speed timing practice is not pooled with normal-speed competitive matches. Results under a new opponent policy are not treated as the same conditions as balanced play.</p>
+<p>Reports show counts, return rates and approximate 95% Wilson intervals. A small observed difference should not become a confident improvement claim. The intervals also have a limitation: shots in one session can be correlated, so the usual independent-observation assumption may understate uncertainty.</p>
+<p>Guidance is deliberately focused. A cause needs at least three observations before it becomes a priority to investigate. The system remembers the recommendation associated with a drill attempt, but it does not infer a biomechanical diagnosis or pretend to know the player’s intent. Recommendations are generated by explicit rules, not an LLM.</p>
+<p><strong>Example, not a player result:</strong> eight returns from twelve feeds is useful feedback, but it is a small sample. If the next attempt returns nine, that one-contact change alone does not show that the drill worked. A more credible evaluation repeats the same benchmark at the same speed and keeps the conditions visible over several sessions.</p>
+<p>The distinction is practical: a coach can say “timing misses recur; try this exercise” while remaining honest that the recorded association does not prove the cause.</p>
+<h2 id="7-drills-turn-a-recommendation-into-an-action">7. Drills turn a recommendation into an action</h2>
+<p>The new <strong>Practice &amp; Learning</strong> entry leads to three twelve-ball activities. They reuse the existing scene, return rules and motion rather than introducing a second tennis simulation.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable evidence table"><table>
+<thead>
+<tr>
+<th>Drill</th>
+<th>Feed design</th>
+<th>Intended use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Timing</td>
+<td>Repeated central feed</td>
+<td>Practice releasing and tapping the swing input at the right moment.</td>
+</tr>
+<tr>
+<td>Position</td>
+<td>Alternating left/right targets, 2.6 court units from center</td>
+<td>Practice getting behind the bounce before swinging.</td>
+</tr>
+<tr>
+<td>Fixed Benchmark</td>
+<td>A repeated twelve-ball lateral/depth sequence</td>
+<td>Compare attempts under fixed conditions, independent of Mint’s learned preferences.</td>
+</tr>
+</tbody>
+</table></div>
+<p>The ball-machine origin is <code>(0, 1.35, 8)</code> in the game’s court coordinates, with a 1.55-game-second flight. Each feed resets the human player to <code>(0, 0, -9.1)</code>, followed by a 1.2-game-second preparation interval. The benchmark cycles lateral targets <code>−2.6, 0, 2.6, 2.6, 0, −2.6</code> and depths <code>−7.4, −8.3, −9.1</code>. These are authored, repeatable parameters, not learned movement.</p>
+<p>The recorded outcome is accepted racket contact on the incoming ball. It is not a winning outgoing shot. Resetting the player makes isolated timing and positioning easier to compare, but means the drills do not yet measure recovery between consecutive shots. Aiming quality and tactical selection remain future work.</p>
+<p>Each attempt stores the suggested drill, the chosen drill, speed, completed feeds, accepted returns, eligible results and completion state. Leaving or restarting preserves an interrupted attempt. Changing speed anywhere during the block marks it mixed and excludes it from comparable completed attempts. Practice speed still works; its effect is made explicit.</p>
+<p>A visual/test pass caught a small but consequential flow error: <strong>Play Again</strong> after a completed drill initially started a match. It was corrected to repeat the same drill. A measured practice loop depends on mundane controls like this; accurate statistics cannot compensate for sending the player into the wrong activity.</p>
+<figure class="demo"><img loading="lazy" src="docs/media/v2/practice-menu.png" alt="Actual Unity practice menu with Timing, Position, Fixed Benchmark and Mint adaptation controls"><figcaption>Fresh v0.5.1 Windows capture from an isolated synthetic input run. The practice choices occupy the left margin.</figcaption></figure>
+
+<h2 id="8-mint-adapts-its-choices-within-fixed-abilities">8. Mint adapts its choices within fixed abilities</h2>
+<p>The first learner changes the probabilities of three existing rally actions: left placement, right placement and a central lob. Balanced Mint starts with equal probabilities. A promoted preference receives 60%, with 20% for each other action. Forced smashes and serves are outside this learner.</p>
+<p>The physical rules stay fixed: movement speed, reach, contact tolerance and ball physics do not increase when Mint learns. The CPU still uses its existing 5-unit-per-second movement and 1.58-unit reach, against the human’s 1.85-unit reach. Adaptation changes <strong>what ball Mint chooses</strong>, not whether it can secretly reach farther.</p>
+<p>Coach selects toward a declared 70% human return-rate target. Competitive selects toward lower human return completion. The former target is a design heuristic, not an empirically established ideal for this player. The latter is a proxy for difficult placement, not proof of better match-winning strategy.</p>
+<div class="demo dark"><p class="kicker">Illustration / this does not train Mint</p><h3>Same abilities. A different mix of shots.</h3><div class="switches" role="group" aria-label="Illustrative Mint policy"><button data-policy="balanced" aria-pressed="true">Balanced</button><button data-policy="coach" aria-pressed="false">Coach example</button><button data-policy="competitive" aria-pressed="false">Competitive example</button><button data-policy="calibration" aria-pressed="false">Calibration</button></div><div class="policy-grid"><div><p>Left<strong id="prob-0">33.3%</strong></p><div class="policy-track"><span id="bar-0" style="width:33.333%"></span></div></div><div><p>Right<strong id="prob-1">33.3%</strong></p><div class="policy-track"><span id="bar-1" style="width:33.333%"></span></div></div><div><p>Lob<strong id="prob-2">33.3%</strong></p><div class="policy-track"><span id="bar-2" style="width:33.333%"></span></div></div></div><p class="mode-note" id="policy-note" aria-live="polite">Equal probabilities while evidence is insufficient. All three choices remain possible.</p><p class="caption">Hypothetical accepted preferences, not measured player data. Coach would favor the action supported as nearer its 70% return target; Competitive would favor the harder supported action. Promotion requires separate training and evaluation sessions. Every fourth match after promotion uses balanced calibration.</p></div>
+
+<p>Promotion has several gates. Only eligible observations from balanced human matches are used. A deterministic hash assigns complete sessions to training or evaluation partitions. Keeping entire sessions together reduces leakage between selection and evaluation. The latest twenty-four balanced sessions for the selected mode and speed are considered.</p>
+<p>Every action needs at least twenty-four eligible outcomes <strong>in each partition</strong>, with observations from at least three sessions per partition. Even before other exclusions, this implies at least 144 eligible action outcomes across the two partitions. Real play may need considerably more because action counts and session partitions will not be perfectly balanced.</p>
+<p>Training selects the candidate action. Held-out evaluation can reject that candidate; it cannot search for a different winner. Approximate intervals and a three-percentage-point margin must support the preference. Automated ballistic checks also verify the candidate placements against court constraints.</p>
+<p>Only then can a policy be saved and applied at a match boundary. It remains fixed during that match. Sparse initial data leaves Mint balanced. The demonstration of a promotion in synthetic tests does not mean the human profile has accumulated enough evidence to trigger one.</p>
+<p>An old scripted CPU overhit remains available to the automated validation scenario, but is removed from human Coach and Competitive play. Intentional fixture errors would otherwise contaminate the very evidence used to judge performance.</p>
+<h2 id="9-adaptation-needs-fresh-evidence-and-an-exit">9. Adaptation needs fresh evidence and an exit</h2>
+<p>A learner that changes the balls it serves also changes the evidence it collects. After promotion, every fourth adapted match is explicitly labeled <strong>CALIBRATION</strong> and uses balanced choices. Other matches retain the saved learned policy. This periodically restores a comparable source of fresh observations.</p>
+<p>The recent balanced-session window is reevaluated at match boundaries. Sufficiently sampled contradictory evidence can replace the favored action or restore balanced play. Sparse evidence after a promotion can retain the saved policy until there is enough information to judge it; this is not continuous regression detection.</p>
+<p>The human also has direct control. <strong>Reset Mint to Balanced</strong> restores and holds the baseline for the selected mode and speed. <strong>Enable Adaptation</strong> allows evidence to be evaluated again for a following match. Policy history retains the reason and evidence counts behind changes. Resetting Mint does not erase the player’s memory.</p>
+<p>The mechanism is bounded statistical adaptation. It is not reinforcement learning over long match sequences, learned animation or human-like perception. Mint still reads exact game state. These boundaries are not cosmetic: an opponent can produce more varied placements while still lacking the uncertainty and reaction delays of a human player.</p>
+<h2 id="10-feedback-belongs-beside-the-court">10. Feedback belongs beside the court</h2>
+<p>The human’s earlier complaint about seven distracting cards shaped this round. Learning did not add a new central dashboard over the rally. The welcome panel gains mode selection, <strong>Practice &amp; Learning</strong>, and <strong>Open Play Report</strong>. The practice submenu holds the drills and adaptation controls. Match play keeps the two slim edge bars.</p>
+<p>F8 and Ctrl+F8 now reach the same in-game report handler. Active play pauses; a panel in the left margin shows You/Mint counts, remembered practice guidance and the current policy. <strong>Back to Court</strong> returns to play. <strong>Open Full HTML</strong> is an optional deeper view.</p>
+<figure class="demo"><img loading="lazy" src="docs/media/v2/main-menu.png" alt="Robo Open main menu displaying Mint Coach, Play Match, Practice and Learning, and Open Play Report"><figcaption>The actual current welcome screen. Practice &amp; Learning is visible beneath Play Match; the court remains visible.</figcaption></figure>
+
+<p>This was also the first response to the report-access bug. A browser should not be required for immediate feedback. However, supplying an in-game fallback did not excuse a broken full-report button. The second human screenshot forced a separate end-to-end repair.</p>
+<h2 id="11-the-report-existed-but-the-browser-still-failed">11. The report existed, but the browser still failed</h2>
+<p>The user’s two screenshots showed the same browser failure:</p>
+<blockquote>
+<p>“Your file couldn’t be accessed”</p>
+<p><code>ERR_FILE_NOT_FOUND</code></p>
+</blockquote>
+<p>Inspection found a nonempty report at the expected path. The first repair wrote reports atomically, kept a stable <code>Diagnostics/Reports/latest.html</code>, and asked Windows to open the actual filename through its file association. Temporary-file writing, a durable flush and replacement protect against opening a partially written document. They do not prove the browser can display it.</p>
+<p>That distinction became concrete when <strong>Open Full HTML</strong> failed again. The latest saved report existed and contained 20,462 bytes. File permissions and the default HTML association were inspected. No conclusive underlying explanation for this machine’s file-URL failure was established. It would be inaccurate to relabel it as a proven missing-file, extension-permission or encoding bug.</p>
+<p>Browser tooling also declined access to the private report file URL. The agent did not route that same private report through another automation surface to evade the refusal. Browser verification used a separately generated synthetic fixture instead. The runtime fix itself was authorized by the reported failure; it did not require changing browser security settings.</p>
+<p>The v0.5.1 solution changes the transport. <code>ReportServer.cs</code> serves one generated HTML snapshot over loopback HTTP, using <code>127.0.0.1</code>, an automatically chosen port and a random route. The browser receives a normal local web page. The saved export remains available on disk.</p>
+<p>The server is intentionally narrow: GET/HEAD only, exact host and route checks, no directory listing, no arbitrary file reads, no write endpoint, no CORS grant, and bounded request headers/timeouts. It includes no-store and restrictive response headers. It is a temporary viewer, not a web administration service or an upload endpoint.</p>
+<p>The game owns that server’s lifetime. The URL stops accepting requests when the game closes, so the UI asks the user to keep it running while viewing or refreshing. <code>OPEN_PLAY_REPORT.cmd</code> has a saved-report helper that reuses the same server source and expires after thirty minutes. Restarting that helper opens a fresh local viewer.</p>
+<p>The exact original browser cause remains unresolved; the replacement viewing path was verified. This is a useful engineering distinction: a reliable remedy can be established without pretending that every underlying platform failure has been explained.</p>
+<h2 id="12-a-public-report-you-can-inspect">12. A public report you can inspect</h2>
+<p>The example below was produced by the v0.5.1 report renderer from explicitly synthetic observations. It includes practice-memory context, diagnostics for both players and a playable sampled court replay. The invented counts—eight human returns and four misses, ten Mint returns and two misses—are display/test fixtures, not a published assessment of the human.</p>
+<p>It deliberately has no promoted Mint policy or claimed long-term progress. Those require evidence the fixture does not contain. The report’s “gather more observations” state is part of the feature, not missing data that should be filled with invented success.</p>
+<div class="demo"><p class="kicker">Interactive public example / synthetic observations</p><p><a href="docs/examples/play-report-v2.html" target="_blank" rel="noopener">Open the report in a full tab</a>. Scroll inside the report to try its court replay.</p><iframe class="report-frame" loading="lazy" title="Synthetic v0.5.1 Play Report with practice memory and court replay" src="docs/examples/play-report-v2.html"></iframe></div>
+
+<p><a href="docs/examples/play-report-v2.html">Open the full interactive example</a>. Choose <strong>Play / pause</strong> in the missed-return replay section. This is an HTML analysis and replay viewer, not a browser port of the tennis game. It does not read the visitor’s game files or update any profile.</p>
+<p>GitHub’s README presents a linked report preview; the interactive HTML runs on GitHub Pages. The new journey also embeds that public example. Only the synthetic document is published. The private report and local database stay on the computer.</p>
+<p>The documentation pass used the same <code>/dev-journey</code> workflow as the earlier rounds. A new Python/Markdown renderer reads the earlier chapter’s style without executing its generator or rewriting its files. The wrapper grew from two tabs to three, and its formerly two-tab keyboard logic became a general wraparound sequence. A fresh isolated Unity run supplied the main-menu and practice-menu images. The synthetic report received a prominent public-example banner; its original report content and replay data stayed intact.</p>
+<p>The older browser connection was unavailable during previewing. The active browser connection worked; an attempted screenshot call from the older API was corrected to the current screenshot API. The final image captures page content only, without the browser’s account or address chrome. These were documentation-tool issues, separate from the repaired game viewer. A temporary preview directory contained only allowlisted public artifacts. Hash checks protect the earlier chapters, and GitHub CLI publication is limited to the documentation and showcase files.</p>
+<h2 id="13-which-tools-did-what">13. Which tools did what</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable evidence table"><table>
+<thead>
+<tr>
+<th>Tool or component</th>
+<th>Actual role this round</th>
+<th>Boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Codex / GPT-6 Astra</td>
+<td>Inspected source, proposed the delivery sequence, authored C# and documentation, ran checks, investigated failures and prepared publication</td>
+<td>Human observations set priorities; generated explanations were checked against artifacts.</td>
+</tr>
+<tr>
+<td>Unity 6000.5.7f1</td>
+<td>Runtime integration, menu/report panels, drills, input simulation, builds and real game screenshots</td>
+<td>UI tests do not prove human enjoyment or skill improvement.</td>
+</tr>
+<tr>
+<td>C# and Windows SQLite</td>
+<td>Comparable records, transactions, statistics, policy gates, local persistence and the report viewer</td>
+<td>No neural training, cloud backend or LLM coaching was added.</td>
+</tr>
+<tr>
+<td>Blender</td>
+<td>Existing rig, skinning and authored strokes were reused in the game</td>
+<td>Blender was not rerun for these learning/report changes. No new joints or motion clips were authored.</td>
+</tr>
+<tr>
+<td>Meshy</td>
+<td>Earlier generated robot assets remained in use</td>
+<td>No requests and no additional Meshy credits in this round.</td>
+</tr>
+<tr>
+<td>PowerShell and Python</td>
+<td>Build/test orchestration, cross-process SQLite checks, saved-report helper, documentation rendering and publication checks</td>
+<td>Test outputs remain separate from the human profile.</td>
+</tr>
+<tr>
+<td>Chrome and browser automation</td>
+<td>Verified the synthetic full report, actual game-initiated opening and replay playback</td>
+<td>Private file-URL access was not bypassed.</td>
+</tr>
+<tr>
+<td>Git, GitHub CLI and Pages</td>
+<td>Versioned and published this documentation/showcase</td>
+<td>A documentation update does not publish a new Windows release.</td>
+</tr>
+</tbody>
+</table></div>
+<p>The third-party tools matter less here than their responsibilities. Blender represents motion; Unity runs the game; SQLite preserves observations; explicit C# rules evaluate them. Calling all four “AI” would obscure where behavior actually comes from.</p>
+<p>No paid generation was required. Additional Meshy usage was zero. Exact model token cost and total agent wall time were not measured for this chapter, so no precise cost or autonomy percentage is claimed.</p>
+<h2 id="14-verification-failures-and-what-the-numbers-mean">14. Verification, failures and what the numbers mean</h2>
+<p>The v0.5.0 receipt records <strong>156 checks</strong>: thirty existing rules checks, fifty-eight learning/storage checks and sixty-eight standalone input/UI checks. A separate one-minute rally run achieved an eighteen-shot best rally, with fourteen human-side automated returns and sixteen Mint returns. This is a regression scenario, not a human benchmark.</p>
+<p>The learning checks exercised real Windows SQLite persistence and reopening, duplicate protection, temporary database contention, evidence exclusions, independent rejection, promotion, calibration, rollback and Unicode/atomic file handling. They also checked twenty-seven target/ballistic constraints. A separate Python SQLite read after the Unity player exited confirmed that persistence was on disk, not merely in a surviving C# object.</p>
+<p>Standalone checks injected real Unity input events for F8/Ctrl+F8 and the menu/drill flows. The twelve-return drill-completion fixture repositions the ball to exercise the full flow; it does not prove twelve naturally delivered feeds were played successfully. A natural feed launch was separately checked. Keeping that distinction prevents a convenient fixture from becoming an exaggerated gameplay claim.</p>
+<p>The v0.5.1 repair added fourteen HTTP checks and brought standalone input/UI checks to seventy. Its build reran the thirty rules and fifty-eight learning checks. The HTTP checks covered byte-correct UTF-8, GET/HEAD behavior, route/host/method rejection, no directory access, content updates and shutdown. Chrome verification established that the game’s own launch function opened the synthetic report and that replay time advanced from 0.00 to 0.60 game seconds.</p>
+<p>Both recorded Windows builds completed with zero errors and two warnings. The warnings concerned an intentionally runtime-only learning field and an optional Unity pipeline component; the receipt does not hide them. The report fix changed transport, not tennis physics or learning thresholds.</p>
+<p>For this documentation pass, a fresh isolated v0.5.1 standalone run captured the current welcome and practice panels. Its synthetic input does not train the human profile. Publication checks cover links, preserved earlier chapters, privacy-safe text, screenshot content, report playback and the three-tab journey navigation.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable evidence table"><table>
+<thead>
+<tr>
+<th>Failure or near miss</th>
+<th>Response</th>
+<th>Residual limit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Three real seconds of trace shrink at quarter speed</td>
+<td>Sample full flights in game time, including successes</td>
+<td>Traces are capped and sampled, not deterministic replays.</td>
+</tr>
+<tr>
+<td>Repeated saves could inflate progress</td>
+<td>Commit checkpoint and aggregates together; test idempotency</td>
+<td>Storage can still become unavailable, and is surfaced as incomplete.</td>
+</tr>
+<tr>
+<td>Opponent adaptation changes the evidence distribution</td>
+<td>Separate contexts, balanced training, held-out sessions and periodic calibration</td>
+<td>No general causal estimate or continuous regression detector.</td>
+</tr>
+<tr>
+<td>“Play Again” left the drill loop</td>
+<td>Repeat the chosen drill</td>
+<td>Drill coverage still differs from an unscripted human session.</td>
+</tr>
+<tr>
+<td>Saved HTML and successful write checks did not imply visible browser success</td>
+<td>Verify the full launch/render/replay chain using local HTTP</td>
+<td>Original file-URL cause remains unestablished.</td>
+</tr>
+<tr>
+<td>Synthetic tests could pollute practice memory or public claims</td>
+<td>Isolate test profiles and label the public example</td>
+<td>Functional passing tests are not measured human improvement.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Evidence: <a href="docs/evidence/learning/verification.json">v0.5 learning receipt</a>, <a href="docs/evidence/learning/learning-tests.json">learning checks</a>, <a href="docs/evidence/learning/runtime.json">rally receipt</a>, <a href="docs/evidence/report-fix/verification.json">v0.5.1 report repair</a>, <a href="docs/evidence/report-fix/report-tests.json">HTTP checks</a>, and <a href="docs/evidence/journey-v2/verification.json">this showcase’s verification</a>.</p>
+<h2 id="15-unknown-unknowns-made-explicit">15. Unknown unknowns made explicit</h2>
+<p><strong>The unit of comparison is a hidden product decision.</strong> “Return rate” sounds universal until speed, task and opponent change. The current response is strict context separation. A future progression view will need a deliberate way to show advancement between contexts without pooling incompatible results.</p>
+<p><strong>An adaptive coach can make the chart look better without making the person better.</strong> Easier feeds can increase success. The fixed benchmark is the beginning of an independent measuring stick. Repeated benchmarks and stable conditions matter more than a rising aggregate percentage.</p>
+<p><strong>The absence of an input is an observation, not an intention.</strong> Focus loss, uncertainty about controls and reaching the wrong marker can resemble poor timing in a log. The system excludes known interruptions and phrases ambiguous causes as investigations. It does not infer motivation or cognitive state.</p>
+<p><strong>Small samples and repeated shots can fool evaluation.</strong> Twelve feeds provide immediate feedback but weak statistical evidence. Training/evaluation separation by session, intervals and promotion thresholds reduce overinterpretation. They do not eliminate correlation or prove causality.</p>
+<p><strong>Persistent memory introduces operational behavior.</strong> Schema changes, duplicate writes, disk contention and retention now affect trust. Transactions, explicit incompleteness, isolated tests and a documented backup path address those concerns. Cross-device synchronization and an in-game profile-management screen are not delivered.</p>
+<p><strong>A benchmark measures only what it asks the player to do.</strong> Resetting before each feed makes comparisons cleaner but removes recovery play. Accepted return contact does not measure placement quality. Future drills should add those dimensions explicitly rather than silently changing the meaning of old scores.</p>
+<p><strong>“Self-learning” can imply abilities that do not exist.</strong> Mint adapts three action probabilities under fixed physical rules. It still has exact state access; the robot’s animation is authored. Human-like anticipation, reaction delay, tactical planning and learned motion are separate development problems.</p>
+<p><strong>A browser launch is not a browser render.</strong> The first repair passed storage checks and still failed for the user. Verification now crosses the boundary from game to operating system to browser to interactive replay. The public showcase similarly needs a live Pages check, not merely a generated file.</p>
+<h2 id="16-what-is-delivered-and-what-should-come-next">16. What is delivered, and what should come next</h2>
+<p>The local Windows game has persistent practice memory, richer flight records, comparable feedback, three repeatable drills, Coach and Competitive modes, bounded policy promotion and rollback, in-game reports and the repaired full HTML viewer. The new documentation publishes the story and a synthetic demonstration. The existing Windows release remains separate; no new game archive is implied by these Pages updates.</p>
+<p>The next useful experiment is small and concrete: repeat the same fixed benchmark at the same speed across several sessions, record the suggested drill and chosen practice between attempts, and examine both the return counts and recurring causes. Improvement claims should wait for sustained comparable observations. Mint should remain balanced until its explicit evidence gates are met.</p>
+<p>Only after that evidence is useful should advanced machine learning be considered. Candidate questions include predicting an individual’s timing window, estimating placement difficulty under sparse data, or adding realistic perception delays. Each deserves its own baseline, evaluation and rollback plan. A neural network is an option for a demonstrated gap, not the completion criterion for this version.</p>
+<p>The human supplied the objective and the failures that mattered. The agent converted them into implementation, evidence and an inspectable account. The most consequential progress was making feedback persistent—and making the system admit when the evidence is insufficient.</p></main></div><footer>Independent reconstruction inspired by <a href="https://www.youtube.com/watch?v=DQfL_l5lRpk">Chong-U’s video</a>. Public report data is synthetic. Private play records stay local. <a href="https://github.com/az9713/gpt-6-astra-tennis-game">Repository</a>.</footer><script>
+document.querySelector('#print').onclick=()=>window.print();
+const examples={balanced:{p:[1/3,1/3,1/3],note:'Equal probabilities while evidence is insufficient. All three choices remain possible.'},coach:{p:[.2,.6,.2],note:'Illustration: evaluation supported right placement as closer to productive practice. The preferred shot gets 60%; the other two retain 20% each.'},competitive:{p:[.6,.2,.2],note:'Illustration: evaluation supported left placement as harder to return. Movement, reach and contact rules stay fixed.'},calibration:{p:[1/3,1/3,1/3],note:'Every fourth match after promotion gathers balanced evidence. The saved learned preference is retained for other matches.'}};
+document.querySelectorAll('[data-policy]').forEach(b=>b.onclick=()=>{const x=examples[b.dataset.policy];document.querySelectorAll('[data-policy]').forEach(t=>t.setAttribute('aria-pressed',String(t===b)));x.p.forEach((p,i)=>{document.getElementById('prob-'+i).textContent=(100*p).toFixed(p===1/3?1:0)+'%';document.getElementById('bar-'+i).style.width=100*p+'%'});document.getElementById('policy-note').textContent=x.note});
+const headings=[...document.querySelectorAll('main h2')],links=[...document.querySelectorAll('.side nav a')];const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)links.forEach(a=>{const active=a.getAttribute('href')==='#'+e.target.id;a.style.borderLeftColor=active?'#bc573a':'';if(active)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current')})})},{rootMargin:'0px 0px -65% 0px'});headings.forEach(h=>observer.observe(h));
+</script></body></html>

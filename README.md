@@ -4,9 +4,25 @@ A playable Windows tennis prototype built with Unity, Blender, Meshy and a large
 
 Inspired by [Chong-U’s original YouTube game-building video](https://www.youtube.com/watch?v=DQfL_l5lRpk). The creator’s project was unavailable, so this is a new reconstruction using newly generated and authored assets. It reproduces the broad visual direction; it does not contain the creator’s original assets.
 
-**[Read the development journeys — Original + v1 tabs](https://az9713.github.io/gpt-6-astra-tennis-game/JOURNEYS.html)** · [v1: Gameplay enhancements](DEVELOPMENT-JOURNEY-V1.html) · [Original journey](DEVELOPMENT-JOURNEY.html) · [Download the Windows prototype](https://github.com/az9713/gpt-6-astra-tennis-game/releases/latest)
+**[Read the development journeys — Original + v1 + v2](https://az9713.github.io/gpt-6-astra-tennis-game/JOURNEYS.html#v2)** · [v2: Practice memory and learning](https://az9713.github.io/gpt-6-astra-tennis-game/DEVELOPMENT-JOURNEY-V2.html) · [v1: Gameplay enhancements](DEVELOPMENT-JOURNEY-V1.html) · [Original journey](DEVELOPMENT-JOURNEY.html) · [Download the Windows prototype](https://github.com/az9713/gpt-6-astra-tennis-game/releases/latest)
 
-The new **v1 journey** covers the four tennis strokes, rig and skin repairs, fairer returns, local diagnostic reports, real human playtest findings, slow-motion practice and the two-bar UI. It includes playable motion clips, a timing explainer and before/after screenshots. “v1” is the narrative chapter name; it does not imply a new v1.0 game release. The original journey HTML is preserved unchanged.
+The new **v2 journey** follows persistent memory, twelve-ball drills, Coach and Competitive Mint, evaluation and rollback, and both attempts to repair HTML report opening. It explains human decisions, tool roles, failures, evidence and remaining limits. Explore an illustrative shot-policy control and the interactive example report. Original and v1 journey files are preserved unchanged. Chapter names are separate from software release numbers.
+
+## Practice & Learning: the new main menu
+
+![Actual Windows main menu showing Practice and Learning, Coach mode and Open Play Report](docs/media/v2/main-menu.png)
+
+Fresh capture of the local **v0.5.1** Windows build. Choose **Practice & Learning** for Timing, Position or Fixed Benchmark drills and Mint adaptation controls. Coach is the initial default. This documentation showcase does not replace the previously published Windows release.
+
+## Explore the new Play Report
+
+**[Open the interactive Play Report →](https://az9713.github.io/gpt-6-astra-tennis-game/docs/examples/play-report-v2.html)**
+
+[![Play Report preview showing the synthetic example label and Your practice memory; click to open the interactive HTML](docs/media/v2/play-report.png)](https://az9713.github.io/gpt-6-astra-tennis-game/docs/examples/play-report-v2.html)
+
+The report shows practice context, uncertainty, diagnostics for both players and a sampled court replay. Open it and scroll to **Missed-return replays → Play / pause**. All example observations are **synthetic**; no private play history is published, and no real improvement or promoted Mint policy is claimed. GitHub displays this linked preview; the interactive HTML runs on Pages. [Download the standalone HTML](docs/examples/play-report-v2.html).
+
+The **v1 journey** remains available with the four strokes, rig repairs, fairer returns, human playtest findings, slow-motion practice and the two-bar UI.
 
 ## Latest match recording: quarter-speed practice
 
@@ -14,9 +30,21 @@ https://github.com/user-attachments/assets/1d02b5fa-4f1f-4f1f-ac62-1134674e9451
 
 Actual play in the local v0.4.1 build, showing quarter-speed practice and the simplified two-bar UI. Silent **94.2-second** preview at **720p / 30 fps**, compressed from **76.02 MB to 5.09 MB** (**93.3% smaller**). [Download the MP4](docs/media/match2.mp4). The original recording is preserved locally; the earlier match video remains below.
 
+## Local v0.5.1: full HTML report repair
+
+**Open Full HTML** now displays the report through a temporary local web address instead of a file URL. Keep the game running while viewing it. Reports remain on your computer; the viewer serves only the selected report. The launcher prefers this build. [Usage and privacy](LEARNING.md).
+
+## Local v0.5: practice memory and learning
+
+Coach and Competitive modes, local persistent profiles, comparable progress reports, twelve-ball drills, and conservatively evaluated Mint shot-choice adaptation. Coach is the initial default. **F8 or Ctrl+F8 now shows a report inside the game**, in the left margin, with optional full HTML export. No browser is required for immediate feedback. [How to use it and its limits](LEARNING.md) · [Agreed delivery plan](NEXT-VERSION.md).
+
+The local launcher now prefers v0.5.1. Published release links still refer to the existing GitHub release until a new archive is published. New learning starts with v0.5; older logs are not silently treated as comparable training data.
+
+Validation: **156 checks passed** (30 rules, 58 learning/storage checks, 68 standalone input/UI checks), plus a one-minute rally run with an 18-shot best rally. These validate functionality, not measured human improvement. [Verification receipt](docs/evidence/learning/verification.json).
+
 ## Local v0.4.1: unobstructed court view
 
-Seven separate HUD cards have been consolidated into two slim edge bars: scores, rally count, shot guidance and practice speed at the top, controls and marker guidance at the bottom. Pause, welcome and match results use a compact left-side panel only when needed; point announcements stay in the top bar. The center of the court stays visible. Launch with `PLAY_ROBO_OPEN.cmd` (prefers the local v0.4.1 build).
+Seven separate HUD cards have been consolidated into two slim edge bars: scores, rally count, shot guidance and practice speed at the top, controls and marker guidance at the bottom. Pause, welcome and match results use a compact left-side panel only when needed; point announcements stay in the top bar. The center of the court stays visible. This layout is retained in later local builds.
 
 ## Local v0.4: slow-motion practice
 
@@ -65,7 +93,8 @@ The build is an unsigned prototype. Unity and Blender are not required to play t
 | Z + Space | Lob |
 | Escape | Pause / resume |
 | R | Restart |
-| F8 | Pause active play and open the local play report |
+| F8 / Ctrl+F8 | Pause and show the in-game report; optional full HTML export |
+| P | Normal / half / quarter speed |
 | Alt + F4 | Exit |
 
 Use the cream standing-position ring and yellow bounce marker; tap when **SWING NOW** appears, or slightly early. Return a serve after its first bounce. The inner sidelines define the singles court. Scoring includes deuce and advantage; **first to two games wins** this short exhibition. `OPEN_PLAY_REPORT.cmd` opens your latest saved report after playing.
@@ -89,17 +118,17 @@ Use **Unity 6000.5.7f1** with Windows build support. The project pins its packag
 3. To build from a terminal with that project closed in the Editor, run:
 
 ```powershell
-& '<path-to-Unity.exe>' -batchmode -quit -projectPath "$PWD/TennisGame" -executeMethod PrototypeSetup.BuildDiagnosticsWindows -logFile build.log
+& '<path-to-Unity.exe>' -batchmode -quit -projectPath "$PWD/TennisGame" -executeMethod PrototypeSetup.BuildReportFixWindows -logFile build.log
 ```
 
-The v0.3 output is `Builds/RoboOpen-Windows-v0.3/RoboOpen.exe`. `PLAY_ROBO_OPEN.cmd` launches that location. The **Robo Open → Build prototype scene** Editor menu regenerates the scene and runs import/rules checks; it overwrites manual edits to that generated scene.
+The current local output is `Builds/RoboOpen-Windows-v0.5.1/RoboOpen.exe`. `PLAY_ROBO_OPEN.cmd` prefers that location. The **Robo Open → Build prototype scene** Editor menu regenerates the scene and runs import/rules checks; it overwrites manual edits to that generated scene.
 
 Blender **5.2.1 LTS** was used for `SourceAssets/Robot/RoboPlayer.blend` and `setup/rig_robot_blender.py`. Blender and Meshy are unnecessary for rebuilding the saved Unity assets. Regenerating a Meshy model is optional, requires your own `MESHY_API_KEY` in a private `.env`, and can spend credits. This run consumed **30 Meshy credits**; other service costs were not measured.
 
 After building, run the standalone input and rally checks:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File setup/verify_prototype.ps1 -BuildDirectory Builds/RoboOpen-Windows-v0.3
+powershell -ExecutionPolicy Bypass -File setup/verify_prototype.ps1 -BuildDirectory Builds/RoboOpen-Windows-v0.5.1
 ```
 
 The original run passed 17 rules checks and 17 input/UI checks; v0.2 passes 17 rules checks and 26 input/UI checks. The v0.1 run recorded 15 player returns, 18 CPU returns, a best rally of 18 and two points; the v0.2 motion pass adds a separate [current validation record](docs/evidence/motion/). These are functional checks; human enjoyment, fairness and broad hardware compatibility remain unvalidated. [Results and limits](PROTOTYPE_RESULTS.md) · [Public receipts](docs/evidence/).
