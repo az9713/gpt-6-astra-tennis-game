@@ -8,6 +8,12 @@ Inspired by [Chong-U’s original YouTube game-building video](https://www.youtu
 
 The new **v1 journey** covers the four tennis strokes, rig and skin repairs, fairer returns, local diagnostic reports, real human playtest findings, slow-motion practice and the two-bar UI. It includes playable motion clips, a timing explainer and before/after screenshots. “v1” is the narrative chapter name; it does not imply a new v1.0 game release. The original journey HTML is preserved unchanged.
 
+## Latest match recording: quarter-speed practice
+
+https://github.com/user-attachments/assets/1d02b5fa-4f1f-4f1f-ac62-1134674e9451
+
+Actual play in the local v0.4.1 build, showing quarter-speed practice and the simplified two-bar UI. Silent **94.2-second** preview at **720p / 30 fps**, compressed from **76.02 MB to 5.09 MB** (**93.3% smaller**). [Download the MP4](docs/media/match2.mp4). The original recording is preserved locally; the earlier match video remains below.
+
 ## Local v0.4.1: unobstructed court view
 
 Seven separate HUD cards have been consolidated into two slim edge bars: scores, rally count, shot guidance and practice speed at the top, controls and marker guidance at the bottom. Pause, welcome and match results use a compact left-side panel only when needed; point announcements stay in the top bar. The center of the court stays visible. Launch with `PLAY_ROBO_OPEN.cmd` (prefers the local v0.4.1 build).

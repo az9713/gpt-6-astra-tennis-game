@@ -1,0 +1,20 @@
+{
+  "sourceBytes": 76021040,
+  "compressedBytes": 5090867,
+  "reductionPercent": 93.3,
+  "durationSeconds": 94.166667,
+  "width": 1280,
+  "height": 720,
+  "fps": 30,
+  "codec": "H.264",
+  "pixelFormat": "yuv420p",
+  "audio": "omitted to match the original silent README preview",
+  "crop": "1600x900 from x=2,y=38; removes window chrome",
+  "metadata": "source metadata removed",
+  "fastStart": true,
+  "fullDecode": "passed",
+  "sha256": "ceb233a9ce97eb5314b639c25207e7eade1b1dbe192508ae600448ce0e4b7572",
+  "content": "Quarter-speed practice with consolidated UI; original source preserved",
+  "githubAttachment": "https://github.com/user-attachments/assets/1d02b5fa-4f1f-4f1f-ac62-1134674e9451",
+  "readmePlayback": "Pending published-page verification"
+}
