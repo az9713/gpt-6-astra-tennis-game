@@ -1,0 +1,26 @@
+{
+  "implementationCommit": "9126c6c971e2ef7a1d02dc71a075385869de3178",
+  "stagedPrivacyAudit": {
+    "findings": [],
+    "files": 279,
+    "bytes": 61534114
+  },
+  "release": {
+    "bytes": 45917788,
+    "url": "https://github.com/az9713/gpt-6-astra-tennis-game/releases/tag/v0.3.0",
+    "sha256": "cccf6f66de8641b363eb91cd3060226aad70ff68ded5b89a1d7dbcd5dd0527f4",
+    "remoteDigestMatchesLocal": true,
+    "asset": "RoboOpen-Windows-v0.3.0.zip"
+  },
+  "pages": {
+    "commit": "9126c6c971e2ef7a1d02dc71a075385869de3178",
+    "status": "built"
+  },
+  "publicExample": {
+    "mode": "synthetic input validation",
+    "url": "https://az9713.github.io/gpt-6-astra-tennis-game/docs/examples/play-report.html",
+    "liveHeadingVerified": true,
+    "liveReplayFrameObserved": 6
+  },
+  "localGameLaunched": true
+}
