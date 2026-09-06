@@ -61,7 +61,7 @@ public static class PrototypeSetup
     {
         var root=new GameObject(name);root.transform.position=position;root.transform.rotation=Quaternion.Euler(0,cpu?180:0,0);
         var model=UnityEngine.Object.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>(ModelPath),root.transform);model.name="Meshy robot / Blender animation";
-        model.transform.localPosition=Vector3.zero;model.transform.localRotation=Quaternion.Euler(0,180,0);
+        model.transform.localPosition=Vector3.zero;model.transform.localRotation=Quaternion.identity;
         var renderers=model.GetComponentsInChildren<Renderer>();
         var bounds=renderers[0].bounds;foreach(var r in renderers)bounds.Encapsulate(r.bounds);
         float scale=1.8f/bounds.size.y;model.transform.localScale=Vector3.one*scale;
@@ -99,7 +99,7 @@ public static class PrototypeSetup
     {
         var skins=actor.model.GetComponentsInChildren<SkinnedMeshRenderer>();if(skins.Length==0)throw new Exception("Robot has no skin");
         var clips=AssetDatabase.LoadAllAssetsAtPath(ModelPath).OfType<AnimationClip>().Where(c=>!c.name.StartsWith("__preview__")).ToArray();
-        foreach(var name in new[]{"idle","run","serve","forehand","backhand"})if(!clips.Any(c=>c.name.ToLowerInvariant().Contains(name)))throw new Exception("Missing clip "+name);
+        foreach(var name in new[]{"idle","run","serve","forehand","backhand","smash"})if(!clips.Any(c=>c.name.ToLowerInvariant().Contains(name)))throw new Exception("Missing clip "+name);
         float delta=0;int boneCount=0,vertices=0;
         foreach(var skin in skins)
         {

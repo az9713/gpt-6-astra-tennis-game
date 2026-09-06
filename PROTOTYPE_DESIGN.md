@@ -1,5 +1,7 @@
 # Robo Open — prototype target
 
+> This document records the initial v0.1 milestone. For the current animation upgrade and controls, see [MOTION-UPGRADE.md](MOTION-UPGRADE.md) and [README.md](README.md).
+
 Build one playable Windows match against a CPU robot, using newly made assets in the reference video's style. This is a reconstruction, not the creator's original project.
 
 ## Visual reference

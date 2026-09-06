@@ -1,0 +1,12 @@
+{
+  "archive": "RoboOpen-Windows-v0.2.0.zip",
+  "bytes": 45895024,
+  "sha256": "3fe73fb0ec4631f08b107566b79d9b6d7db57f3f3acfa4495c610f2f5d9e5169",
+  "runtimeFiles": 193,
+  "archiveCrcVerified": true,
+  "privateHomePathScan": "passed",
+  "codeViewPdbPath": "filename only",
+  "debugSymbolsExcluded": true,
+  "extractedInputTests": "passed, 26 checks, exit 0",
+  "extractedRallyTest": "passed, 60 seconds, exit 0"
+}

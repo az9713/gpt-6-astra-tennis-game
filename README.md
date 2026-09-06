@@ -6,7 +6,17 @@ Inspired by [Chong-U’s original YouTube game-building video](https://www.youtu
 
 **[Read the illustrated development journey](https://az9713.github.io/gpt-6-astra-tennis-game/DEVELOPMENT-JOURNEY.html)** · [Markdown version](DEVELOPMENT-JOURNEY.md) · [Download the Windows prototype](https://github.com/az9713/gpt-6-astra-tennis-game/releases/latest)
 
-## Watch a match
+## New in v0.2: structural tennis motion
+
+**[Watch the four new strokes](https://az9713.github.io/gpt-6-astra-tennis-game/MOTION-UPGRADE.html)** — forehand, backhand, automatic smash and serve/trophy preparation. The robot keeps its 16-bone rig, with six coordinated clips, repaired skin weights and synchronized racket contact. No additional Meshy credits were spent.
+
+Open `VIEW_ROBOT_MOTION.cmd` in the Windows release to inspect the animations close up. **B** toggles bone guides; **Escape** closes that viewer. In the game, simply swing with Space at a suitable high ball to smash—no extra key. [Implementation and validation](MOTION-UPGRADE.md).
+
+https://github.com/user-attachments/assets/6ed778ab-f3c6-43f9-9660-f7c9f040a1d6
+
+Actual Unity motion-viewer capture: four strokes in 12 seconds, with joint guides visible. [MP4 download](docs/media/motion.mp4).
+
+## Original v0.1 match recording
 
 https://github.com/user-attachments/assets/177254a0-b72f-480b-b75d-bea627ec2576
 
@@ -14,7 +24,7 @@ The supplied recording is a silent 56.5-second preview, compressed from 45.2 MB 
 
 ## Play on Windows
 
-1. Download `RoboOpen-Windows.zip` from the [latest release](https://github.com/az9713/gpt-6-astra-tennis-game/releases/latest).
+1. Download the Windows ZIP from the [latest release](https://github.com/az9713/gpt-6-astra-tennis-game/releases/latest).
 2. Extract the entire archive. Keep the executable, data folder and runtime files together.
 3. Open `PLAY_ROBO_OPEN.cmd`, click **PLAY MATCH**, and press **Space** to serve.
 
@@ -35,7 +45,7 @@ Follow the yellow landing marker; swing near the ball when **SWING NOW** appears
 
 ## What is included
 
-- Two toy robots, five animation clips, coral court, stepped crowds, trees, lighting and a mint CPU opponent.
+- Two toy robots, six animation clips, coral court, stepped crowds, trees, lighting and a mint CPU opponent.
 - Serving, volleys, normal/power/lob returns, net/out/double-bounce rules, scoring, menu, pause, result and replay.
 - Unity source, editable Blender sources, saved Meshy outputs, asset-generation scripts and public verification receipts.
 - An evidence-based development journey: original prompts, human decisions, tool use, failed assumptions, fixes, costs and remaining gaps.
@@ -64,7 +74,7 @@ After building, run the standalone input and rally checks:
 powershell -ExecutionPolicy Bypass -File setup/verify_prototype.ps1
 ```
 
-The retained run passed 17 rules checks and 17 input/UI checks. Its roughly one-minute automated rally recorded 15 player returns, 18 CPU returns, a best rally of 18 and two awarded points. These are functional checks; human enjoyment, fairness and broad hardware compatibility remain unvalidated. [Results and limits](PROTOTYPE_RESULTS.md) · [Public receipts](docs/evidence/).
+The original run passed 17 rules checks and 17 input/UI checks; v0.2 passes 17 rules checks and 26 input/UI checks. The v0.1 run recorded 15 player returns, 18 CPU returns, a best rally of 18 and two points; the v0.2 motion pass adds a separate [current validation record](docs/evidence/motion/). These are functional checks; human enjoyment, fairness and broad hardware compatibility remain unvalidated. [Results and limits](PROTOTYPE_RESULTS.md) · [Public receipts](docs/evidence/).
 
 ## Explore the build
 

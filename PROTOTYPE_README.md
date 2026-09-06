@@ -1,5 +1,7 @@
 # Robo Open — playable tennis prototype
 
+> This document records the initial v0.1 milestone. For the current animation upgrade and controls, see [MOTION-UPGRADE.md](MOTION-UPGRADE.md) and [README.md](README.md).
+
 After downloading and extracting the Windows release, double-click **PLAY_ROBO_OPEN.cmd** in this folder, then click **PLAY MATCH**. No Unity or Blender installation is needed to play the built game.
 
 The executable is `Builds/RoboOpen-Windows/RoboOpen.exe`. Keep its entire folder together: the executable needs the accompanying data and runtime files. This Windows build is the tennis prototype; older `Builds/Windows` and `Builds/WebGL` folders contain the earlier preflight demonstrations.

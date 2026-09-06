@@ -1,5 +1,7 @@
 # Robo Open — prototype validation
 
+> This document records the initial v0.1 milestone. For the current animation upgrade and controls, see [MOTION-UPGRADE.md](MOTION-UPGRADE.md) and [README.md](README.md).
+
 Validated locally on September 5, 2026, with Unity 6000.5.7f1 and an NVIDIA GeForce RTX 3050 Laptop GPU. This records an automated prototype acceptance run, not a human playability assessment or a claim of exact fidelity to the creator's project.
 
 ## Deliverable

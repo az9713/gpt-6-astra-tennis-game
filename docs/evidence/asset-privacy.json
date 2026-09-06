@@ -1,7 +1,7 @@
 [
   {
     "file": "TennisGame/Assets/Preflight/AnimatedRobot.fbx",
-    "pathStringsCleaned": 1,
+    "pathStringsCleaned": 0,
     "allOtherParsedPropertiesIdentical": true
   },
   {
@@ -11,7 +11,7 @@
   },
   {
     "file": "SourceAssets/Preflight/AnimatedRobot.blend",
-    "fixedWidthPathFieldsCleaned": 1,
+    "fixedWidthPathFieldsCleaned": 0,
     "reopenedInBlender": true,
     "preserved": {
       "vertices": 56,
@@ -33,7 +33,8 @@
         "Forehand",
         "Idle",
         "Run",
-        "Serve"
+        "Serve",
+        "Smash"
       ]
     }
   }

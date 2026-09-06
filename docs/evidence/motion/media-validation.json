@@ -1,0 +1,15 @@
+{
+  "capture": "Unity Windows player, --motion-showcase, 360 frames at 30 fps",
+  "fullVideo": {"file": "docs/media/motion.mp4", "seconds": 12, "bytes": 2332806, "codec": "H.264", "fullDecode": "passed"},
+  "strokeClips": {"count": 4, "secondsEach": 3, "fullDecode": "passed"},
+  "localBrowserChecks": {
+    "playAll": "all four videos playing with advancing time",
+    "pauseAll": "all four paused",
+    "halfSpeed": "all four playback rates equal 0.5",
+    "mobile": {"viewportWidth": 390, "documentWidth": 375, "columns": 1},
+    "desktop": {"viewportWidth": 1440, "documentWidth": 1425, "columns": 2},
+    "viewportRestored": true
+  },
+  "readmeAttachment": "https://github.com/user-attachments/assets/6ed778ab-f3c6-43f9-9660-f7c9f040a1d6",
+  "scope": "The new video is the structural motion viewer. The older README match recording remains explicitly labeled v0.1."
+}

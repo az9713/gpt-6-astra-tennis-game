@@ -1,0 +1,36 @@
+{
+  "passed": true,
+  "weightSumMaxError": 4.284083843231201e-08,
+  "handVerticesWithLegInfluence": 0,
+  "contactPoses": [
+    {
+      "clip": "Forehand",
+      "contactFrame": 14,
+      "maxCoincidentSeamDistance": 0,
+      "edgeStretchP99": 1.8984856923894426,
+      "maxEdgeStretch": 6.79836456065464
+    },
+    {
+      "clip": "Backhand",
+      "contactFrame": 15,
+      "maxCoincidentSeamDistance": 0,
+      "edgeStretchP99": 1.9347514601505684,
+      "maxEdgeStretch": 8.416349988413788
+    },
+    {
+      "clip": "Smash",
+      "contactFrame": 25,
+      "maxCoincidentSeamDistance": 0,
+      "edgeStretchP99": 1.9864286888457914,
+      "maxEdgeStretch": 9.022312273410805
+    },
+    {
+      "clip": "Serve",
+      "contactFrame": 42,
+      "maxCoincidentSeamDistance": 0,
+      "edgeStretchP99": 2.051806304771114,
+      "maxEdgeStretch": 9.340281000011084
+    }
+  ],
+  "scope": "Checks contact poses, not an exhaustive artistic deformation certification."
+}

@@ -1,0 +1,32 @@
+{
+    "passed": true,
+    "checks": [
+        "Starts at main menu",
+        "Pointer click starts match",
+        "Space begins visible serve preparation",
+        "Serve toss can be paused",
+        "Serve toss freezes during pause",
+        "Serve launches after trophy and contact frame",
+        "W moves toward net",
+        "D moves right",
+        "Right arrow changes shot aim",
+        "Escape pauses",
+        "Pause freezes ball simulation",
+        "Resume button resumes",
+        "R resets match to serve",
+        "Main menu button returns to menu",
+        "Match can be started again",
+        "Space returns reachable incoming ball",
+        "Shift + Space produces flatter power return",
+        "Z + Space produces higher lob return",
+        "Ball on opposite side selects backhand",
+        "Reachable descending high ball signals smash",
+        "Space automatically smashes suitable high ball without modifier",
+        "Accepted contacts stay within bounded racket assistance",
+        "An incoming serve cannot be smashed before its bounce",
+        "An unreachable high ball is not granted a smash",
+        "Double bounce at match point reaches result screen",
+        "Play Again resets finished match"
+    ],
+    "failures": []
+}

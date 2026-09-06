@@ -1,0 +1,27 @@
+{
+  "contactsAt30fps": {
+    "Forehand": 14,
+    "Backhand": 15,
+    "Smash": 25,
+    "Serve": 42
+  },
+  "frames": {
+    "Idle": 60,
+    "Run": 24,
+    "Forehand": 34,
+    "Backhand": 36,
+    "Smash": 46,
+    "Serve": 66
+  },
+  "method": "Analytical two-bone IK, explicit elbow/knee bend planes, planted ankles, torso counter-rotation, contact poses and recovery",
+  "controls": [
+    "Wrist.R",
+    "Wrist.L",
+    "Ankle.R",
+    "Ankle.L",
+    "ElbowPole.R",
+    "ElbowPole.L",
+    "KneePole.R",
+    "KneePole.L"
+  ]
+}

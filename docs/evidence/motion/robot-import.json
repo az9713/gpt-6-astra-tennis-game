@@ -1,0 +1,14 @@
+{
+    "passed": true,
+    "bones": 16,
+    "vertices": 11813,
+    "clips": [
+        "RoboRig|Backhand",
+        "RoboRig|Forehand",
+        "RoboRig|Idle",
+        "RoboRig|Run",
+        "RoboRig|Serve",
+        "RoboRig|Smash"
+    ],
+    "forehandSkinDelta": 0.6762847304344177
+}

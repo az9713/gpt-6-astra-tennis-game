@@ -1,0 +1,84 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Robo Open — The Motion Pass</title><style>
+*{box-sizing:border-box}body{margin:0;background:#f4f0e7;color:#163932;font:17px/1.7 system-ui,Segoe UI,sans-serif}a{color:#236b5e;text-underline-offset:4px}.top{background:#163932;color:#f3f0e5;padding:24px 6vw;font-size:12px;letter-spacing:.12em;display:flex;justify-content:space-between;gap:20px}.top a{color:#e3eacb}.hero{padding:55px 6vw 45px;max-width:1350px;margin:auto}.eyebrow{color:#957047;font-size:12px;letter-spacing:.14em;font-weight:bold}h1{font:clamp(42px,6vw,80px)/1.05 Georgia,serif;letter-spacing:-.045em;max-width:850px;margin:20px 0 28px}h1 em{color:#b95b3e}.intro{max-width:810px;font-size:20px}.buttons{display:flex;flex-wrap:wrap;gap:12px;margin-top:25px}button,.download{font:14px system-ui;cursor:pointer;border:1px solid #9fb1a0;color:#163932;background:#e3e9d6;padding:12px 18px;border-radius:5px;text-decoration:none}.download{background:#163932;color:#f3f0e5}.gallery{display:grid;grid-template-columns:1fr 1fr;gap:25px;margin:0 auto;padding:0 5vw 50px;max-width:1500px}article{background:#163932;color:#f3f0e5;border-radius:7px;overflow:hidden}.card-head{padding:20px 25px}.card-head h2{font:30px Georgia,serif;margin:0}.card-head p{margin:8px 0 0;font-size:13px;color:#c2d4bf}video{display:block;width:100%;aspect-ratio:16/9;background:#0b2521}.note{max-width:1250px;padding:0 6vw;margin:0 auto 35px;font-size:14px;color:#596d60}.details{max-width:980px;margin:auto;padding:30px 6vw 70px}h2{font:34px Georgia,serif;margin-top:48px}h3{font:26px Georgia,serif}code{font:13px Consolas,monospace;background:#e4e8db;padding:2px 4px;overflow-wrap:anywhere}pre{overflow:auto;background:#e4e8db;padding:15px}.table-scroll{overflow:auto}table{border-collapse:collapse;font-size:14px}td,th{text-align:left;padding:13px;border-bottom:1px solid #c8d3c2;vertical-align:top}th{background:#dce4d0}li{margin:12px 0}footer{background:#163932;color:#d4dfc7;padding:30px 6vw;font-size:13px}footer a{color:#d4dfc7}:focus-visible{outline:3px solid #d38c58;outline-offset:4px}@media(max-width:760px){.gallery{grid-template-columns:1fr;padding:0 5vw 35px}.hero{padding-top:35px}.intro{font-size:18px}.details{padding:15px 6vw 40px}.top{font-size:10px}.card-head h2{font-size:27px}h2{font-size:30px}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style></head><body><header class="top"><span>ROBO OPEN / VERSION 0.2</span><a href="DEVELOPMENT-JOURNEY.html">Full development journey</a></header><section class="hero"><span class="eyebrow">THE STRUCTURAL ANIMATION PASS</span><h1>Four strokes.<br><em>One swing key.</em></h1><p class="intro">Bent joints. Coordinated weight transfer. A real serve preparation. The same toy robots now prepare, strike and recover—and choose an overhead smash automatically when you swing at a suitable high ball.</p><div class="buttons"><button id="play">Play all four</button><button id="pause">Pause all</button><button id="speed" aria-pressed="false">Half speed</button><a class="download" href="https://github.com/az9713/gpt-6-astra-tennis-game/releases/latest">Download Windows build</a></div></section><section class="gallery" aria-label="Four structural stroke animations"><article><div class="card-head"><h2>Forehand</h2><p>Load, rotate, strike, recover · contact 14/30</p></div><video controls muted loop playsinline preload="metadata" poster="docs/media/motion-forehand.png" aria-label="Forehand motion"><source src="docs/media/motion-forehand.mp4" type="video/mp4"></video></article><article><div class="card-head"><h2>Backhand</h2><p>Across-body preparation and follow-through · contact 15/30</p></div><video controls muted loop playsinline preload="metadata" poster="docs/media/motion-backhand.png" aria-label="Backhand motion"><source src="docs/media/motion-backhand.mp4" type="video/mp4"></video></article><article><div class="card-head"><h2>Automatic smash</h2><p>Get beneath a high ball and swing · contact 25/30</p></div><video controls muted loop playsinline preload="metadata" poster="docs/media/motion-smash.png" aria-label="Automatic smash motion"><source src="docs/media/motion-smash.mp4" type="video/mp4"></video></article><article><div class="card-head"><h2>Serve / trophy</h2><p>Toss, knee bend, trophy, extension · contact 42/30</p></div><video controls muted loop playsinline preload="metadata" poster="docs/media/motion-serve-trophy.png" aria-label="Serve / trophy motion"><source src="docs/media/motion-serve.mp4" type="video/mp4"></video></article></section><p class="note">Real Unity player captures, with actual joint guides shown in teal. The viewer displays full authored strokes; live gameplay uses anticipation and a shorter final swing window. No new Meshy generation was needed. In the downloaded motion viewer, B toggles guides and Escape closes it.</p><section class="details">
+<p>The original robot already had a 16-bone skeleton. This upgrade makes that skeleton do more useful work: coordinated preparation, contact, follow-through and recovery, with automatic overhead smashes and a visible serve toss/trophy sequence.</p>
+<p><a href="https://az9713.github.io/gpt-6-astra-tennis-game/MOTION-UPGRADE.html">Watch the four strokes</a> · <a href="https://github.com/az9713/gpt-6-astra-tennis-game/releases/latest">Download the Windows build</a></p>
+<h2>Human direction</h2>
+<p>The human identified the weak animation, supplied the creator’s four-pose screenshot, and pointed back to approximately 12:00–15:00 of the <a href="https://www.youtube.com/watch?v=DQfL_l5lRpk&amp;t=720s">original video</a>. After discussing the gaps, the human chose automatic smash selection using the existing swing key and authorized implementation. No human modeling, weight painting or code changes were requested during this pass. No additional Meshy credits were spent.</p>
+<p>The reference was re-examined through the segment’s transcript and 36 sampled frames at five-second intervals. This is a targeted structural review, not a claim of uninterrupted frame-by-frame viewing. At about 12:45 the creator explains giving joints a slight bend so inverse kinematics has a preferred direction. At about 13:47–14:59 he discusses incorrect skin weights and visible tearing. The creator explicitly describes manually adjusting joint bends in his own project; that is separate from how this reconstruction was authored.</p>
+<h2>What changed</h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Implementation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Skeleton</td>
+<td>Retained 16 deform bones; introduced explicit elbow/knee bend offsets.</td>
+</tr>
+<tr>
+<td>Blender authoring</td>
+<td>Analytical two-bone IK places wrists and ankles using explicit bend planes. Eight guide objects retain target/pole references; the Python authoring script is the editable motion specification.</td>
+</tr>
+<tr>
+<td>Skin</td>
+<td>Removed the height-only classification that accidentally assigned parts of hands to legs. Used nearest anatomical bone segments, normalized joint smoothing and identical weights at coincident UV-seam vertices.</td>
+</tr>
+<tr>
+<td>Forehand/backhand</td>
+<td>Distinct shoulder and hip rotation, off-hand positioning, knee flexion, contact and follow-through.</td>
+</tr>
+<tr>
+<td>Smash</td>
+<td>Overhead preparation, arm extension, a small jump and recovery. Triggered automatically for a reachable high ball when the player swings.</td>
+</tr>
+<tr>
+<td>Serve</td>
+<td>Visible toss, bent-knee trophy preparation, overhead contact and recovery. The ball launches after 1.4 seconds rather than immediately when Space is pressed.</td>
+</tr>
+<tr>
+<td>Runtime</td>
+<td>A short queued strike gives the actor time to plant and finish the swing. The racket arm is fitted to the contact target, and the outgoing ball starts at the racket head.</td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>Uses the same stroke system and occasionally returns a lob, creating high-ball opportunities.</td>
+</tr>
+<tr>
+<td>Presentation</td>
+<td><code>SMASH NOW</code> feedback and a separate motion viewer with toggleable bone guides.</td>
+</tr>
+</tbody>
+</table></div>
+<p>There are six clips: idle, run, forehand, backhand, smash and serve. The authoring contact markers follow the screenshot’s frame references: forehand 14, backhand 15, smash 25 and serve 42 at 30 fps. Ordinary gameplay uses anticipation plus the final 0.10-second strike window, or 0.14 seconds for an overhead; it does not wait through an entire half-second windup after a late swing input. The motion viewer shows the complete authored strokes.</p>
+<h2>Controls</h2>
+<p>The game’s controls remain the same. <strong>Space, Enter or left click swings; an eligible high ball selects smash automatically.</strong> No extra smash key was introduced. A ball must be reachable, at least 1.92 units high and descending or near its apex. A serve still has to bounce before it can be returned. Shift and Z retain power/lob behavior on ordinary returns; an eligible overhead takes priority.</p>
+<p>Open <code>VIEW_ROBOT_MOTION.cmd</code> to inspect the four strokes close up. Press <strong>B</strong> to toggle the actual skeleton’s joint guides; <strong>Escape</strong> closes the viewer. <code>PLAY_ROBO_OPEN.cmd</code> starts the game normally.</p>
+<h2>Failures that improved the result</h2>
+<ol>
+<li>The first stronger poses exposed long arm spikes. Some low hand vertices had been classified as leg vertices by the original height threshold. A measured backhand edge stretched roughly 45 times its rest length. Broadening one threshold merely moved the bad boundary. Nearest-segment assignment with anatomical head/foot guards removed the hand-to-leg influence instead.</li>
+<li>Smoothing weights across topology alone gave duplicate UV-seam vertices different weights, opening cracks. Synchronizing coincident-position weights closed those seams. The verification script now measures the posed distance between duplicates.</li>
+<li>A root-bone translation used its local Z axis as if it were world vertical. Converting the desired world-up offset through the bone’s rest orientation made the crouch/jump move in the intended direction.</li>
+<li>Raised wrist targets passed too close to the oversized head. Moving the authored overhead wrists outward and angling the racket shaft inward gave the arm more clearance.</li>
+<li>The close-up viewer showed the back of the character. A texture-based diagnostic located the cyan eye and measured it behind the actor’s logical forward axis; the racket-side shoulder was also on the wrong side. Removing an obsolete 180-degree model rotation corrected both measurements. This is now checked before the motion build.</li>
+<li>Helper guide actions were initially exported as extra FBX clips. Keeping the guides as references and baking only the six deform-skeleton actions removed those unintended clips.</li>
+<li>A Windows text-encoding mismatch introduced a non-UTF-8 middle dot in a generated C# file. The source was normalized to UTF-8 before further edits and successful compilation.</li>
+</ol>
+<h2>Evidence and limits</h2>
+<p><a href="https://github.com/az9713/gpt-6-astra-tennis-game/blob/main/docs/evidence/motion/">Motion evidence</a> contains the actual import, build, skin, orientation and standalone test receipts. The updated input suite covers the delayed serve, pausing its toss, backhand selection, automatic smash selection, unreachable high balls and the prohibition on volleying a serve, alongside the existing controls, scoring and replay checks. A separate one-minute run exercises real rallies and awarded points.</p>
+<p>Skin validation checks weight normalization, hand/leg separation, coincident UV seams and edge stretch at all four contact poses. It does not certify every frame or every possible runtime IK target. Some joint-region stretching remains; the detailed receipt retains those measurements rather than calling the asset artist-finished.</p>
+<p>This remains an arcade tennis prototype. Racket contact uses a bounded assistance zone (maximum accepted mismatch 0.60 units), a short positioning adjustment and simplified ballistic shots. It is more coordinated than v0.1, but it is not motion capture, precise racket-surface collision or a full biomechanical simulation. Human assessment of timing and feel is still valuable.</p>
+<h2>Reproduce the pass</h2>
+<ol>
+<li>Run Blender in background mode with <code>setup/rig_robot_blender.py</code>. It imports the saved Meshy GLB, repairs weights and calls <code>setup/tennis_motion.py</code> to bake the motions. It does not call Meshy.</li>
+<li>Run Blender with <code>setup/verify_motion_skin.py</code> to check the four contact poses.</li>
+<li>With the project closed in the Editor, run Unity with <code>-batchmode -quit -projectPath &lt;TennisGame&gt; -executeMethod MotionBuild.Run -logFile &lt;log&gt;</code>. This regenerates the scene, checks the model’s facing and builds Windows.</li>
+<li>Run <code>setup/verify_prototype.ps1</code> for fresh standalone input and rally checks.</li>
+<li>For repeatable visual review, launch the player with <code>--motion-showcase --motion-output &lt;directory&gt;</code>. It records 360 frames at a fixed simulation step of 1/30 second, then exits. Without the output option, the viewer loops interactively.</li>
+<li>Before publishing regenerated models, rerun <code>setup/sanitize_asset_metadata.py</code> in Blender and scan the actual staged Git files. The private original reference video, credentials, capture frames and logs stay excluded.</li>
+</ol></section><footer><a href="DEVELOPMENT-JOURNEY.html">Original development journey</a> · <a href="https://github.com/az9713/gpt-6-astra-tennis-game">Repository and source</a></footer><script>
+const videos=[...document.querySelectorAll('video')];document.querySelector('#play').onclick=()=>videos.forEach(v=>{v.currentTime=0;v.play().catch(()=>{})});document.querySelector('#pause').onclick=()=>videos.forEach(v=>v.pause());document.querySelector('#speed').onclick=()=>{let button=document.querySelector('#speed'),slow=button.getAttribute('aria-pressed')!=='true';button.setAttribute('aria-pressed',String(slow));button.textContent=slow?'Normal speed':'Half speed';videos.forEach(v=>v.playbackRate=slow?.5:1)};
+</script></body></html>

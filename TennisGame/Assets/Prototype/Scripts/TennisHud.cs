@@ -45,7 +45,7 @@ namespace RoboOpen
             controls=Panel("Controls",32,790,1090,78,cream).gameObject;
             var c=(RectTransform)controls.transform;
             Label("W A S D",18,11,136,27,20,ink,c,true);Label("MOVE",18,42,136,20,12,teal,c);
-            Label("SPACE",180,11,145,27,20,ink,c,true);Label("SERVE / SWING",180,42,145,20,12,teal,c);
+            Label("SPACE",180,11,145,27,20,ink,c,true);Label("SERVE / SWING / AUTO SMASH",180,42,145,20,12,teal,c);
             Label("ARROW KEYS",350,11,180,27,20,ink,c,true);Label("AIM LEFT / RIGHT / DEPTH",350,42,218,20,12,teal,c);
             Label("SHIFT + SPACE",595,11,205,27,20,ink,c,true);Label("POWER SHOT",595,42,180,20,12,teal,c);
             Label("Z + SPACE",830,11,145,27,20,ink,c,true);Label("LOB",830,42,120,20,12,teal,c);
@@ -68,7 +68,7 @@ namespace RoboOpen
             Panel("Accent",32,266,94,5,coral,m);
             Label("One court. Two robots. Your first serve.",32,291,490,62,23,ink,m);
             Button("PLAY MATCH   >",32,371,500, height:70, bg:coral,fg:cream,parent:m,action:()=>game.BeginMatch());
-            Label("Move with WASD. Press SPACE near the ball to return.",32,450,498,23,13,teal,m);
+            Label("WASD to move. SPACE to swing; high balls auto-smash.",32,450,498,23,13,teal,m);
 
             pausePanel=Panel("Pause",505,285,590,325,cream).gameObject;
             var p=(RectTransform)pausePanel.transform;

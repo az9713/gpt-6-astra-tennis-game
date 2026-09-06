@@ -11,7 +11,7 @@ namespace RoboOpen
 {
     public class TennisGame : MonoBehaviour
     {
-        public enum Phase { Menu, Ready, Rally, Point, Finished }
+        public enum Phase { Menu, Ready, Serving, Rally, Point, Finished }
         public RobotActor player, cpu;
         public Transform ball, landingMarker, aimMarker, ballShadow;
         public TrailRenderer trail;
@@ -35,6 +35,15 @@ namespace RoboOpen
         float shake;
         string evidencePath;
         bool automatedTest;
+        int pendingHitter=-1;
+        float pendingLeft;
+        bool pendingLob,pendingPower;
+        Vector3 tossStart,tossContact;
+        public int smashHits,forehandHits,backhandHits;
+        public string lastStroke="";
+        public float maxContactError;
+        public bool StrikePending => pendingHitter>=0;
+        public bool CanSmash => CanPlayerHit && ball.position.y>=1.92f && velocity.y<=1.5f;
 
         public int Receiver => 1-lastHitter;
         public bool CanPlayerHit => phase==Phase.Rally && Receiver==0 && CanHit(player);
@@ -49,6 +58,7 @@ namespace RoboOpen
             var args=Environment.GetCommandLineArgs();
             int index=Array.IndexOf(args,"--prototype-output");if(index>=0 && index+1<args.Length)evidencePath=args[index+1];
             automatedTest=Array.IndexOf(args,"--prototype-test")>=0;
+            if(Array.IndexOf(args,"--motion-showcase")>=0){gameObject.AddComponent<MotionShowcase>().game=this;return;}
             if(automatedTest){autoplay=true;BeginMatch();StartCoroutine(AutomatedRun());}
             if(Array.IndexOf(args,"--prototype-input-test")>=0)
             {
@@ -58,7 +68,7 @@ namespace RoboOpen
         }
         public void BeginMatch()
         {
-            score=new TennisScore();paused=false;Time.timeScale=1;phase=Phase.Ready;
+            pendingHitter=-1;smashHits=forehandHits=backhandHits=0;maxContactError=0;lastStroke="";player.ResetMotion();cpu.ResetMotion();score=new TennisScore();paused=false;Time.timeScale=1;phase=Phase.Ready;
             rally=bestRally=playerHits=cpuHits=pointsPlayed=netPoints=outPoints=doubleBouncePoints=faults=0;
             serveFaults=0;random=new System.Random(1729);PreparePoint();
         }
@@ -68,10 +78,10 @@ namespace RoboOpen
             paused=!paused;Time.timeScale=paused?0:1;hud.Refresh();
         }
         public void ReturnToMenu()
-        { paused=false;Time.timeScale=1;phase=Phase.Menu;autoplay=false;ball.gameObject.SetActive(false);landingMarker.gameObject.SetActive(false);aimMarker.gameObject.SetActive(false);ballShadow.gameObject.SetActive(false);trail.Clear();hud.Refresh(); }
+        { pendingHitter=-1;player.ResetMotion();cpu.ResetMotion();paused=false;Time.timeScale=1;phase=Phase.Menu;autoplay=false;ball.gameObject.SetActive(false);landingMarker.gameObject.SetActive(false);aimMarker.gameObject.SetActive(false);ballShadow.gameObject.SetActive(false);trail.Clear();hud.Refresh(); }
         void PreparePoint()
         {
-            phase=Phase.Ready;phaseClock=0;rally=0;bounces=0;cooldown=0;swingBuffer=0;
+            pendingHitter=-1;player.ResetMotion();cpu.ResetMotion();phase=Phase.Ready;phaseClock=0;rally=0;bounces=0;cooldown=0;swingBuffer=0;
             serviceParity=(score.points[0]+score.points[1])%2;
             float serveX=serviceParity==0?1.4f:-1.4f;
             player.transform.position=new Vector3(score.server==0?serveX:0,0,score.server==0?-12.25f:-9.3f);
@@ -107,11 +117,11 @@ namespace RoboOpen
             }
             if(autoplay)
             {
-                if(phase==Phase.Rally||score.server!=0)MoveReceiver(player,dt,7.5f);
+                if((phase==Phase.Rally||score.server!=0)&&pendingHitter!=0)MoveReceiver(player,dt,7.5f);
                 swing=phase==Phase.Ready?score.server==0&&phaseClock>.85f:CanPlayerHit&&(bounces>0||CourtRules.InCourt(landing));
                 aimX=Mathf.Sin(clock*.73f)*3.1f;
             }
-            else if(phase==Phase.Rally || score.server!=0)
+            else if((phase==Phase.Rally || score.server!=0)&&pendingHitter!=0)
             {
                 var p=player.transform.position+(new Vector3(move.x,0,move.y).normalized*7.1f*dt);
                 p.x=Mathf.Clamp(p.x,-5.9f,5.9f);p.z=Mathf.Clamp(p.z,-13.0f,-1.2f);player.transform.position=p;
@@ -120,22 +130,39 @@ namespace RoboOpen
             {
                 if((score.server==0&&swing)||(score.server==1&&phaseClock>1.1f))Serve();
             }
+            else if(phase==Phase.Serving)
+            { UpdateServe(); }
             else if(phase==Phase.Rally)
             {
-                MoveReceiver(cpu,dt,5.0f);
-                if(swing){swingBuffer=.27f; if(!CanPlayerHit)message="GET CLOSER  ·  SWING NEAR THE BALL";}
-                if(swingBuffer>0 && CanPlayerHit && cooldown<=0)
+                if(pendingHitter!=1)MoveReceiver(cpu,dt,5.0f);
+                if(swing&&pendingHitter<0){swingBuffer=.27f; if(!CanPlayerHit)message="GET CLOSER  ·  SWING NEAR THE BALL";}
+                if(swingBuffer>0 && CanPlayerHit && cooldown<=0 && pendingHitter<0)
                 {
                     bool lob=key!=null&&key.zKey.isPressed;
                     bool power=key!=null&&(key.leftShiftKey.isPressed||key.rightShiftKey.isPressed);
-                    ReturnShot(0,lob,power);swingBuffer=0;
+                    QueueReturn(0,lob,power);swingBuffer=0;
                 }
-                else if(Receiver==1 && CanHit(cpu) && cooldown<=0 && (bounces>0||CourtRules.InCourt(landing)))ReturnShot(1,false,false);
+                else if(Receiver==1 && CanHit(cpu) && cooldown<=0 && pendingHitter<0 && (bounces>0||CourtRules.InCourt(landing)))QueueReturn(1,false,false);
                 if(phase==Phase.Rally)
                     for(float t=0;t<dt && phase==Phase.Rally;t+=1f/120f)StepBall(Mathf.Min(1f/120f,dt-t));
+                if(pendingHitter>=0 && phase==Phase.Rally)
+                {
+                    var actor=pendingHitter==0?player:cpu;actor.AdvancePlant(dt);pendingLeft-=dt;
+                    if(pendingLeft<=0)
+                    {
+                        int hitter=pendingHitter;pendingHitter=-1;
+                        if(Receiver==hitter && CanHit(actor))
+                        {
+                            Vector3 contact=actor.Contact(ball.position);
+                            if(actor.LastContactError<=.60f){ball.position=contact;maxContactError=Mathf.Max(maxContactError,actor.LastContactError);ReturnShot(hitter,pendingLob,pendingPower);}
+                            else{message="JUST OUT OF REACH";cooldown=.18f;}
+                        }
+                    }
+                }
             }
-            if(phase==Phase.Rally && clock-lastHitTime>.55f && swingBuffer<=0)
-                message=Receiver==0?(CanPlayerHit?"SWING NOW  ·  SPACE":"CHASE THE LANDING MARKER"):"RECOVER TO THE CENTRE";
+            player.Anticipate(ball.position,phase==Phase.Rally&&Receiver==0);cpu.Anticipate(ball.position,phase==Phase.Rally&&Receiver==1);
+            if(phase==Phase.Rally && pendingHitter<0 && clock-lastHitTime>.55f && swingBuffer<=0)
+                message=Receiver==0?(CanPlayerHit?(CanSmash?"SMASH NOW  ·  SPACE":"SWING NOW  ·  SPACE"):"CHASE THE LANDING MARKER"):"RECOVER TO THE CENTRE";
             aimMarker.gameObject.SetActive(phase==Phase.Ready?score.server==0:phase==Phase.Rally&&Receiver==0);
             aimMarker.position=new Vector3(aimX,.055f,aimDepth);
             ballShadow.position=new Vector3(ball.position.x,.035f,ball.position.z);
@@ -169,25 +196,51 @@ namespace RoboOpen
         public void Serve()
         {
             if(phase!=Phase.Ready)return;
-            lastHitter=score.server;servingShot=true;bounces=0;
-            int receiver=1-score.server;float sign=receiver==1?1:-1;
+            phase=Phase.Serving;phaseClock=0;
+            var actor=score.server==0?player:cpu;float sign=score.server==0?1:-1;
+            tossStart=actor.transform.position+new Vector3(-.20f*sign,1.12f,.22f*sign);
+            tossContact=actor.transform.position+new Vector3(.16f*sign,2.22f,.24f*sign);
+            actor.BeginStroke(RobotActor.Stroke.Serve,tossContact,1.4f);trail.emitting=false;message="TOSS  ·  TROPHY  ·  STRIKE";
+        }
+        void UpdateServe()
+        {
+            var actor=score.server==0?player:cpu;
+            if(phaseClock<.3f)ball.position=Vector3.Lerp(tossStart,tossStart+Vector3.up*.25f,phaseClock/.3f);
+            else
+            {
+                var start=tossStart+Vector3.up*.25f;var tossVelocity=CourtRules.LaunchVelocity(start,tossContact,1.1f);
+                ball.position=CourtRules.Position(start,tossVelocity,Mathf.Min(phaseClock-.3f,1.1f));
+            }
+            if(phaseClock<1.4f)return;
+            lastHitter=score.server;servingShot=true;bounces=0;float sign=score.server==0?1:-1;
+            ball.position=actor.Contact(tossContact);maxContactError=Mathf.Max(maxContactError,actor.LastContactError);lastStroke="Serve";
             float x=(serviceParity==0?-1:1)*sign*2.15f;
-            var actor=lastHitter==0?player:cpu;
-            ball.position=actor.transform.position+new Vector3(.35f,2.55f,sign*.35f);
-            actor.Strike(true);Launch(new Vector3(x,CourtRules.BallRadius,sign*5.8f),1.35f);
+            Launch(new Vector3(x,CourtRules.BallRadius,sign*5.8f),1.35f);
             phase=Phase.Rally;phaseClock=0;rally=1;cooldown=.3f;lastHitTime=clock;message=lastHitter==0?"NICE SERVE":"RETURN THE SERVE";
+        }
+        void QueueReturn(int hitter,bool lob,bool power)
+        {
+            var actor=hitter==0?player:cpu;
+            bool smash=ball.position.y>=1.92f && velocity.y<=1.5f;
+            float lead=smash?.14f:.10f;var target=CourtRules.Position(ball.position,velocity,lead);
+            if(target.y<.36f || target.y>2.7f)return;
+            var kind=smash?RobotActor.Stroke.Smash:actor.transform.InverseTransformPoint(target).x<-.12f?RobotActor.Stroke.Backhand:RobotActor.Stroke.Forehand;
+            pendingHitter=hitter;pendingLeft=lead;pendingLob=lob&&!smash;pendingPower=power||smash;
+            actor.BeginStroke(kind,target,lead);message=smash?"OVERHEAD SMASH":kind==RobotActor.Stroke.Backhand?"BACKHAND":"FOREHAND";
         }
         void ReturnShot(int hitter,bool lob,bool power)
         {
             var actor=hitter==0?player:cpu;
-            actor.Strike(false,(ball.position.x-actor.transform.position.x)*(hitter==0?1:-1)<0);
+            bool smash=actor.activeStroke==RobotActor.Stroke.Smash;lastStroke=actor.activeStroke.ToString();
+            if(smash)smashHits++;else if(actor.activeStroke==RobotActor.Stroke.Backhand)backhandHits++;else forehandHits++;
             lastHitter=hitter;servingShot=false;bounces=0;rally++;bestRally=Mathf.Max(bestRally,rally);
             if(hitter==0)playerHits++;else cpuHits++;
+            if(hitter==1&&!smash&&cpuHits%4==0)lob=true;
             float x=hitter==0?aimX:(float)(random.NextDouble()*6.1-3.05);
             float z=hitter==0?aimDepth:-(7.4f+(float)random.NextDouble()*2.1f);
             // CPU occasionally overhits during a long rally; the normal boundary rule decides the point.
             if(hitter==1 && rally>6 && random.NextDouble()<.12)x=Mathf.Sign(x)*5.4f;
-            float duration=lob?2.0f:power?1.18f:1.55f;
+            float duration=smash?1.05f:lob?2.0f:power?1.18f:1.55f;
             Vector3 target=new Vector3(x,CourtRules.BallRadius,z);
             // Ensure ordinary returns clear the net while preserving a ballistic path.
             Vector3 v=CourtRules.LaunchVelocity(ball.position,target,duration);
@@ -195,7 +248,7 @@ namespace RoboOpen
             while(netT>0 && netT<duration && CourtRules.Position(ball.position,v,netT).y<1.27f && duration<2.2f)
             { duration+=.08f;v=CourtRules.LaunchVelocity(ball.position,target,duration);netT=-ball.position.z/v.z; }
             Launch(target,duration);cooldown=.3f;lastHitTime=clock;shake=1;
-            message=hitter==0?(lob?"LOFTED RETURN":power?"POWER SHOT":"CLEAN RETURN"):"MINT RETURNS";
+            message=hitter==0?(smash?"OVERHEAD SMASH":lob?"LOFTED RETURN":power?"POWER SHOT":"CLEAN RETURN"):(lob?"MINT LOBS  ·  WATCH THE HIGH BALL":"MINT RETURNS");
         }
         void Launch(Vector3 target,float duration)
         {
@@ -239,7 +292,7 @@ namespace RoboOpen
         public void AwardPoint(int winner,string reason)
         {
             if(phase!=Phase.Rally)return;
-            pointsPlayed++;pointReason=reason;bool gameWon=score.Award(winner);serveFaults=0;
+            pendingHitter=-1;pointsPlayed++;pointReason=reason;bool gameWon=score.Award(winner);serveFaults=0;
             phase=score.winner>=0?Phase.Finished:Phase.Point;phaseClock=0;trail.emitting=false;landingMarker.gameObject.SetActive(false);aimMarker.gameObject.SetActive(false);
             message=score.winner>=0?(winner==0?"YOU WIN THE MATCH":"MINT WINS THE MATCH"):(gameWon?(winner==0?"GAME, YOU":"GAME, MINT"):(winner==0?"YOUR POINT":"MINT'S POINT"));
             audioSource.PlayOneShot(pointSound);Debug.Log("ROBO_POINT "+winner+" "+reason+" rally="+rally);
@@ -259,9 +312,9 @@ namespace RoboOpen
         }
         [Serializable] public class RuntimeReceipt
         {
-            public bool passed;public int playerHits,cpuHits,bestRally,pointsPlayed;public string phase,graphicsDevice;public int[] games;public float elapsed;
+            public bool passed;public int playerHits,cpuHits,bestRally,pointsPlayed;public string phase,graphicsDevice;public int[] games;public float elapsed;public int smashHits,forehandHits,backhandHits;public float maxContactError;
         }
-        public RuntimeReceipt Receipt()=>new RuntimeReceipt{passed=playerHits>=3&&cpuHits>=3&&bestRally>=5&&pointsPlayed>=1,playerHits=playerHits,cpuHits=cpuHits,bestRally=bestRally,pointsPlayed=pointsPlayed,phase=phase.ToString(),graphicsDevice=SystemInfo.graphicsDeviceName,games=score.games,elapsed=clock};
+        public RuntimeReceipt Receipt()=>new RuntimeReceipt{passed=playerHits>=3&&cpuHits>=3&&bestRally>=5&&pointsPlayed>=1,playerHits=playerHits,cpuHits=cpuHits,bestRally=bestRally,pointsPlayed=pointsPlayed,phase=phase.ToString(),graphicsDevice=SystemInfo.graphicsDeviceName,games=score.games,elapsed=clock,smashHits=smashHits,forehandHits=forehandHits,backhandHits=backhandHits,maxContactError=maxContactError};
         IEnumerator AutomatedRun()
         {
             yield return new WaitForSeconds(8);

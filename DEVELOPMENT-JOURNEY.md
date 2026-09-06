@@ -1,5 +1,7 @@
 # Development Journey — Robo Open
 
+> **Follow-up: v0.2 motion upgrade.** The original prototype below was followed by [coordinated strokes, automatic smashes and repaired skin weights](MOTION-UPGRADE.md). [Watch the new motion gallery](https://az9713.github.io/gpt-6-astra-tennis-game/MOTION-UPGRADE.html). Sections 1–8 preserve the original milestone; section 9 records the follow-up.
+
 **From a YouTube reference to a playable Windows tennis prototype.**
 
 **Build date:** September 5, 2026. **Implementation:** a single Codex / GPT-6 Astra session. **Documentation method:** the Claude `/dev-journey` skill, applied afterward by Codex. **Inspiration:** [Chong-U’s “FABLE 5.1 Is Here And It's PERFECT For Vibe Coding Games (FULL Unity + Blender Workflow)”](https://www.youtube.com/watch?v=DQfL_l5lRpk).
@@ -457,3 +459,18 @@ Persistent personal memory was not updated. Raw session history and private serv
 - [GitHub’s attachment documentation](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/attaching-files), including supported video formats and its H.264 compatibility recommendation.
 - [Prototype design](PROTOTYPE_DESIGN.md), [prototype results](PROTOTYPE_RESULTS.md), [preflight results](PREFLIGHT_RESULTS.md), and [Unity project guide](TennisGame/README.md).
 - [Scene generator](TennisGame/Assets/Prototype/Editor/PrototypeSetup.cs), [rig generator](setup/rig_robot_blender.py), [game controller](TennisGame/Assets/Prototype/Scripts/TennisGame.cs), [input checks](TennisGame/Assets/Prototype/Scripts/PrototypeInputChecks.cs), and [standalone verification runner](setup/verify_prototype.ps1).
+
+
+## 9. The human spots a gap — from a skeleton to convincing strokes
+
+After seeing the published prototype, the human pointed out that the robots did not appear properly rigged. The existing asset did contain 16 bones, but its simple rotations and instant ball launch did not communicate a coordinated tennis stroke. A screenshot of four structural animations, and a request to revisit 12:00–15:00 of the reference, supplied the next acceptance target.
+
+The human first asked for gaps before execution. The agent explained the difference between possessing a skeleton and using it convincingly, proposed fuller strokes and asked how smashes should be triggered. The human chose automatic selection with the existing swing key and then explicitly authorized work. No separate smash button, additional paid model or manual human rig edit was required.
+
+The targeted source review identified the creator’s joint-bend and weight-painting advice. Blender authoring then used an analytical two-bone solver, explicit elbow/knee bend planes, planted ankle targets, torso counter-rotation and contact markers. Six clips replaced the earlier five: the new smash joined idle, run, forehand, backhand and serve. A short final strike window retained responsive controls; the full serve gained its toss and trophy preparation.
+
+The stronger poses exposed problems that the earlier small movements had concealed. Hand vertices inherited leg weights at a height threshold. Independent UV-seam vertices acquired different smoothed weights. A root offset used bone-local Z as though it were world up. Raised wrists intersected the large head. Close-up rendering also exposed a reversed model-facing convention. Each issue received a concrete check or correction rather than being hidden behind the original passing rule tests.
+
+The final standalone input suite passed 26 checks. A separate one-minute rally recorded 14 player returns, 15 CPU returns, an 18-shot best rally and one point; its largest contact adjustment was about 0.109 units. The high-ball smash was verified in a controlled input scenario; that rally itself recorded no smashes. This distinction prevents a fixture result from being passed off as a naturally occurring rally event.
+
+The new [motion gallery](https://az9713.github.io/gpt-6-astra-tennis-game/MOTION-UPGRADE.html), [implementation account](MOTION-UPGRADE.md) and [public receipts](docs/evidence/motion/) preserve the follow-up. A separate Windows motion-viewer launcher exposes the real rig at close range with toggleable joint guides. The avatar remains a stylized arcade character with some joint-region stretching and bounded contact assistance; human judgment still determines how convincing and enjoyable it feels.
