@@ -16,5 +16,12 @@
   "sha256": "ceb233a9ce97eb5314b639c25207e7eade1b1dbe192508ae600448ce0e4b7572",
   "content": "Quarter-speed practice with consolidated UI; original source preserved",
   "githubAttachment": "https://github.com/user-attachments/assets/1d02b5fa-4f1f-4f1f-ac62-1134674e9451",
-  "readmePlayback": "Pending published-page verification"
+  "readmePlayback": {
+    "verified": true,
+    "durationSeconds": 94.166667,
+    "observedAdvancingToSeconds": 14.124801,
+    "error": null,
+    "location": "GitHub README native video player"
+  },
+  "publicationCommit": "ae7d4f130bd1fb6db9541fe7c61488ddc63d0c6f"
 }
