@@ -1,0 +1,47 @@
+{
+  "contentCommit": "090904f6ecbc9592668a9bd08df90aab380184ef",
+  "pagesRun": 34015078414,
+  "pagesResult": "success",
+  "liveArtifacts": [
+    {
+      "path": "JOURNEYS.html",
+      "httpStatus": 200,
+      "matchesLocalArtifact": true,
+      "comparison": "text with Windows line endings normalized"
+    },
+    {
+      "path": "DEVELOPMENT-JOURNEY-V2.html",
+      "httpStatus": 200,
+      "matchesLocalArtifact": true,
+      "comparison": "text with Windows line endings normalized"
+    },
+    {
+      "path": "docs/examples/play-report-v2.html",
+      "httpStatus": 200,
+      "matchesLocalArtifact": true,
+      "comparison": "text with Windows line endings normalized"
+    },
+    {
+      "path": "docs/media/v2/main-menu.png",
+      "httpStatus": 200,
+      "matchesLocalArtifact": true,
+      "comparison": "exact bytes"
+    },
+    {
+      "path": "docs/media/v2/play-report.png",
+      "httpStatus": 200,
+      "matchesLocalArtifact": true,
+      "comparison": "exact bytes"
+    }
+  ],
+  "readmeRenderedImagesAndLinks": true,
+  "liveBrowser": {
+    "journeyV2Selected": true,
+    "syntheticBannerAndPracticeMemoryVisible": true,
+    "reportReplayGameSeconds": [
+      0,
+      0.4
+    ]
+  },
+  "releaseUnchanged": "v0.3.0"
+}
